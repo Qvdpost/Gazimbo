@@ -16,7 +16,7 @@
               <vertices xsi:type="sgraph:State" xmi:id="_5YbQkGDdEe2b5asLrqJC-Q" specification="entry / raise orientationTurn" name="Turn Left" incomingTransitions="_sCOZ8HJAEe2lpZBPGal84w _ssDaEHJAEe2lpZBPGal84w">
                 <outgoingTransitions xmi:id="_38SX0GDfEe2b5asLrqJC-Q" specification="orientationDone" target="_3px9cGDdEe2b5asLrqJC-Q"/>
               </vertices>
-              <vertices xsi:type="sgraph:State" xmi:id="_HIO60HF5Ee2dNsB2m8FdtQ" specification="" name="Decision" incomingTransitions="_rS2U0HcJEe28u_EZ5X-PyA _2cvk8HcKEe28u_EZ5X-PyA">
+              <vertices xsi:type="sgraph:State" xmi:id="_HIO60HF5Ee2dNsB2m8FdtQ" specification=" " name="Decision" incomingTransitions="_rS2U0HcJEe28u_EZ5X-PyA _2cvk8HcKEe28u_EZ5X-PyA">
                 <outgoingTransitions xmi:id="_KeWXQHb5Ee2JDMqYXPQCjQ" specification="turnAround" target="_E6GEgHb5Ee2JDMqYXPQCjQ"/>
                 <outgoingTransitions xmi:id="_UICZIHF5Ee2dNsB2m8FdtQ" specification="turnLeft&#xA;" target="_rhoOUHJAEe2lpZBPGal84w"/>
                 <outgoingTransitions xmi:id="_HWp74HF6Ee2dNsB2m8FdtQ" specification="turnRight" target="_p6zh4HF5Ee2dNsB2m8FdtQ"/>
