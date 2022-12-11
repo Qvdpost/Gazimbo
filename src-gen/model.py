@@ -17,20 +17,35 @@ class Model:
 			main_region_processes,
 			main_region_processes_auto_bot_square_bot,
 			main_region_processes_auto_bot_square_bot_r1forward,
-			main_region_processes_auto_bot_square_bot_r1turn,
+			main_region_processes_auto_bot_square_bot_r1turn_left,
+			main_region_processes_auto_bot_square_bot_r1decision,
+			main_region_processes_auto_bot_square_bot_r1turn_right,
+			main_region_processes_auto_bot_square_bot_r1turn_around,
 			main_region_processes_auto_bot_manual,
 			main_region_processes_auto_bot_manual_movement_movement,
+			main_region_processes_brains_wait_for_start,
+			main_region_processes_brains_brains,
+			main_region_processes_brains_brains_r1logging_brains,
+			main_region_processes_brains_brains_r1logging_brains_r1decision,
+			main_region_processes_brains_brains_r1logging_brains_r1wait,
+			main_region_processes_brains_brains_r1logging_brains_r1initialize,
+			main_region_processes_brains_brains_r1solve_brains,
+			main_region_processes_brains_brains_r1solve_brains_r1decision,
+			main_region_processes_brains_brains_r1solve_brains_r1initialize,
+			main_region_processes_brains_brains_r1solve_brains_r1turn_and_move,
+			main_region_processes_brains_brains_r1solve_brains_r1wait_,
+			main_region_processes_brains_brains_r1solve_brains_r1finished,
 			main_region_processes_orientation_orientation,
 			main_region_processes_orientation_orientation_turn_stop_and_turn,
 			main_region_processes_orientation_orientation_turn_turn_quick,
 			main_region_processes_orientation_orientation_turn_turn_medium,
-			main_region_processes_orientation_orientation_turn_turn_slow,
 			main_region_processes_orientation_orientation_turn_turn_ready,
-			main_region_processes_orientation_orientation_re_align_align,
-			main_region_processes_orientation_orientation_re_align_turn_medium,
-			main_region_processes_orientation_orientation_re_align_turn_slow,
-			main_region_processes_orientation_orientation_re_align_align_ready,
 			main_region_processes_orientation_idle,
+			main_region_processes_orientation_re_align,
+			main_region_processes_orientation_re_align_r1align_ready,
+			main_region_processes_orientation_re_align_r1align,
+			main_region_processes_orientation_re_align_r1turn_slow,
+			main_region_processes_orientation_re_align_r1turn_medium,
 			main_region_processes_engine_engine,
 			main_region_processes_engine_engine_modus_forward_restricted,
 			main_region_processes_engine_engine_modus_forward_restricted_forward_interrupted_stopped,
@@ -45,18 +60,52 @@ class Model:
 			main_region_processes_engine_engine_modus_reverse_restricted_backward_interrupted_forward,
 			main_region_processes_engine_engine_modus_complete_restricted,
 			main_region_processes_engine_engine_modus_complete_restricted_all_interrupted_stopped,
+			main_region_processes_engine_manual,
 			main_region_processes_locomotion_move1step,
 			main_region_processes_locomotion_move1step_r1move,
-			main_region_processes_locomotion_move1step_r1move_x,
-			main_region_processes_locomotion_move1step_r1move_xr1move_west,
-			main_region_processes_locomotion_move1step_r1move_xr1move_east,
-			main_region_processes_locomotion_move1step_r1move_y,
-			main_region_processes_locomotion_move1step_r1move_yr1move_north,
-			main_region_processes_locomotion_move1step_r1move_yr1move_south,
+			main_region_processes_locomotion_move1step_r1move_north,
+			main_region_processes_locomotion_move1step_r1move_south,
+			main_region_processes_locomotion_move1step_r1move_east,
+			main_region_processes_locomotion_move1step_r1move_west,
 			main_region_processes_locomotion_wait_step,
+			main_region_processes_logging_idle,
+			main_region_processes_logging_log,
+			main_region_processes_logging_log_r1wall_check,
+			main_region_processes_logging_log_r1update,
+			main_region_processes_logging_log_r1reset,
+			main_region_processes_initialize_init,
+			main_region_processes_initialize_init_done,
+			main_region_processes_initialize_pre_init,
+			main_region_processes_initialize_init_wait,
+			main_region_processes_collision_prevention_collision_state,
+			main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions,
+			main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1prevent_side_collisions,
+			main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1wait_for_move,
+			main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1wait_for_movement,
+			main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r2frontal_collision,
+			main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r2wait_for_frontal,
+			main_region_processes_collision_prevention_collision_state_r1adjust,
+			main_region_processes_collision_prevention_collision_state_r1adjust_r1done,
+			main_region_processes_collision_prevention_collision_state_r1adjust_r1adjust_to_the_right,
+			main_region_processes_collision_prevention_collision_state_r1adjust_r1adjust_to_the_left,
+			main_region_processes_collision_prevention_manual_mode,
+			main_region_processes_collision_prevention_no_collision_detection,
 			null_state
-		) = range(41)
+		) = range(77)
 	
+	
+	class Solve:
+		"""Implementation of scope Solve.
+		"""
+		
+		def __init__(self, statemachine):
+			self.calculated = None
+			self.recalculate = None
+			self.target_row = None
+			self.target_col = None
+			
+			self.statemachine = statemachine
+		
 	
 	class Move:
 		"""Implementation of scope Move.
@@ -66,7 +115,18 @@ class Model:
 			self.old_x = None
 			self.old_y = None
 			self.target_pos = None
+			self.target_offset = None
 			self.move_half = None
+			
+			self.statemachine = statemachine
+		
+	
+	class Engine:
+		"""Implementation of scope Engine.
+		"""
+		
+		def __init__(self, statemachine):
+			self.slow_mode = None
 			
 			self.statemachine = statemachine
 		
@@ -360,7 +420,9 @@ class Model:
 	def __init__(self):
 		""" Declares all necessary variables including list of states, histories etc. 
 		"""
+		self.solve = Model.Solve(self)
 		self.move = Model.Move(self)
+		self.engine = Model.Engine(self)
 		self.user_var = Model.UserVar(self)
 		self.movement = Model.Movement(self)
 		self.orientation = Model.Orientation(self)
@@ -374,11 +436,23 @@ class Model:
 		self.laser_distance = Model.LaserDistance(self)
 		self.laser_intensity = Model.LaserIntensity(self)
 		
+		self.operation_callback = None
+		
 		self.__internal_event_queue = queue.Queue()
 		self.in_event_queue = queue.Queue()
+		self.solve_move = None
+		self.solve_maze = None
+		self.turn_right = None
+		self.turn_left = None
+		self.turn_around = None
+		self.go_forward = None
+		self.start_init = None
+		self.end_init = None
 		self.stop_move = None
 		self.end_move = None
 		self.go_step = None
+		self.mode_manual = None
+		self.mode_automatic = None
 		self.turn_start = None
 		self.turn_stop = None
 		self.collision_frontal = None
@@ -389,22 +463,25 @@ class Model:
 		self.orientation_align = None
 		self.engine_start = None
 		self.engine_stop = None
+		self.engine_slow_down = None
 		self.engine_reverse = None
 		self.engine_unrestricted = None
 		self.engine_restrict_all = None
 		self.engine_restrict_f = None
 		self.engine_restrict_r = None
+		self.logging_start = None
+		self.logging_done = None
 		
 		# enumeration of all states:
 		self.__State = Model.State
 		self.__state_conf_vector_changed = None
-		self.__state_vector = [None] * 5
-		for __state_index in range(5):
+		self.__state_vector = [None] * 9
+		for __state_index in range(9):
 			self.__state_vector[__state_index] = self.State.null_state
 		
 		# for timed statechart:
 		self.timer_service = None
-		self.__time_events = [None] * 2
+		self.__time_events = [None] * 9
 		
 		# history vector:
 		self.__history_vector = [None] * 1
@@ -412,13 +489,19 @@ class Model:
 			self.__history_vector[__history_index] = self.State.null_state
 		
 		# initializations:
+		self.solve.calculated = False
+		self.solve.recalculate = False
+		self.solve.target_row = -1
+		self.solve.target_col = -1
 		self.move.old_x = 0.0
 		self.move.old_y = 0.0
 		self.move.target_pos = 0.47
+		self.move.target_offset = 0.04
 		self.move.move_half = 0.0
+		self.engine.slow_mode = False
 		self.user_var.limit_degree_high = 0.0
 		self.user_var.limit_degree_low = 0.0
-		self.user_var.base_speed = 0.05
+		self.user_var.base_speed = 0.15
 		self.user_var.base_rotation = 0.2
 		self.user_var.turn_type = 0
 		self.user_var.limit_type = 0
@@ -530,7 +613,7 @@ class Model:
 	def is_active(self):
 		"""Checks if the state machine is active.
 		"""
-		return self.__state_vector[0] is not self.__State.null_state or self.__state_vector[1] is not self.__State.null_state or self.__state_vector[2] is not self.__State.null_state or self.__state_vector[3] is not self.__State.null_state or self.__state_vector[4] is not self.__State.null_state
+		return self.__state_vector[0] is not self.__State.null_state or self.__state_vector[1] is not self.__State.null_state or self.__state_vector[2] is not self.__State.null_state or self.__state_vector[3] is not self.__State.null_state or self.__state_vector[4] is not self.__State.null_state or self.__state_vector[5] is not self.__State.null_state or self.__state_vector[6] is not self.__State.null_state or self.__state_vector[7] is not self.__State.null_state or self.__state_vector[8] is not self.__State.null_state
 	
 	def is_final(self):
 		"""Checks if the statemachine is final.
@@ -544,42 +627,76 @@ class Model:
 		s = state
 		if s == self.__State.main_region_processes:
 			return (self.__state_vector[0] >= self.__State.main_region_processes)\
-				and (self.__state_vector[0] <= self.__State.main_region_processes_locomotion_wait_step)
+				and (self.__state_vector[0] <= self.__State.main_region_processes_collision_prevention_no_collision_detection)
 		if s == self.__State.main_region_processes_auto_bot_square_bot:
 			return (self.__state_vector[0] >= self.__State.main_region_processes_auto_bot_square_bot)\
-				and (self.__state_vector[0] <= self.__State.main_region_processes_auto_bot_square_bot_r1turn)
+				and (self.__state_vector[0] <= self.__State.main_region_processes_auto_bot_square_bot_r1turn_around)
 		if s == self.__State.main_region_processes_auto_bot_square_bot_r1forward:
 			return self.__state_vector[0] == self.__State.main_region_processes_auto_bot_square_bot_r1forward
-		if s == self.__State.main_region_processes_auto_bot_square_bot_r1turn:
-			return self.__state_vector[0] == self.__State.main_region_processes_auto_bot_square_bot_r1turn
+		if s == self.__State.main_region_processes_auto_bot_square_bot_r1turn_left:
+			return self.__state_vector[0] == self.__State.main_region_processes_auto_bot_square_bot_r1turn_left
+		if s == self.__State.main_region_processes_auto_bot_square_bot_r1decision:
+			return self.__state_vector[0] == self.__State.main_region_processes_auto_bot_square_bot_r1decision
+		if s == self.__State.main_region_processes_auto_bot_square_bot_r1turn_right:
+			return self.__state_vector[0] == self.__State.main_region_processes_auto_bot_square_bot_r1turn_right
+		if s == self.__State.main_region_processes_auto_bot_square_bot_r1turn_around:
+			return self.__state_vector[0] == self.__State.main_region_processes_auto_bot_square_bot_r1turn_around
 		if s == self.__State.main_region_processes_auto_bot_manual:
 			return (self.__state_vector[0] >= self.__State.main_region_processes_auto_bot_manual)\
 				and (self.__state_vector[0] <= self.__State.main_region_processes_auto_bot_manual_movement_movement)
 		if s == self.__State.main_region_processes_auto_bot_manual_movement_movement:
 			return self.__state_vector[0] == self.__State.main_region_processes_auto_bot_manual_movement_movement
+		if s == self.__State.main_region_processes_brains_wait_for_start:
+			return self.__state_vector[1] == self.__State.main_region_processes_brains_wait_for_start
+		if s == self.__State.main_region_processes_brains_brains:
+			return (self.__state_vector[1] >= self.__State.main_region_processes_brains_brains)\
+				and (self.__state_vector[1] <= self.__State.main_region_processes_brains_brains_r1solve_brains_r1finished)
+		if s == self.__State.main_region_processes_brains_brains_r1logging_brains:
+			return (self.__state_vector[1] >= self.__State.main_region_processes_brains_brains_r1logging_brains)\
+				and (self.__state_vector[1] <= self.__State.main_region_processes_brains_brains_r1logging_brains_r1initialize)
+		if s == self.__State.main_region_processes_brains_brains_r1logging_brains_r1decision:
+			return self.__state_vector[1] == self.__State.main_region_processes_brains_brains_r1logging_brains_r1decision
+		if s == self.__State.main_region_processes_brains_brains_r1logging_brains_r1wait:
+			return self.__state_vector[1] == self.__State.main_region_processes_brains_brains_r1logging_brains_r1wait
+		if s == self.__State.main_region_processes_brains_brains_r1logging_brains_r1initialize:
+			return self.__state_vector[1] == self.__State.main_region_processes_brains_brains_r1logging_brains_r1initialize
+		if s == self.__State.main_region_processes_brains_brains_r1solve_brains:
+			return (self.__state_vector[1] >= self.__State.main_region_processes_brains_brains_r1solve_brains)\
+				and (self.__state_vector[1] <= self.__State.main_region_processes_brains_brains_r1solve_brains_r1finished)
+		if s == self.__State.main_region_processes_brains_brains_r1solve_brains_r1decision:
+			return self.__state_vector[1] == self.__State.main_region_processes_brains_brains_r1solve_brains_r1decision
+		if s == self.__State.main_region_processes_brains_brains_r1solve_brains_r1initialize:
+			return self.__state_vector[1] == self.__State.main_region_processes_brains_brains_r1solve_brains_r1initialize
+		if s == self.__State.main_region_processes_brains_brains_r1solve_brains_r1turn_and_move:
+			return self.__state_vector[1] == self.__State.main_region_processes_brains_brains_r1solve_brains_r1turn_and_move
+		if s == self.__State.main_region_processes_brains_brains_r1solve_brains_r1wait_:
+			return self.__state_vector[1] == self.__State.main_region_processes_brains_brains_r1solve_brains_r1wait_
+		if s == self.__State.main_region_processes_brains_brains_r1solve_brains_r1finished:
+			return self.__state_vector[1] == self.__State.main_region_processes_brains_brains_r1solve_brains_r1finished
 		if s == self.__State.main_region_processes_orientation_orientation:
-			return (self.__state_vector[1] >= self.__State.main_region_processes_orientation_orientation)\
-				and (self.__state_vector[1] <= self.__State.main_region_processes_orientation_orientation_re_align_align_ready)
+			return (self.__state_vector[2] >= self.__State.main_region_processes_orientation_orientation)\
+				and (self.__state_vector[2] <= self.__State.main_region_processes_orientation_orientation_turn_turn_ready)
 		if s == self.__State.main_region_processes_orientation_orientation_turn_stop_and_turn:
-			return self.__state_vector[1] == self.__State.main_region_processes_orientation_orientation_turn_stop_and_turn
+			return self.__state_vector[2] == self.__State.main_region_processes_orientation_orientation_turn_stop_and_turn
 		if s == self.__State.main_region_processes_orientation_orientation_turn_turn_quick:
-			return self.__state_vector[1] == self.__State.main_region_processes_orientation_orientation_turn_turn_quick
+			return self.__state_vector[2] == self.__State.main_region_processes_orientation_orientation_turn_turn_quick
 		if s == self.__State.main_region_processes_orientation_orientation_turn_turn_medium:
-			return self.__state_vector[1] == self.__State.main_region_processes_orientation_orientation_turn_turn_medium
-		if s == self.__State.main_region_processes_orientation_orientation_turn_turn_slow:
-			return self.__state_vector[1] == self.__State.main_region_processes_orientation_orientation_turn_turn_slow
+			return self.__state_vector[2] == self.__State.main_region_processes_orientation_orientation_turn_turn_medium
 		if s == self.__State.main_region_processes_orientation_orientation_turn_turn_ready:
-			return self.__state_vector[1] == self.__State.main_region_processes_orientation_orientation_turn_turn_ready
-		if s == self.__State.main_region_processes_orientation_orientation_re_align_align:
-			return self.__state_vector[2] == self.__State.main_region_processes_orientation_orientation_re_align_align
-		if s == self.__State.main_region_processes_orientation_orientation_re_align_turn_medium:
-			return self.__state_vector[2] == self.__State.main_region_processes_orientation_orientation_re_align_turn_medium
-		if s == self.__State.main_region_processes_orientation_orientation_re_align_turn_slow:
-			return self.__state_vector[2] == self.__State.main_region_processes_orientation_orientation_re_align_turn_slow
-		if s == self.__State.main_region_processes_orientation_orientation_re_align_align_ready:
-			return self.__state_vector[2] == self.__State.main_region_processes_orientation_orientation_re_align_align_ready
+			return self.__state_vector[2] == self.__State.main_region_processes_orientation_orientation_turn_turn_ready
 		if s == self.__State.main_region_processes_orientation_idle:
-			return self.__state_vector[1] == self.__State.main_region_processes_orientation_idle
+			return self.__state_vector[2] == self.__State.main_region_processes_orientation_idle
+		if s == self.__State.main_region_processes_orientation_re_align:
+			return (self.__state_vector[2] >= self.__State.main_region_processes_orientation_re_align)\
+				and (self.__state_vector[2] <= self.__State.main_region_processes_orientation_re_align_r1turn_medium)
+		if s == self.__State.main_region_processes_orientation_re_align_r1align_ready:
+			return self.__state_vector[2] == self.__State.main_region_processes_orientation_re_align_r1align_ready
+		if s == self.__State.main_region_processes_orientation_re_align_r1align:
+			return self.__state_vector[2] == self.__State.main_region_processes_orientation_re_align_r1align
+		if s == self.__State.main_region_processes_orientation_re_align_r1turn_slow:
+			return self.__state_vector[2] == self.__State.main_region_processes_orientation_re_align_r1turn_slow
+		if s == self.__State.main_region_processes_orientation_re_align_r1turn_medium:
+			return self.__state_vector[2] == self.__State.main_region_processes_orientation_re_align_r1turn_medium
 		if s == self.__State.main_region_processes_engine_engine:
 			return (self.__state_vector[3] >= self.__State.main_region_processes_engine_engine)\
 				and (self.__state_vector[3] <= self.__State.main_region_processes_engine_engine_modus_complete_restricted_all_interrupted_stopped)
@@ -613,33 +730,77 @@ class Model:
 				and (self.__state_vector[3] <= self.__State.main_region_processes_engine_engine_modus_complete_restricted_all_interrupted_stopped)
 		if s == self.__State.main_region_processes_engine_engine_modus_complete_restricted_all_interrupted_stopped:
 			return self.__state_vector[3] == self.__State.main_region_processes_engine_engine_modus_complete_restricted_all_interrupted_stopped
+		if s == self.__State.main_region_processes_engine_manual:
+			return self.__state_vector[3] == self.__State.main_region_processes_engine_manual
 		if s == self.__State.main_region_processes_locomotion_move1step:
 			return (self.__state_vector[4] >= self.__State.main_region_processes_locomotion_move1step)\
-				and (self.__state_vector[4] <= self.__State.main_region_processes_locomotion_move1step_r1move_yr1move_south)
+				and (self.__state_vector[4] <= self.__State.main_region_processes_locomotion_move1step_r1move_west)
 		if s == self.__State.main_region_processes_locomotion_move1step_r1move:
 			return self.__state_vector[4] == self.__State.main_region_processes_locomotion_move1step_r1move
-		if s == self.__State.main_region_processes_locomotion_move1step_r1move_x:
-			return (self.__state_vector[4] >= self.__State.main_region_processes_locomotion_move1step_r1move_x)\
-				and (self.__state_vector[4] <= self.__State.main_region_processes_locomotion_move1step_r1move_xr1move_east)
-		if s == self.__State.main_region_processes_locomotion_move1step_r1move_xr1move_west:
-			return self.__state_vector[4] == self.__State.main_region_processes_locomotion_move1step_r1move_xr1move_west
-		if s == self.__State.main_region_processes_locomotion_move1step_r1move_xr1move_east:
-			return self.__state_vector[4] == self.__State.main_region_processes_locomotion_move1step_r1move_xr1move_east
-		if s == self.__State.main_region_processes_locomotion_move1step_r1move_y:
-			return (self.__state_vector[4] >= self.__State.main_region_processes_locomotion_move1step_r1move_y)\
-				and (self.__state_vector[4] <= self.__State.main_region_processes_locomotion_move1step_r1move_yr1move_south)
-		if s == self.__State.main_region_processes_locomotion_move1step_r1move_yr1move_north:
-			return self.__state_vector[4] == self.__State.main_region_processes_locomotion_move1step_r1move_yr1move_north
-		if s == self.__State.main_region_processes_locomotion_move1step_r1move_yr1move_south:
-			return self.__state_vector[4] == self.__State.main_region_processes_locomotion_move1step_r1move_yr1move_south
+		if s == self.__State.main_region_processes_locomotion_move1step_r1move_north:
+			return self.__state_vector[4] == self.__State.main_region_processes_locomotion_move1step_r1move_north
+		if s == self.__State.main_region_processes_locomotion_move1step_r1move_south:
+			return self.__state_vector[4] == self.__State.main_region_processes_locomotion_move1step_r1move_south
+		if s == self.__State.main_region_processes_locomotion_move1step_r1move_east:
+			return self.__state_vector[4] == self.__State.main_region_processes_locomotion_move1step_r1move_east
+		if s == self.__State.main_region_processes_locomotion_move1step_r1move_west:
+			return self.__state_vector[4] == self.__State.main_region_processes_locomotion_move1step_r1move_west
 		if s == self.__State.main_region_processes_locomotion_wait_step:
 			return self.__state_vector[4] == self.__State.main_region_processes_locomotion_wait_step
+		if s == self.__State.main_region_processes_logging_idle:
+			return self.__state_vector[5] == self.__State.main_region_processes_logging_idle
+		if s == self.__State.main_region_processes_logging_log:
+			return (self.__state_vector[5] >= self.__State.main_region_processes_logging_log)\
+				and (self.__state_vector[5] <= self.__State.main_region_processes_logging_log_r1reset)
+		if s == self.__State.main_region_processes_logging_log_r1wall_check:
+			return self.__state_vector[5] == self.__State.main_region_processes_logging_log_r1wall_check
+		if s == self.__State.main_region_processes_logging_log_r1update:
+			return self.__state_vector[5] == self.__State.main_region_processes_logging_log_r1update
+		if s == self.__State.main_region_processes_logging_log_r1reset:
+			return self.__state_vector[5] == self.__State.main_region_processes_logging_log_r1reset
+		if s == self.__State.main_region_processes_initialize_init:
+			return self.__state_vector[6] == self.__State.main_region_processes_initialize_init
+		if s == self.__State.main_region_processes_initialize_init_done:
+			return self.__state_vector[6] == self.__State.main_region_processes_initialize_init_done
+		if s == self.__State.main_region_processes_initialize_pre_init:
+			return self.__state_vector[6] == self.__State.main_region_processes_initialize_pre_init
+		if s == self.__State.main_region_processes_initialize_init_wait:
+			return self.__state_vector[6] == self.__State.main_region_processes_initialize_init_wait
+		if s == self.__State.main_region_processes_collision_prevention_collision_state:
+			return (self.__state_vector[7] >= self.__State.main_region_processes_collision_prevention_collision_state)\
+				and (self.__state_vector[7] <= self.__State.main_region_processes_collision_prevention_collision_state_r1adjust_r1adjust_to_the_left)
+		if s == self.__State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions:
+			return (self.__state_vector[7] >= self.__State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions)\
+				and (self.__state_vector[7] <= self.__State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r2wait_for_frontal)
+		if s == self.__State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1prevent_side_collisions:
+			return self.__state_vector[7] == self.__State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1prevent_side_collisions
+		if s == self.__State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1wait_for_move:
+			return self.__state_vector[7] == self.__State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1wait_for_move
+		if s == self.__State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1wait_for_movement:
+			return self.__state_vector[7] == self.__State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1wait_for_movement
+		if s == self.__State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r2frontal_collision:
+			return self.__state_vector[8] == self.__State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r2frontal_collision
+		if s == self.__State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r2wait_for_frontal:
+			return self.__state_vector[8] == self.__State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r2wait_for_frontal
+		if s == self.__State.main_region_processes_collision_prevention_collision_state_r1adjust:
+			return (self.__state_vector[7] >= self.__State.main_region_processes_collision_prevention_collision_state_r1adjust)\
+				and (self.__state_vector[7] <= self.__State.main_region_processes_collision_prevention_collision_state_r1adjust_r1adjust_to_the_left)
+		if s == self.__State.main_region_processes_collision_prevention_collision_state_r1adjust_r1done:
+			return self.__state_vector[7] == self.__State.main_region_processes_collision_prevention_collision_state_r1adjust_r1done
+		if s == self.__State.main_region_processes_collision_prevention_collision_state_r1adjust_r1adjust_to_the_right:
+			return self.__state_vector[7] == self.__State.main_region_processes_collision_prevention_collision_state_r1adjust_r1adjust_to_the_right
+		if s == self.__State.main_region_processes_collision_prevention_collision_state_r1adjust_r1adjust_to_the_left:
+			return self.__state_vector[7] == self.__State.main_region_processes_collision_prevention_collision_state_r1adjust_r1adjust_to_the_left
+		if s == self.__State.main_region_processes_collision_prevention_manual_mode:
+			return self.__state_vector[7] == self.__State.main_region_processes_collision_prevention_manual_mode
+		if s == self.__State.main_region_processes_collision_prevention_no_collision_detection:
+			return self.__state_vector[7] == self.__State.main_region_processes_collision_prevention_no_collision_detection
 		return False
 		
 	def time_elapsed(self, event_id):
 		"""Add time events to in event queue
 		"""
-		if event_id in range(2):
+		if event_id in range(9):
 			self.in_event_queue.put(lambda: self.raise_time_event(event_id))
 			self.run_cycle()
 	
@@ -658,6 +819,86 @@ class Model:
 			return self.in_event_queue.get()
 		return None
 	
+	
+	def raise_solve_move(self):
+		"""Raise method for event solve_move.
+		"""
+		self.__internal_event_queue.put(self.__raise_solve_move_call)
+	
+	def __raise_solve_move_call(self):
+		"""Raise callback for event solve_move.
+		"""
+		self.solve_move = True
+	
+	def raise_solve_maze(self):
+		"""Raise method for event solve_maze.
+		"""
+		self.__internal_event_queue.put(self.__raise_solve_maze_call)
+	
+	def __raise_solve_maze_call(self):
+		"""Raise callback for event solve_maze.
+		"""
+		self.solve_maze = True
+	
+	def raise_turn_right(self):
+		"""Raise method for event turn_right.
+		"""
+		self.__internal_event_queue.put(self.__raise_turn_right_call)
+	
+	def __raise_turn_right_call(self):
+		"""Raise callback for event turn_right.
+		"""
+		self.turn_right = True
+	
+	def raise_turn_left(self):
+		"""Raise method for event turn_left.
+		"""
+		self.__internal_event_queue.put(self.__raise_turn_left_call)
+	
+	def __raise_turn_left_call(self):
+		"""Raise callback for event turn_left.
+		"""
+		self.turn_left = True
+	
+	def raise_turn_around(self):
+		"""Raise method for event turn_around.
+		"""
+		self.__internal_event_queue.put(self.__raise_turn_around_call)
+	
+	def __raise_turn_around_call(self):
+		"""Raise callback for event turn_around.
+		"""
+		self.turn_around = True
+	
+	def raise_go_forward(self):
+		"""Raise method for event go_forward.
+		"""
+		self.__internal_event_queue.put(self.__raise_go_forward_call)
+	
+	def __raise_go_forward_call(self):
+		"""Raise callback for event go_forward.
+		"""
+		self.go_forward = True
+	
+	def raise_start_init(self):
+		"""Raise method for event start_init.
+		"""
+		self.__internal_event_queue.put(self.__raise_start_init_call)
+	
+	def __raise_start_init_call(self):
+		"""Raise callback for event start_init.
+		"""
+		self.start_init = True
+	
+	def raise_end_init(self):
+		"""Raise method for event end_init.
+		"""
+		self.__internal_event_queue.put(self.__raise_end_init_call)
+	
+	def __raise_end_init_call(self):
+		"""Raise callback for event end_init.
+		"""
+		self.end_init = True
 	
 	def raise_stop_move(self):
 		"""Raise method for event stop_move.
@@ -688,6 +929,26 @@ class Model:
 		"""Raise callback for event go_step.
 		"""
 		self.go_step = True
+	
+	def raise_mode_manual(self):
+		"""Raise method for event mode_manual.
+		"""
+		self.__internal_event_queue.put(self.__raise_mode_manual_call)
+	
+	def __raise_mode_manual_call(self):
+		"""Raise callback for event mode_manual.
+		"""
+		self.mode_manual = True
+	
+	def raise_mode_automatic(self):
+		"""Raise method for event mode_automatic.
+		"""
+		self.__internal_event_queue.put(self.__raise_mode_automatic_call)
+	
+	def __raise_mode_automatic_call(self):
+		"""Raise callback for event mode_automatic.
+		"""
+		self.mode_automatic = True
 	
 	def raise_turn_start(self):
 		"""Raise method for event turn_start.
@@ -789,6 +1050,16 @@ class Model:
 		"""
 		self.engine_stop = True
 	
+	def raise_engine_slow_down(self):
+		"""Raise method for event engine_slow_down.
+		"""
+		self.__internal_event_queue.put(self.__raise_engine_slow_down_call)
+	
+	def __raise_engine_slow_down_call(self):
+		"""Raise callback for event engine_slow_down.
+		"""
+		self.engine_slow_down = True
+	
 	def raise_engine_reverse(self):
 		"""Raise method for event engine_reverse.
 		"""
@@ -839,34 +1110,110 @@ class Model:
 		"""
 		self.engine_restrict_r = True
 	
+	def raise_logging_start(self):
+		"""Raise method for event logging_start.
+		"""
+		self.__internal_event_queue.put(self.__raise_logging_start_call)
+	
+	def __raise_logging_start_call(self):
+		"""Raise callback for event logging_start.
+		"""
+		self.logging_start = True
+	
+	def raise_logging_done(self):
+		"""Raise method for event logging_done.
+		"""
+		self.__internal_event_queue.put(self.__raise_logging_done_call)
+	
+	def __raise_logging_done_call(self):
+		"""Raise callback for event logging_done.
+		"""
+		self.logging_done = True
+	
+	def __effect_main_region_processes_orientation_orientation_tr0(self):
+		""".
+		"""
+		self.__exit_sequence_main_region_processes_orientation_orientation()
+		self.__enter_sequence_main_region_processes_orientation_idle_default()
+		
+	def __effect_main_region_processes_orientation_re_align_tr0(self):
+		""".
+		"""
+		self.__exit_sequence_main_region_processes_orientation_re_align()
+		self.__enter_sequence_main_region_processes_orientation_idle_default()
+		
+	def __effect_main_region_processes_logging_log_tr0(self):
+		""".
+		"""
+		self.__exit_sequence_main_region_processes_logging_log()
+		self.__enter_sequence_main_region_processes_logging_idle_default()
+		
 	def __entry_action_main_region_processes_auto_bot_square_bot_r1_forward(self):
 		"""Entry action for state 'Forward'..
 		"""
 		self.raise_go_step()
 		
-	def __entry_action_main_region_processes_auto_bot_square_bot_r1_turn(self):
-		"""Entry action for state 'Turn'..
+	def __entry_action_main_region_processes_auto_bot_square_bot_r1_turn_left(self):
+		"""Entry action for state 'Turn Left'..
 		"""
-		self.orientation.direction = (((self.orientation.direction + 1)) % 4)
 		self.raise_orientation_turn()
 		
-	def __entry_action_main_region_processes_auto_bot_manual_movement_movement(self):
-		"""Entry action for state 'movement'..
+	def __entry_action_main_region_processes_auto_bot_square_bot_r1_turn_right(self):
+		"""Entry action for state 'Turn Right'..
 		"""
-		self.grid.orientation = 0
+		self.orientation.direction = (((self.grid.orientation + 1)) % 4)
+		self.raise_orientation_turn()
+		
+	def __entry_action_main_region_processes_auto_bot_square_bot_r1_turn_around(self):
+		"""Entry action for state 'Turn Around'..
+		"""
+		self.raise_orientation_turn()
+		
+	def __entry_action_main_region_processes_brains_brains_r1_logging_brains_r1_initialize(self):
+		"""Entry action for state 'Initialize'..
+		"""
+		self.raise_start_init()
+		
+	def __entry_action_main_region_processes_brains_brains_r1_solve_brains_r1_decision(self):
+		"""Entry action for state 'decision'..
+		"""
+		self.timer_service.set_timer(self, 0, (1 * 1000), False)
+		self.operation_callback.get_next()
+		
+	def __entry_action_main_region_processes_brains_brains_r1_solve_brains_r1_initialize(self):
+		"""Entry action for state 'Initialize'..
+		"""
+		self.raise_start_init()
+		
+	def __entry_action_main_region_processes_brains_brains_r1_solve_brains_r1_turn_and_move(self):
+		"""Entry action for state 'turn and move'..
+		"""
+		if self.grid.orientation != self.orientation.direction:
+			self.raise_orientation_turn()
+		if self.grid.orientation == self.orientation.direction:
+			self.raise_go_step()
+		
+	def __entry_action_main_region_processes_brains_brains_r1_solve_brains_r1_wait_(self):
+		"""Entry action for state 'wait '..
+		"""
+		self.timer_service.set_timer(self, 1, (1 * 1000), False)
+		
+	def __entry_action_main_region_processes_brains_brains_r1_solve_brains_r1_finished(self):
+		"""Entry action for state 'finished'..
+		"""
+		self.output.finish = 1
 		
 	def __entry_action_main_region_processes_orientation_orientation_turn_stop_and_turn(self):
 		""".
 		"""
-		self.raise_engine_stop()
 		if self.orientation.direction == 0:
-			self.orientation.target = 0.0
+			self.orientation.target = 90.0
 		if self.orientation.direction == 1:
-			self.orientation.target = -90
+			self.orientation.target = 0.0
 		if self.orientation.direction == 2:
-			self.orientation.target = 180
+			self.orientation.target = -90.0
 		if self.orientation.direction == 3:
-			self.orientation.target = 90
+			self.orientation.target = 180.0
 		self.orientation.turning_direction = 1
 		self.__completed = True
 		
@@ -878,41 +1225,35 @@ class Model:
 	def __entry_action_main_region_processes_orientation_orientation_turn_turn_medium(self):
 		"""Entry action for state 'Turn Medium'..
 		"""
-		self.output.rotation = (0.1 * self.orientation.turning_direction)
-		
-	def __entry_action_main_region_processes_orientation_orientation_turn_turn_slow(self):
-		"""Entry action for state 'Turn Slow'..
-		"""
-		self.output.rotation = (0.01 * self.orientation.turning_direction)
+		self.output.rotation = (0.5 * self.output.rotation)
 		
 	def __entry_action_main_region_processes_orientation_orientation_turn_turn_ready(self):
 		"""Entry action for state 'Turn Ready'..
 		"""
-		self.timer_service.set_timer(self, 0, (1 * 1000), False)
+		self.timer_service.set_timer(self, 2, (1 * 1000), False)
 		self.output.rotation = 0.0
 		self.grid.orientation = self.orientation.direction
 		
-	def __entry_action_main_region_processes_orientation_orientation_re_align_align(self):
+	def __entry_action_main_region_processes_orientation_re_align_r1_align_ready(self):
+		"""Entry action for state 'Align Ready'..
+		"""
+		self.timer_service.set_timer(self, 3, (1 * 1000), False)
+		self.output.rotation = 0.0
+		
+	def __entry_action_main_region_processes_orientation_re_align_r1_align(self):
 		""".
 		"""
-		self.orientation.turning_direction = self.orientation.turning_direction * -1
 		self.__completed = True
 		
-	def __entry_action_main_region_processes_orientation_orientation_re_align_turn_medium(self):
-		"""Entry action for state 'Turn Medium'..
-		"""
-		self.output.rotation = (0.1 * self.orientation.turning_direction)
-		
-	def __entry_action_main_region_processes_orientation_orientation_re_align_turn_slow(self):
+	def __entry_action_main_region_processes_orientation_re_align_r1_turn_slow(self):
 		"""Entry action for state 'Turn Slow'..
 		"""
 		self.output.rotation = (0.01 * self.orientation.turning_direction)
 		
-	def __entry_action_main_region_processes_orientation_orientation_re_align_align_ready(self):
-		"""Entry action for state 'Align Ready'..
+	def __entry_action_main_region_processes_orientation_re_align_r1_turn_medium(self):
+		"""Entry action for state 'Turn Medium'..
 		"""
-		self.timer_service.set_timer(self, 1, (1 * 1000), False)
-		self.output.rotation = 0.0
+		self.output.rotation = (0.1 * self.orientation.turning_direction)
 		
 	def __entry_action_main_region_processes_engine_engine_modus_forward_restricted_forward_interrupted_stopped(self):
 		"""Entry action for state 'Stopped'..
@@ -955,41 +1296,126 @@ class Model:
 		"""
 		self.output.speed = 0.0
 		
-	def __entry_action_main_region_processes_locomotion_move1step_r1_move_x(self):
-		"""Entry action for state 'moveX'..
+	def __entry_action_main_region_processes_engine_manual(self):
+		"""Entry action for state 'Manual'..
 		"""
-		self.move.old_x = self.odom.x
-		self.move.move_half = 0.24 if self.odom.x >= 0 else -0.24
+		self.output.speed = 0.0
+		self.output.rotation = 0.0
 		
-	def __entry_action_main_region_processes_locomotion_move1step_r1_move_x_r1_move_west(self):
-		"""Entry action for state 'moveWest'..
-		"""
-		self.move.target_pos = (((((float(((int(((((self.odom.x + self.move.move_half)) / 0.48)))))))) - 1.0)) * 0.48)
-		self.raise_engine_start()
-		
-	def __entry_action_main_region_processes_locomotion_move1step_r1_move_x_r1_move_east(self):
-		"""Entry action for state 'moveEast'..
-		"""
-		self.move.target_pos = (((((float(((int(((((self.odom.x + self.move.move_half)) / 0.48)))))))) + 1.0)) * 0.48)
-		self.raise_engine_start()
-		
-	def __entry_action_main_region_processes_locomotion_move1step_r1_move_y(self):
-		"""Entry action for state 'moveY'..
-		"""
-		self.move.old_y = self.odom.y
-		self.move.move_half = 0.24 if self.odom.y >= 0 else -0.24
-		
-	def __entry_action_main_region_processes_locomotion_move1step_r1_move_y_r1_move_north(self):
+	def __entry_action_main_region_processes_locomotion_move1step_r1_move_north(self):
 		"""Entry action for state 'moveNorth'..
 		"""
-		self.move.target_pos = (((((float(((int(((((self.odom.y + self.move.move_half)) / 0.48)))))))) + 1.0)) * 0.48)
+		self.move.target_pos = (((-((self.grid.row - 1)) * 0.48) + self.start_pos.zero_y) - self.move.target_offset)
 		self.raise_engine_start()
 		
-	def __entry_action_main_region_processes_locomotion_move1step_r1_move_y_r1_move_south(self):
+	def __entry_action_main_region_processes_locomotion_move1step_r1_move_south(self):
 		"""Entry action for state 'moveSouth'..
 		"""
-		self.move.target_pos = (((((float(((int(((((self.odom.y + self.move.move_half)) / 0.48)))))))) - 1.0)) * 0.48)
+		self.move.target_pos = (((-((self.grid.row + 1)) * 0.48) + self.start_pos.zero_y) + self.move.target_offset)
 		self.raise_engine_start()
+		
+	def __entry_action_main_region_processes_locomotion_move1step_r1_move_east(self):
+		"""Entry action for state 'moveEast'..
+		"""
+		self.move.target_pos = (((((self.grid.column + 1)) * 0.48) + self.start_pos.zero_x) - self.move.target_offset)
+		self.raise_engine_start()
+		
+	def __entry_action_main_region_processes_locomotion_move1step_r1_move_west(self):
+		"""Entry action for state 'moveWest'..
+		"""
+		self.move.target_pos = (((((self.grid.column - 1)) * 0.48) + self.start_pos.zero_x) + self.move.target_offset)
+		self.raise_engine_start()
+		
+	def __entry_action_main_region_processes_logging_log_r1_wall_check(self):
+		""".
+		"""
+		if self.laser_distance.dfront_mean < self.grid.grid_size:
+			self.grid.wall_front = 1
+		if self.laser_distance.dleft_mean < self.grid.grid_size:
+			self.grid.wall_left = 1
+		if self.laser_distance.dright_mean < self.grid.grid_size:
+			self.grid.wall_right = 1
+		if self.laser_distance.dback_mean < self.grid.grid_size:
+			self.grid.wall_back = 1
+		self.__completed = True
+		
+	def __entry_action_main_region_processes_logging_log_r1_update(self):
+		"""Entry action for state 'Update'..
+		"""
+		self.timer_service.set_timer(self, 4, (1 * 1000), False)
+		self.grid.update = True
+		
+	def __entry_action_main_region_processes_logging_log_r1_reset(self):
+		""".
+		"""
+		self.grid.wall_front = 0
+		self.grid.wall_left = 0
+		self.grid.wall_right = 0
+		self.grid.wall_back = 0
+		self.__completed = True
+		
+	def __entry_action_main_region_processes_initialize_init(self):
+		"""Entry action for state 'Init'..
+		"""
+		self.timer_service.set_timer(self, 5, (1 * 1000), False)
+		self.timer_service.set_timer(self, 6, (3 * 1000), False)
+		self.grid.orientation = 2
+		self.orientation.direction = 2
+		self.grid.row = 0
+		self.grid.column = 0
+		
+	def __entry_action_main_region_processes_initialize_init_wait(self):
+		"""Entry action for state 'InitWait'..
+		"""
+		self.grid.row = -(int((((((self.odom.y - self.start_pos.zero_y) + 0.05)) / 0.48))))
+		self.grid.column = (int((((((self.odom.x - self.start_pos.zero_x) + 0.05)) / 0.48))))
+		if self.imu.yaw > -45.0 and self.imu.yaw <= 45.0:
+			self.grid.orientation = 2 if self.imu.yaw < 0.0 else 0
+			self.orientation.direction = 1
+		if self.imu.yaw > -135.0 and self.imu.yaw <= -45.0:
+			self.grid.orientation = 3 if self.imu.yaw < -90.0 else 1
+			self.orientation.direction = 2
+		if self.imu.yaw > 135.0 or self.imu.yaw <= -135.0:
+			self.grid.orientation = 0 if self.imu.yaw > 135 else 2
+			self.orientation.direction = 3
+		if self.imu.yaw > 45.0 and self.imu.yaw <= 135.0:
+			self.grid.orientation = 1 if self.imu.yaw < 90 else 3
+			self.orientation.direction = 0
+		self.raise_orientation_turn()
+		
+	def __entry_action_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_frontal_collision(self):
+		"""Entry action for state 'frontalCollision'..
+		"""
+		self.computer.raise_m_press()
+		
+	def __entry_action_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_done(self):
+		"""Entry action for state 'Done'..
+		"""
+		self.raise_orientation_align()
+		
+	def __entry_action_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_right(self):
+		"""Entry action for state 'adjustToTheRight'..
+		"""
+		self.timer_service.set_timer(self, 7, (2 * 1000), False)
+		self.output.rotation = -0.1
+		self.orientation.turning_direction = 1
+		
+	def __entry_action_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_left(self):
+		"""Entry action for state 'adjustToTheLeft'..
+		"""
+		self.timer_service.set_timer(self, 8, (2 * 1000), False)
+		self.output.rotation = 0.1
+		self.orientation.turning_direction = -1
+		
+	def __exit_action_main_region_processes_brains_brains_r1_solve_brains_r1_decision(self):
+		"""Exit action for state 'decision'..
+		"""
+		self.timer_service.unset_timer(self, 0)
+		
+	def __exit_action_main_region_processes_brains_brains_r1_solve_brains_r1_wait_(self):
+		"""Exit action for state 'wait '..
+		"""
+		self.timer_service.unset_timer(self, 1)
 		
 	def __exit_action_main_region_processes_orientation_orientation_turn_stop_and_turn(self):
 		"""Exit action for state 'stop and turn'..
@@ -998,49 +1424,98 @@ class Model:
 			self.orientation.turning_direction = -1
 		if self.grid.orientation == 1 and self.orientation.direction == 2:
 			self.orientation.turning_direction = -1
-			self.orientation.target = self.orientation.target * -1
 		if self.grid.orientation == 2 and self.orientation.direction == 3:
 			self.orientation.turning_direction = -1
+			self.orientation.target = self.orientation.target * -1
 		if self.grid.orientation == 3 and self.orientation.direction == 0:
 			self.orientation.turning_direction = -1
 		
 	def __exit_action_main_region_processes_orientation_orientation_turn_turn_ready(self):
 		"""Exit action for state 'Turn Ready'..
 		"""
-		self.timer_service.unset_timer(self, 0)
+		self.timer_service.unset_timer(self, 2)
 		
-	def __exit_action_main_region_processes_orientation_orientation_re_align_align_ready(self):
+	def __exit_action_main_region_processes_orientation_re_align_r1_align_ready(self):
 		"""Exit action for state 'Align Ready'..
 		"""
-		self.timer_service.unset_timer(self, 1)
+		self.timer_service.unset_timer(self, 3)
 		
-	def __exit_action_main_region_processes_locomotion_move1step_r1_move_x_r1_move_west(self):
-		"""Exit action for state 'moveWest'..
+	def __exit_action_main_region_processes_engine_engine_modus_unrestricted_r1_forward(self):
+		"""Exit action for state 'Forward'..
 		"""
-		self.raise_engine_stop()
+		self.engine.slow_mode = False
 		
-	def __exit_action_main_region_processes_locomotion_move1step_r1_move_x_r1_move_east(self):
-		"""Exit action for state 'moveEast'..
+	def __exit_action_main_region_processes_engine_manual(self):
+		"""Exit action for state 'Manual'..
 		"""
-		self.raise_engine_stop()
+		self.output.speed = 0.0
+		self.output.rotation = 0.0
 		
-	def __exit_action_main_region_processes_locomotion_move1step_r1_move_y_r1_move_north(self):
+	def __exit_action_main_region_processes_locomotion_move1step_r1_move_north(self):
 		"""Exit action for state 'moveNorth'..
 		"""
 		self.raise_engine_stop()
+		self.grid.row = self.grid.row - 1
 		
-	def __exit_action_main_region_processes_locomotion_move1step_r1_move_y_r1_move_south(self):
+	def __exit_action_main_region_processes_locomotion_move1step_r1_move_south(self):
 		"""Exit action for state 'moveSouth'..
 		"""
 		self.raise_engine_stop()
+		self.grid.row = self.grid.row + 1
+		
+	def __exit_action_main_region_processes_locomotion_move1step_r1_move_east(self):
+		"""Exit action for state 'moveEast'..
+		"""
+		self.raise_engine_stop()
+		self.grid.column = self.grid.column + 1
+		
+	def __exit_action_main_region_processes_locomotion_move1step_r1_move_west(self):
+		"""Exit action for state 'moveWest'..
+		"""
+		self.raise_engine_stop()
+		self.grid.column = self.grid.column - 1
+		
+	def __exit_action_main_region_processes_logging_log_r1_update(self):
+		"""Exit action for state 'Update'..
+		"""
+		self.timer_service.unset_timer(self, 4)
+		self.grid.update = False
+		
+	def __exit_action_main_region_processes_logging_log_r1_reset(self):
+		"""Exit action for state 'Reset'..
+		"""
+		self.raise_logging_done()
+		
+	def __exit_action_main_region_processes_initialize_init(self):
+		"""Exit action for state 'Init'..
+		"""
+		self.timer_service.unset_timer(self, 5)
+		self.timer_service.unset_timer(self, 6)
+		self.start_pos.set_zero = False
+		
+	def __exit_action_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_right(self):
+		"""Exit action for state 'adjustToTheRight'..
+		"""
+		self.timer_service.unset_timer(self, 7)
+		self.output.rotation = 0.0
+		
+	def __exit_action_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_left(self):
+		"""Exit action for state 'adjustToTheLeft'..
+		"""
+		self.timer_service.unset_timer(self, 8)
+		self.output.rotation = 0.0
 		
 	def __enter_sequence_main_region_processes_default(self):
 		"""'default' enter sequence for state Processes.
 		"""
 		self.__enter_sequence_main_region_processes_auto_bot_default()
+		self.__enter_sequence_main_region_processes_brains_default()
 		self.__enter_sequence_main_region_processes_orientation_default()
 		self.__enter_sequence_main_region_processes_engine_default()
 		self.__enter_sequence_main_region_processes_locomotion_default()
+		self.__enter_sequence_main_region_processes_logging_default()
+		self.__enter_sequence_main_region_processes_initialize_default()
+		self.__enter_sequence_main_region_processes_collision_prevention_default()
 		
 	def __enter_sequence_main_region_processes_auto_bot_square_bot_default(self):
 		"""'default' enter sequence for state SquareBot.
@@ -1055,11 +1530,34 @@ class Model:
 		self.__state_conf_vector_position = 0
 		self.__state_conf_vector_changed = True
 		
-	def __enter_sequence_main_region_processes_auto_bot_square_bot_r1_turn_default(self):
-		"""'default' enter sequence for state Turn.
+	def __enter_sequence_main_region_processes_auto_bot_square_bot_r1_turn_left_default(self):
+		"""'default' enter sequence for state Turn Left.
 		"""
-		self.__entry_action_main_region_processes_auto_bot_square_bot_r1_turn()
-		self.__state_vector[0] = self.State.main_region_processes_auto_bot_square_bot_r1turn
+		self.__entry_action_main_region_processes_auto_bot_square_bot_r1_turn_left()
+		self.__state_vector[0] = self.State.main_region_processes_auto_bot_square_bot_r1turn_left
+		self.__state_conf_vector_position = 0
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region_processes_auto_bot_square_bot_r1_decision_default(self):
+		"""'default' enter sequence for state Decision.
+		"""
+		self.__state_vector[0] = self.State.main_region_processes_auto_bot_square_bot_r1decision
+		self.__state_conf_vector_position = 0
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region_processes_auto_bot_square_bot_r1_turn_right_default(self):
+		"""'default' enter sequence for state Turn Right.
+		"""
+		self.__entry_action_main_region_processes_auto_bot_square_bot_r1_turn_right()
+		self.__state_vector[0] = self.State.main_region_processes_auto_bot_square_bot_r1turn_right
+		self.__state_conf_vector_position = 0
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region_processes_auto_bot_square_bot_r1_turn_around_default(self):
+		"""'default' enter sequence for state Turn Around.
+		"""
+		self.__entry_action_main_region_processes_auto_bot_square_bot_r1_turn_around()
+		self.__state_vector[0] = self.State.main_region_processes_auto_bot_square_bot_r1turn_around
 		self.__state_conf_vector_position = 0
 		self.__state_conf_vector_changed = True
 		
@@ -1071,72 +1569,144 @@ class Model:
 	def __enter_sequence_main_region_processes_auto_bot_manual_movement_movement_default(self):
 		"""'default' enter sequence for state movement.
 		"""
-		self.__entry_action_main_region_processes_auto_bot_manual_movement_movement()
 		self.__state_vector[0] = self.State.main_region_processes_auto_bot_manual_movement_movement
 		self.__state_conf_vector_position = 0
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region_processes_brains_wait_for_start_default(self):
+		"""'default' enter sequence for state waitForStart.
+		"""
+		self.__state_vector[1] = self.State.main_region_processes_brains_wait_for_start
+		self.__state_conf_vector_position = 1
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region_processes_brains_brains_r1_logging_brains_default(self):
+		"""'default' enter sequence for state LoggingBrains.
+		"""
+		self.__enter_sequence_main_region_processes_brains_brains_r1_logging_brains_r1_default()
+		self.__history_vector[0] = self.__state_vector[1]
+		
+	def __enter_sequence_main_region_processes_brains_brains_r1_logging_brains_r1_decision_default(self):
+		"""'default' enter sequence for state decision.
+		"""
+		self.__state_vector[1] = self.State.main_region_processes_brains_brains_r1logging_brains_r1decision
+		self.__state_conf_vector_position = 1
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region_processes_brains_brains_r1_logging_brains_r1_wait_default(self):
+		"""'default' enter sequence for state Wait.
+		"""
+		self.__state_vector[1] = self.State.main_region_processes_brains_brains_r1logging_brains_r1wait
+		self.__state_conf_vector_position = 1
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region_processes_brains_brains_r1_logging_brains_r1_initialize_default(self):
+		"""'default' enter sequence for state Initialize.
+		"""
+		self.__entry_action_main_region_processes_brains_brains_r1_logging_brains_r1_initialize()
+		self.__state_vector[1] = self.State.main_region_processes_brains_brains_r1logging_brains_r1initialize
+		self.__state_conf_vector_position = 1
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region_processes_brains_brains_r1_solve_brains_default(self):
+		"""'default' enter sequence for state Solve Brains.
+		"""
+		self.__enter_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_default()
+		self.__history_vector[0] = self.__state_vector[1]
+		
+	def __enter_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_decision_default(self):
+		"""'default' enter sequence for state decision.
+		"""
+		self.__entry_action_main_region_processes_brains_brains_r1_solve_brains_r1_decision()
+		self.__state_vector[1] = self.State.main_region_processes_brains_brains_r1solve_brains_r1decision
+		self.__state_conf_vector_position = 1
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_initialize_default(self):
+		"""'default' enter sequence for state Initialize.
+		"""
+		self.__entry_action_main_region_processes_brains_brains_r1_solve_brains_r1_initialize()
+		self.__state_vector[1] = self.State.main_region_processes_brains_brains_r1solve_brains_r1initialize
+		self.__state_conf_vector_position = 1
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_turn_and_move_default(self):
+		"""'default' enter sequence for state turn and move.
+		"""
+		self.__entry_action_main_region_processes_brains_brains_r1_solve_brains_r1_turn_and_move()
+		self.__state_vector[1] = self.State.main_region_processes_brains_brains_r1solve_brains_r1turn_and_move
+		self.__state_conf_vector_position = 1
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_wait__default(self):
+		"""'default' enter sequence for state wait .
+		"""
+		self.__entry_action_main_region_processes_brains_brains_r1_solve_brains_r1_wait_()
+		self.__state_vector[1] = self.State.main_region_processes_brains_brains_r1solve_brains_r1wait_
+		self.__state_conf_vector_position = 1
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_finished_default(self):
+		"""'default' enter sequence for state finished.
+		"""
+		self.__entry_action_main_region_processes_brains_brains_r1_solve_brains_r1_finished()
+		self.__state_vector[1] = self.State.main_region_processes_brains_brains_r1solve_brains_r1finished
+		self.__state_conf_vector_position = 1
 		self.__state_conf_vector_changed = True
 		
 	def __enter_sequence_main_region_processes_orientation_orientation_turn_stop_and_turn_default(self):
 		"""'default' enter sequence for state stop and turn.
 		"""
 		self.__entry_action_main_region_processes_orientation_orientation_turn_stop_and_turn()
-		self.__state_vector[1] = self.State.main_region_processes_orientation_orientation_turn_stop_and_turn
-		self.__state_conf_vector_position = 1
+		self.__state_vector[2] = self.State.main_region_processes_orientation_orientation_turn_stop_and_turn
+		self.__state_conf_vector_position = 2
 		self.__state_conf_vector_changed = True
 		
 	def __enter_sequence_main_region_processes_orientation_orientation_turn_turn_medium_default(self):
 		"""'default' enter sequence for state Turn Medium.
 		"""
 		self.__entry_action_main_region_processes_orientation_orientation_turn_turn_medium()
-		self.__state_vector[1] = self.State.main_region_processes_orientation_orientation_turn_turn_medium
-		self.__state_conf_vector_position = 1
-		self.__state_conf_vector_changed = True
-		
-	def __enter_sequence_main_region_processes_orientation_orientation_turn_turn_slow_default(self):
-		"""'default' enter sequence for state Turn Slow.
-		"""
-		self.__entry_action_main_region_processes_orientation_orientation_turn_turn_slow()
-		self.__state_vector[1] = self.State.main_region_processes_orientation_orientation_turn_turn_slow
-		self.__state_conf_vector_position = 1
+		self.__state_vector[2] = self.State.main_region_processes_orientation_orientation_turn_turn_medium
+		self.__state_conf_vector_position = 2
 		self.__state_conf_vector_changed = True
 		
 	def __enter_sequence_main_region_processes_orientation_orientation_turn_turn_ready_default(self):
 		"""'default' enter sequence for state Turn Ready.
 		"""
 		self.__entry_action_main_region_processes_orientation_orientation_turn_turn_ready()
-		self.__state_vector[1] = self.State.main_region_processes_orientation_orientation_turn_turn_ready
-		self.__state_conf_vector_position = 1
-		self.__state_conf_vector_changed = True
-		
-	def __enter_sequence_main_region_processes_orientation_orientation_re_align_align_default(self):
-		"""'default' enter sequence for state Align.
-		"""
-		self.__entry_action_main_region_processes_orientation_orientation_re_align_align()
-		self.__state_vector[2] = self.State.main_region_processes_orientation_orientation_re_align_align
-		self.__state_conf_vector_position = 2
-		self.__state_conf_vector_changed = True
-		
-	def __enter_sequence_main_region_processes_orientation_orientation_re_align_turn_slow_default(self):
-		"""'default' enter sequence for state Turn Slow.
-		"""
-		self.__entry_action_main_region_processes_orientation_orientation_re_align_turn_slow()
-		self.__state_vector[2] = self.State.main_region_processes_orientation_orientation_re_align_turn_slow
-		self.__state_conf_vector_position = 2
-		self.__state_conf_vector_changed = True
-		
-	def __enter_sequence_main_region_processes_orientation_orientation_re_align_align_ready_default(self):
-		"""'default' enter sequence for state Align Ready.
-		"""
-		self.__entry_action_main_region_processes_orientation_orientation_re_align_align_ready()
-		self.__state_vector[2] = self.State.main_region_processes_orientation_orientation_re_align_align_ready
+		self.__state_vector[2] = self.State.main_region_processes_orientation_orientation_turn_turn_ready
 		self.__state_conf_vector_position = 2
 		self.__state_conf_vector_changed = True
 		
 	def __enter_sequence_main_region_processes_orientation_idle_default(self):
 		"""'default' enter sequence for state Idle.
 		"""
-		self.__state_vector[1] = self.State.main_region_processes_orientation_idle
-		self.__state_conf_vector_position = 1
+		self.__state_vector[2] = self.State.main_region_processes_orientation_idle
+		self.__state_conf_vector_position = 2
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region_processes_orientation_re_align_r1_align_ready_default(self):
+		"""'default' enter sequence for state Align Ready.
+		"""
+		self.__entry_action_main_region_processes_orientation_re_align_r1_align_ready()
+		self.__state_vector[2] = self.State.main_region_processes_orientation_re_align_r1align_ready
+		self.__state_conf_vector_position = 2
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region_processes_orientation_re_align_r1_align_default(self):
+		"""'default' enter sequence for state Align.
+		"""
+		self.__entry_action_main_region_processes_orientation_re_align_r1_align()
+		self.__state_vector[2] = self.State.main_region_processes_orientation_re_align_r1align
+		self.__state_conf_vector_position = 2
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region_processes_orientation_re_align_r1_turn_slow_default(self):
+		"""'default' enter sequence for state Turn Slow.
+		"""
+		self.__entry_action_main_region_processes_orientation_re_align_r1_turn_slow()
+		self.__state_vector[2] = self.State.main_region_processes_orientation_re_align_r1turn_slow
+		self.__state_conf_vector_position = 2
 		self.__state_conf_vector_changed = True
 		
 	def __enter_sequence_main_region_processes_engine_engine_default(self):
@@ -1148,7 +1718,6 @@ class Model:
 		"""'default' enter sequence for state Forward Restricted.
 		"""
 		self.__enter_sequence_main_region_processes_engine_engine_modus_forward_restricted_forward_interrupted_default()
-		self.__history_vector[0] = self.__state_vector[3]
 		
 	def __enter_sequence_main_region_processes_engine_engine_modus_forward_restricted_forward_interrupted_stopped_default(self):
 		"""'default' enter sequence for state Stopped.
@@ -1170,7 +1739,6 @@ class Model:
 		"""'default' enter sequence for state Unrestricted.
 		"""
 		self.__enter_sequence_main_region_processes_engine_engine_modus_unrestricted_r1_default()
-		self.__history_vector[0] = self.__state_vector[3]
 		
 	def __enter_sequence_main_region_processes_engine_engine_modus_unrestricted_r1_idle_default(self):
 		"""'default' enter sequence for state Idle.
@@ -1207,7 +1775,6 @@ class Model:
 		"""'default' enter sequence for state Reverse Restricted.
 		"""
 		self.__enter_sequence_main_region_processes_engine_engine_modus_reverse_restricted_backward_interrupted_default()
-		self.__history_vector[0] = self.__state_vector[3]
 		
 	def __enter_sequence_main_region_processes_engine_engine_modus_reverse_restricted_backward_interrupted_stopped_default(self):
 		"""'default' enter sequence for state Stopped.
@@ -1229,13 +1796,20 @@ class Model:
 		"""'default' enter sequence for state Complete Restricted.
 		"""
 		self.__enter_sequence_main_region_processes_engine_engine_modus_complete_restricted_all_interrupted_default()
-		self.__history_vector[0] = self.__state_vector[3]
 		
 	def __enter_sequence_main_region_processes_engine_engine_modus_complete_restricted_all_interrupted_stopped_default(self):
 		"""'default' enter sequence for state Stopped.
 		"""
 		self.__entry_action_main_region_processes_engine_engine_modus_complete_restricted_all_interrupted_stopped()
 		self.__state_vector[3] = self.State.main_region_processes_engine_engine_modus_complete_restricted_all_interrupted_stopped
+		self.__state_conf_vector_position = 3
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region_processes_engine_manual_default(self):
+		"""'default' enter sequence for state Manual.
+		"""
+		self.__entry_action_main_region_processes_engine_manual()
+		self.__state_vector[3] = self.State.main_region_processes_engine_manual
 		self.__state_conf_vector_position = 3
 		self.__state_conf_vector_changed = True
 		
@@ -1251,35 +1825,35 @@ class Model:
 		self.__state_conf_vector_position = 4
 		self.__state_conf_vector_changed = True
 		
-	def __enter_sequence_main_region_processes_locomotion_move1step_r1_move_x_r1_move_west_default(self):
-		"""'default' enter sequence for state moveWest.
-		"""
-		self.__entry_action_main_region_processes_locomotion_move1step_r1_move_x_r1_move_west()
-		self.__state_vector[4] = self.State.main_region_processes_locomotion_move1step_r1move_xr1move_west
-		self.__state_conf_vector_position = 4
-		self.__state_conf_vector_changed = True
-		
-	def __enter_sequence_main_region_processes_locomotion_move1step_r1_move_x_r1_move_east_default(self):
-		"""'default' enter sequence for state moveEast.
-		"""
-		self.__entry_action_main_region_processes_locomotion_move1step_r1_move_x_r1_move_east()
-		self.__state_vector[4] = self.State.main_region_processes_locomotion_move1step_r1move_xr1move_east
-		self.__state_conf_vector_position = 4
-		self.__state_conf_vector_changed = True
-		
-	def __enter_sequence_main_region_processes_locomotion_move1step_r1_move_y_r1_move_north_default(self):
+	def __enter_sequence_main_region_processes_locomotion_move1step_r1_move_north_default(self):
 		"""'default' enter sequence for state moveNorth.
 		"""
-		self.__entry_action_main_region_processes_locomotion_move1step_r1_move_y_r1_move_north()
-		self.__state_vector[4] = self.State.main_region_processes_locomotion_move1step_r1move_yr1move_north
+		self.__entry_action_main_region_processes_locomotion_move1step_r1_move_north()
+		self.__state_vector[4] = self.State.main_region_processes_locomotion_move1step_r1move_north
 		self.__state_conf_vector_position = 4
 		self.__state_conf_vector_changed = True
 		
-	def __enter_sequence_main_region_processes_locomotion_move1step_r1_move_y_r1_move_south_default(self):
+	def __enter_sequence_main_region_processes_locomotion_move1step_r1_move_south_default(self):
 		"""'default' enter sequence for state moveSouth.
 		"""
-		self.__entry_action_main_region_processes_locomotion_move1step_r1_move_y_r1_move_south()
-		self.__state_vector[4] = self.State.main_region_processes_locomotion_move1step_r1move_yr1move_south
+		self.__entry_action_main_region_processes_locomotion_move1step_r1_move_south()
+		self.__state_vector[4] = self.State.main_region_processes_locomotion_move1step_r1move_south
+		self.__state_conf_vector_position = 4
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region_processes_locomotion_move1step_r1_move_east_default(self):
+		"""'default' enter sequence for state moveEast.
+		"""
+		self.__entry_action_main_region_processes_locomotion_move1step_r1_move_east()
+		self.__state_vector[4] = self.State.main_region_processes_locomotion_move1step_r1move_east
+		self.__state_conf_vector_position = 4
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region_processes_locomotion_move1step_r1_move_west_default(self):
+		"""'default' enter sequence for state moveWest.
+		"""
+		self.__entry_action_main_region_processes_locomotion_move1step_r1_move_west()
+		self.__state_vector[4] = self.State.main_region_processes_locomotion_move1step_r1move_west
 		self.__state_conf_vector_position = 4
 		self.__state_conf_vector_changed = True
 		
@@ -1288,6 +1862,149 @@ class Model:
 		"""
 		self.__state_vector[4] = self.State.main_region_processes_locomotion_wait_step
 		self.__state_conf_vector_position = 4
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region_processes_logging_idle_default(self):
+		"""'default' enter sequence for state Idle.
+		"""
+		self.__state_vector[5] = self.State.main_region_processes_logging_idle
+		self.__state_conf_vector_position = 5
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region_processes_logging_log_default(self):
+		"""'default' enter sequence for state Log.
+		"""
+		self.__enter_sequence_main_region_processes_logging_log_r1_default()
+		
+	def __enter_sequence_main_region_processes_logging_log_r1_wall_check_default(self):
+		"""'default' enter sequence for state WallCheck.
+		"""
+		self.__entry_action_main_region_processes_logging_log_r1_wall_check()
+		self.__state_vector[5] = self.State.main_region_processes_logging_log_r1wall_check
+		self.__state_conf_vector_position = 5
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region_processes_logging_log_r1_reset_default(self):
+		"""'default' enter sequence for state Reset.
+		"""
+		self.__entry_action_main_region_processes_logging_log_r1_reset()
+		self.__state_vector[5] = self.State.main_region_processes_logging_log_r1reset
+		self.__state_conf_vector_position = 5
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region_processes_initialize_init_default(self):
+		"""'default' enter sequence for state Init.
+		"""
+		self.__entry_action_main_region_processes_initialize_init()
+		self.__state_vector[6] = self.State.main_region_processes_initialize_init
+		self.__state_conf_vector_position = 6
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region_processes_initialize_init_done_default(self):
+		"""'default' enter sequence for state Init Done.
+		"""
+		self.__state_vector[6] = self.State.main_region_processes_initialize_init_done
+		self.__state_conf_vector_position = 6
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region_processes_initialize_pre_init_default(self):
+		"""'default' enter sequence for state Pre Init.
+		"""
+		self.__state_vector[6] = self.State.main_region_processes_initialize_pre_init
+		self.__state_conf_vector_position = 6
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region_processes_initialize_init_wait_default(self):
+		"""'default' enter sequence for state InitWait.
+		"""
+		self.__entry_action_main_region_processes_initialize_init_wait()
+		self.__state_vector[6] = self.State.main_region_processes_initialize_init_wait
+		self.__state_conf_vector_position = 6
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region_processes_collision_prevention_collision_state_default(self):
+		"""'default' enter sequence for state collisionState.
+		"""
+		self.__enter_sequence_main_region_processes_collision_prevention_collision_state_r1_default()
+		
+	def __enter_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_default(self):
+		"""'default' enter sequence for state preventAllCollisions.
+		"""
+		self.__enter_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_default()
+		self.__enter_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_default()
+		
+	def __enter_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_prevent_side_collisions_default(self):
+		"""'default' enter sequence for state preventSideCollisions.
+		"""
+		self.__state_vector[7] = self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1prevent_side_collisions
+		self.__state_conf_vector_position = 7
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_wait_for_move_default(self):
+		"""'default' enter sequence for state waitForMove.
+		"""
+		self.__state_vector[7] = self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1wait_for_move
+		self.__state_conf_vector_position = 7
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_wait_for_movement_default(self):
+		"""'default' enter sequence for state waitForMovement.
+		"""
+		self.__state_vector[7] = self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1wait_for_movement
+		self.__state_conf_vector_position = 7
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_frontal_collision_default(self):
+		"""'default' enter sequence for state frontalCollision.
+		"""
+		self.__entry_action_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_frontal_collision()
+		self.__state_vector[8] = self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r2frontal_collision
+		self.__state_conf_vector_position = 8
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_wait_for_frontal_default(self):
+		"""'default' enter sequence for state waitForFrontal.
+		"""
+		self.__state_vector[8] = self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r2wait_for_frontal
+		self.__state_conf_vector_position = 8
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_done_default(self):
+		"""'default' enter sequence for state Done.
+		"""
+		self.__entry_action_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_done()
+		self.__state_vector[7] = self.State.main_region_processes_collision_prevention_collision_state_r1adjust_r1done
+		self.__state_conf_vector_position = 7
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_right_default(self):
+		"""'default' enter sequence for state adjustToTheRight.
+		"""
+		self.__entry_action_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_right()
+		self.__state_vector[7] = self.State.main_region_processes_collision_prevention_collision_state_r1adjust_r1adjust_to_the_right
+		self.__state_conf_vector_position = 7
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_left_default(self):
+		"""'default' enter sequence for state adjustToTheLeft.
+		"""
+		self.__entry_action_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_left()
+		self.__state_vector[7] = self.State.main_region_processes_collision_prevention_collision_state_r1adjust_r1adjust_to_the_left
+		self.__state_conf_vector_position = 7
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region_processes_collision_prevention_manual_mode_default(self):
+		"""'default' enter sequence for state Manual mode.
+		"""
+		self.__state_vector[7] = self.State.main_region_processes_collision_prevention_manual_mode
+		self.__state_conf_vector_position = 7
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region_processes_collision_prevention_no_collision_detection_default(self):
+		"""'default' enter sequence for state noCollisionDetection.
+		"""
+		self.__state_vector[7] = self.State.main_region_processes_collision_prevention_no_collision_detection
+		self.__state_conf_vector_position = 7
 		self.__state_conf_vector_changed = True
 		
 	def __enter_sequence_main_region_default(self):
@@ -1310,6 +2027,42 @@ class Model:
 		"""
 		self.__react_main_region_processes_auto_bot_manual_movement__entry_default()
 		
+	def __enter_sequence_main_region_processes_brains_default(self):
+		"""'default' enter sequence for region Brains.
+		"""
+		self.__react_main_region_processes_brains__entry_default()
+		
+	def __shallow_enter_sequence_main_region_processes_brains_brains_r1(self):
+		"""shallow enterSequence with history in child r1.
+		"""
+		state = self.__history_vector[0]
+		if state == self.State.main_region_processes_brains_brains_r1logging_brains_r1decision:
+			self.__enter_sequence_main_region_processes_brains_brains_r1_logging_brains_default()
+		elif state == self.State.main_region_processes_brains_brains_r1logging_brains_r1wait:
+			self.__enter_sequence_main_region_processes_brains_brains_r1_logging_brains_default()
+		elif state == self.State.main_region_processes_brains_brains_r1logging_brains_r1initialize:
+			self.__enter_sequence_main_region_processes_brains_brains_r1_logging_brains_default()
+		elif state == self.State.main_region_processes_brains_brains_r1solve_brains_r1decision:
+			self.__enter_sequence_main_region_processes_brains_brains_r1_solve_brains_default()
+		elif state == self.State.main_region_processes_brains_brains_r1solve_brains_r1initialize:
+			self.__enter_sequence_main_region_processes_brains_brains_r1_solve_brains_default()
+		elif state == self.State.main_region_processes_brains_brains_r1solve_brains_r1turn_and_move:
+			self.__enter_sequence_main_region_processes_brains_brains_r1_solve_brains_default()
+		elif state == self.State.main_region_processes_brains_brains_r1solve_brains_r1wait_:
+			self.__enter_sequence_main_region_processes_brains_brains_r1_solve_brains_default()
+		elif state == self.State.main_region_processes_brains_brains_r1solve_brains_r1finished:
+			self.__enter_sequence_main_region_processes_brains_brains_r1_solve_brains_default()
+		
+	def __enter_sequence_main_region_processes_brains_brains_r1_logging_brains_r1_default(self):
+		"""'default' enter sequence for region r1.
+		"""
+		self.__react_main_region_processes_brains_brains_r1_logging_brains_r1__entry_default()
+		
+	def __enter_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_default(self):
+		"""'default' enter sequence for region r1.
+		"""
+		self.__react_main_region_processes_brains_brains_r1_solve_brains_r1__entry_default()
+		
 	def __enter_sequence_main_region_processes_orientation_default(self):
 		"""'default' enter sequence for region Orientation.
 		"""
@@ -1324,29 +2077,6 @@ class Model:
 		"""'default' enter sequence for region Modus.
 		"""
 		self.__react_main_region_processes_engine_engine_modus__entry_default()
-		
-	def __shallow_enter_sequence_main_region_processes_engine_engine_modus(self):
-		"""shallow enterSequence with history in child Modus.
-		"""
-		state = self.__history_vector[0]
-		if state == self.State.main_region_processes_engine_engine_modus_forward_restricted_forward_interrupted_stopped:
-			self.__enter_sequence_main_region_processes_engine_engine_modus_forward_restricted_default()
-		elif state == self.State.main_region_processes_engine_engine_modus_forward_restricted_forward_interrupted_back_up:
-			self.__enter_sequence_main_region_processes_engine_engine_modus_forward_restricted_default()
-		elif state == self.State.main_region_processes_engine_engine_modus_unrestricted_r1idle:
-			self.__enter_sequence_main_region_processes_engine_engine_modus_unrestricted_default()
-		elif state == self.State.main_region_processes_engine_engine_modus_unrestricted_r1stop:
-			self.__enter_sequence_main_region_processes_engine_engine_modus_unrestricted_default()
-		elif state == self.State.main_region_processes_engine_engine_modus_unrestricted_r1forward:
-			self.__enter_sequence_main_region_processes_engine_engine_modus_unrestricted_default()
-		elif state == self.State.main_region_processes_engine_engine_modus_unrestricted_r1back_up:
-			self.__enter_sequence_main_region_processes_engine_engine_modus_unrestricted_default()
-		elif state == self.State.main_region_processes_engine_engine_modus_reverse_restricted_backward_interrupted_stopped:
-			self.__enter_sequence_main_region_processes_engine_engine_modus_reverse_restricted_default()
-		elif state == self.State.main_region_processes_engine_engine_modus_reverse_restricted_backward_interrupted_forward:
-			self.__enter_sequence_main_region_processes_engine_engine_modus_reverse_restricted_default()
-		elif state == self.State.main_region_processes_engine_engine_modus_complete_restricted_all_interrupted_stopped:
-			self.__enter_sequence_main_region_processes_engine_engine_modus_complete_restricted_default()
 		
 	def __enter_sequence_main_region_processes_engine_engine_modus_forward_restricted_forward_interrupted_default(self):
 		"""'default' enter sequence for region Forward Interrupted.
@@ -1378,6 +2108,41 @@ class Model:
 		"""
 		self.__react_main_region_processes_locomotion_move1step_r1__entry_default()
 		
+	def __enter_sequence_main_region_processes_logging_default(self):
+		"""'default' enter sequence for region Logging.
+		"""
+		self.__react_main_region_processes_logging__entry_default()
+		
+	def __enter_sequence_main_region_processes_logging_log_r1_default(self):
+		"""'default' enter sequence for region r1.
+		"""
+		self.__react_main_region_processes_logging_log_r1__entry_default()
+		
+	def __enter_sequence_main_region_processes_initialize_default(self):
+		"""'default' enter sequence for region Initialize.
+		"""
+		self.__react_main_region_processes_initialize__entry_default()
+		
+	def __enter_sequence_main_region_processes_collision_prevention_default(self):
+		"""'default' enter sequence for region Collision Prevention.
+		"""
+		self.__react_main_region_processes_collision_prevention__entry_default()
+		
+	def __enter_sequence_main_region_processes_collision_prevention_collision_state_r1_default(self):
+		"""'default' enter sequence for region r1.
+		"""
+		self.__react_main_region_processes_collision_prevention_collision_state_r1__entry_default()
+		
+	def __enter_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_default(self):
+		"""'default' enter sequence for region r1.
+		"""
+		self.__react_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1__entry_default()
+		
+	def __enter_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_default(self):
+		"""'default' enter sequence for region r2.
+		"""
+		self.__react_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2__entry_default()
+		
 	def __exit_sequence_main_region_processes_auto_bot_square_bot(self):
 		"""Default exit sequence for state SquareBot.
 		"""
@@ -1389,8 +2154,26 @@ class Model:
 		self.__state_vector[0] = self.State.null_state
 		self.__state_conf_vector_position = 0
 		
-	def __exit_sequence_main_region_processes_auto_bot_square_bot_r1_turn(self):
-		"""Default exit sequence for state Turn.
+	def __exit_sequence_main_region_processes_auto_bot_square_bot_r1_turn_left(self):
+		"""Default exit sequence for state Turn Left.
+		"""
+		self.__state_vector[0] = self.State.null_state
+		self.__state_conf_vector_position = 0
+		
+	def __exit_sequence_main_region_processes_auto_bot_square_bot_r1_decision(self):
+		"""Default exit sequence for state Decision.
+		"""
+		self.__state_vector[0] = self.State.null_state
+		self.__state_conf_vector_position = 0
+		
+	def __exit_sequence_main_region_processes_auto_bot_square_bot_r1_turn_right(self):
+		"""Default exit sequence for state Turn Right.
+		"""
+		self.__state_vector[0] = self.State.null_state
+		self.__state_conf_vector_position = 0
+		
+	def __exit_sequence_main_region_processes_auto_bot_square_bot_r1_turn_around(self):
+		"""Default exit sequence for state Turn Around.
 		"""
 		self.__state_vector[0] = self.State.null_state
 		self.__state_conf_vector_position = 0
@@ -1406,74 +2189,143 @@ class Model:
 		self.__state_vector[0] = self.State.null_state
 		self.__state_conf_vector_position = 0
 		
+	def __exit_sequence_main_region_processes_brains_wait_for_start(self):
+		"""Default exit sequence for state waitForStart.
+		"""
+		self.__state_vector[1] = self.State.null_state
+		self.__state_conf_vector_position = 1
+		
+	def __exit_sequence_main_region_processes_brains_brains(self):
+		"""Default exit sequence for state Brains.
+		"""
+		self.__exit_sequence_main_region_processes_brains_brains_r1()
+		
+	def __exit_sequence_main_region_processes_brains_brains_r1_logging_brains(self):
+		"""Default exit sequence for state LoggingBrains.
+		"""
+		self.__exit_sequence_main_region_processes_brains_brains_r1_logging_brains_r1()
+		
+	def __exit_sequence_main_region_processes_brains_brains_r1_logging_brains_r1_decision(self):
+		"""Default exit sequence for state decision.
+		"""
+		self.__state_vector[1] = self.State.null_state
+		self.__state_conf_vector_position = 1
+		
+	def __exit_sequence_main_region_processes_brains_brains_r1_logging_brains_r1_wait(self):
+		"""Default exit sequence for state Wait.
+		"""
+		self.__state_vector[1] = self.State.null_state
+		self.__state_conf_vector_position = 1
+		
+	def __exit_sequence_main_region_processes_brains_brains_r1_logging_brains_r1_initialize(self):
+		"""Default exit sequence for state Initialize.
+		"""
+		self.__state_vector[1] = self.State.null_state
+		self.__state_conf_vector_position = 1
+		
+	def __exit_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_decision(self):
+		"""Default exit sequence for state decision.
+		"""
+		self.__state_vector[1] = self.State.null_state
+		self.__state_conf_vector_position = 1
+		self.__exit_action_main_region_processes_brains_brains_r1_solve_brains_r1_decision()
+		
+	def __exit_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_initialize(self):
+		"""Default exit sequence for state Initialize.
+		"""
+		self.__state_vector[1] = self.State.null_state
+		self.__state_conf_vector_position = 1
+		
+	def __exit_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_turn_and_move(self):
+		"""Default exit sequence for state turn and move.
+		"""
+		self.__state_vector[1] = self.State.null_state
+		self.__state_conf_vector_position = 1
+		
+	def __exit_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_wait_(self):
+		"""Default exit sequence for state wait .
+		"""
+		self.__state_vector[1] = self.State.null_state
+		self.__state_conf_vector_position = 1
+		self.__exit_action_main_region_processes_brains_brains_r1_solve_brains_r1_wait_()
+		
+	def __exit_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_finished(self):
+		"""Default exit sequence for state finished.
+		"""
+		self.__state_vector[1] = self.State.null_state
+		self.__state_conf_vector_position = 1
+		
 	def __exit_sequence_main_region_processes_orientation_orientation(self):
 		"""Default exit sequence for state Orientation.
 		"""
 		self.__exit_sequence_main_region_processes_orientation_orientation_turn()
-		self.__exit_sequence_main_region_processes_orientation_orientation_re_align()
 		
 	def __exit_sequence_main_region_processes_orientation_orientation_turn_stop_and_turn(self):
 		"""Default exit sequence for state stop and turn.
 		"""
-		self.__state_vector[1] = self.State.null_state
-		self.__state_conf_vector_position = 1
+		self.__state_vector[2] = self.State.null_state
+		self.__state_conf_vector_position = 2
 		self.__exit_action_main_region_processes_orientation_orientation_turn_stop_and_turn()
 		
 	def __exit_sequence_main_region_processes_orientation_orientation_turn_turn_quick(self):
 		"""Default exit sequence for state Turn Quick.
 		"""
-		self.__state_vector[1] = self.State.null_state
-		self.__state_conf_vector_position = 1
+		self.__state_vector[2] = self.State.null_state
+		self.__state_conf_vector_position = 2
 		
 	def __exit_sequence_main_region_processes_orientation_orientation_turn_turn_medium(self):
 		"""Default exit sequence for state Turn Medium.
 		"""
-		self.__state_vector[1] = self.State.null_state
-		self.__state_conf_vector_position = 1
-		
-	def __exit_sequence_main_region_processes_orientation_orientation_turn_turn_slow(self):
-		"""Default exit sequence for state Turn Slow.
-		"""
-		self.__state_vector[1] = self.State.null_state
-		self.__state_conf_vector_position = 1
+		self.__state_vector[2] = self.State.null_state
+		self.__state_conf_vector_position = 2
 		
 	def __exit_sequence_main_region_processes_orientation_orientation_turn_turn_ready(self):
 		"""Default exit sequence for state Turn Ready.
 		"""
-		self.__state_vector[1] = self.State.null_state
-		self.__state_conf_vector_position = 1
+		self.__state_vector[2] = self.State.null_state
+		self.__state_conf_vector_position = 2
 		self.__exit_action_main_region_processes_orientation_orientation_turn_turn_ready()
 		
-	def __exit_sequence_main_region_processes_orientation_orientation_re_align_align(self):
+	def __exit_sequence_main_region_processes_orientation_idle(self):
+		"""Default exit sequence for state Idle.
+		"""
+		self.__state_vector[2] = self.State.null_state
+		self.__state_conf_vector_position = 2
+		
+	def __exit_sequence_main_region_processes_orientation_re_align(self):
+		"""Default exit sequence for state Re-Align.
+		"""
+		self.__exit_sequence_main_region_processes_orientation_re_align_r1()
+		
+	def __exit_sequence_main_region_processes_orientation_re_align_r1_align_ready(self):
+		"""Default exit sequence for state Align Ready.
+		"""
+		self.__state_vector[2] = self.State.null_state
+		self.__state_conf_vector_position = 2
+		self.__exit_action_main_region_processes_orientation_re_align_r1_align_ready()
+		
+	def __exit_sequence_main_region_processes_orientation_re_align_r1_align(self):
 		"""Default exit sequence for state Align.
 		"""
 		self.__state_vector[2] = self.State.null_state
 		self.__state_conf_vector_position = 2
 		
-	def __exit_sequence_main_region_processes_orientation_orientation_re_align_turn_medium(self):
-		"""Default exit sequence for state Turn Medium.
-		"""
-		self.__state_vector[2] = self.State.null_state
-		self.__state_conf_vector_position = 2
-		
-	def __exit_sequence_main_region_processes_orientation_orientation_re_align_turn_slow(self):
+	def __exit_sequence_main_region_processes_orientation_re_align_r1_turn_slow(self):
 		"""Default exit sequence for state Turn Slow.
 		"""
 		self.__state_vector[2] = self.State.null_state
 		self.__state_conf_vector_position = 2
 		
-	def __exit_sequence_main_region_processes_orientation_orientation_re_align_align_ready(self):
-		"""Default exit sequence for state Align Ready.
+	def __exit_sequence_main_region_processes_orientation_re_align_r1_turn_medium(self):
+		"""Default exit sequence for state Turn Medium.
 		"""
 		self.__state_vector[2] = self.State.null_state
 		self.__state_conf_vector_position = 2
-		self.__exit_action_main_region_processes_orientation_orientation_re_align_align_ready()
 		
-	def __exit_sequence_main_region_processes_orientation_idle(self):
-		"""Default exit sequence for state Idle.
+	def __exit_sequence_main_region_processes_engine_engine(self):
+		"""Default exit sequence for state Engine.
 		"""
-		self.__state_vector[1] = self.State.null_state
-		self.__state_conf_vector_position = 1
+		self.__exit_sequence_main_region_processes_engine_engine_modus()
 		
 	def __exit_sequence_main_region_processes_engine_engine_modus_forward_restricted(self):
 		"""Default exit sequence for state Forward Restricted.
@@ -1514,6 +2366,7 @@ class Model:
 		"""
 		self.__state_vector[3] = self.State.null_state
 		self.__state_conf_vector_position = 3
+		self.__exit_action_main_region_processes_engine_engine_modus_unrestricted_r1_forward()
 		
 	def __exit_sequence_main_region_processes_engine_engine_modus_unrestricted_r1_back_up(self):
 		"""Default exit sequence for state Back Up.
@@ -1549,6 +2402,13 @@ class Model:
 		self.__state_vector[3] = self.State.null_state
 		self.__state_conf_vector_position = 3
 		
+	def __exit_sequence_main_region_processes_engine_manual(self):
+		"""Default exit sequence for state Manual.
+		"""
+		self.__state_vector[3] = self.State.null_state
+		self.__state_conf_vector_position = 3
+		self.__exit_action_main_region_processes_engine_manual()
+		
 	def __exit_sequence_main_region_processes_locomotion_move1step(self):
 		"""Default exit sequence for state move1step.
 		"""
@@ -1560,33 +2420,33 @@ class Model:
 		self.__state_vector[4] = self.State.null_state
 		self.__state_conf_vector_position = 4
 		
-	def __exit_sequence_main_region_processes_locomotion_move1step_r1_move_x_r1_move_west(self):
-		"""Default exit sequence for state moveWest.
-		"""
-		self.__state_vector[4] = self.State.null_state
-		self.__state_conf_vector_position = 4
-		self.__exit_action_main_region_processes_locomotion_move1step_r1_move_x_r1_move_west()
-		
-	def __exit_sequence_main_region_processes_locomotion_move1step_r1_move_x_r1_move_east(self):
-		"""Default exit sequence for state moveEast.
-		"""
-		self.__state_vector[4] = self.State.null_state
-		self.__state_conf_vector_position = 4
-		self.__exit_action_main_region_processes_locomotion_move1step_r1_move_x_r1_move_east()
-		
-	def __exit_sequence_main_region_processes_locomotion_move1step_r1_move_y_r1_move_north(self):
+	def __exit_sequence_main_region_processes_locomotion_move1step_r1_move_north(self):
 		"""Default exit sequence for state moveNorth.
 		"""
 		self.__state_vector[4] = self.State.null_state
 		self.__state_conf_vector_position = 4
-		self.__exit_action_main_region_processes_locomotion_move1step_r1_move_y_r1_move_north()
+		self.__exit_action_main_region_processes_locomotion_move1step_r1_move_north()
 		
-	def __exit_sequence_main_region_processes_locomotion_move1step_r1_move_y_r1_move_south(self):
+	def __exit_sequence_main_region_processes_locomotion_move1step_r1_move_south(self):
 		"""Default exit sequence for state moveSouth.
 		"""
 		self.__state_vector[4] = self.State.null_state
 		self.__state_conf_vector_position = 4
-		self.__exit_action_main_region_processes_locomotion_move1step_r1_move_y_r1_move_south()
+		self.__exit_action_main_region_processes_locomotion_move1step_r1_move_south()
+		
+	def __exit_sequence_main_region_processes_locomotion_move1step_r1_move_east(self):
+		"""Default exit sequence for state moveEast.
+		"""
+		self.__state_vector[4] = self.State.null_state
+		self.__state_conf_vector_position = 4
+		self.__exit_action_main_region_processes_locomotion_move1step_r1_move_east()
+		
+	def __exit_sequence_main_region_processes_locomotion_move1step_r1_move_west(self):
+		"""Default exit sequence for state moveWest.
+		"""
+		self.__state_vector[4] = self.State.null_state
+		self.__state_conf_vector_position = 4
+		self.__exit_action_main_region_processes_locomotion_move1step_r1_move_west()
 		
 	def __exit_sequence_main_region_processes_locomotion_wait_step(self):
 		"""Default exit sequence for state waitStep.
@@ -1594,38 +2454,194 @@ class Model:
 		self.__state_vector[4] = self.State.null_state
 		self.__state_conf_vector_position = 4
 		
+	def __exit_sequence_main_region_processes_logging_idle(self):
+		"""Default exit sequence for state Idle.
+		"""
+		self.__state_vector[5] = self.State.null_state
+		self.__state_conf_vector_position = 5
+		
+	def __exit_sequence_main_region_processes_logging_log(self):
+		"""Default exit sequence for state Log.
+		"""
+		self.__exit_sequence_main_region_processes_logging_log_r1()
+		
+	def __exit_sequence_main_region_processes_logging_log_r1_wall_check(self):
+		"""Default exit sequence for state WallCheck.
+		"""
+		self.__state_vector[5] = self.State.null_state
+		self.__state_conf_vector_position = 5
+		
+	def __exit_sequence_main_region_processes_logging_log_r1_update(self):
+		"""Default exit sequence for state Update.
+		"""
+		self.__state_vector[5] = self.State.null_state
+		self.__state_conf_vector_position = 5
+		self.__exit_action_main_region_processes_logging_log_r1_update()
+		
+	def __exit_sequence_main_region_processes_logging_log_r1_reset(self):
+		"""Default exit sequence for state Reset.
+		"""
+		self.__state_vector[5] = self.State.null_state
+		self.__state_conf_vector_position = 5
+		self.__exit_action_main_region_processes_logging_log_r1_reset()
+		
+	def __exit_sequence_main_region_processes_initialize_init(self):
+		"""Default exit sequence for state Init.
+		"""
+		self.__state_vector[6] = self.State.null_state
+		self.__state_conf_vector_position = 6
+		self.__exit_action_main_region_processes_initialize_init()
+		
+	def __exit_sequence_main_region_processes_initialize_init_done(self):
+		"""Default exit sequence for state Init Done.
+		"""
+		self.__state_vector[6] = self.State.null_state
+		self.__state_conf_vector_position = 6
+		
+	def __exit_sequence_main_region_processes_initialize_pre_init(self):
+		"""Default exit sequence for state Pre Init.
+		"""
+		self.__state_vector[6] = self.State.null_state
+		self.__state_conf_vector_position = 6
+		
+	def __exit_sequence_main_region_processes_initialize_init_wait(self):
+		"""Default exit sequence for state InitWait.
+		"""
+		self.__state_vector[6] = self.State.null_state
+		self.__state_conf_vector_position = 6
+		
+	def __exit_sequence_main_region_processes_collision_prevention_collision_state(self):
+		"""Default exit sequence for state collisionState.
+		"""
+		self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1()
+		
+	def __exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions(self):
+		"""Default exit sequence for state preventAllCollisions.
+		"""
+		self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1()
+		self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2()
+		
+	def __exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_prevent_side_collisions(self):
+		"""Default exit sequence for state preventSideCollisions.
+		"""
+		self.__state_vector[7] = self.State.null_state
+		self.__state_conf_vector_position = 7
+		
+	def __exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_wait_for_move(self):
+		"""Default exit sequence for state waitForMove.
+		"""
+		self.__state_vector[7] = self.State.null_state
+		self.__state_conf_vector_position = 7
+		
+	def __exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_wait_for_movement(self):
+		"""Default exit sequence for state waitForMovement.
+		"""
+		self.__state_vector[7] = self.State.null_state
+		self.__state_conf_vector_position = 7
+		
+	def __exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_frontal_collision(self):
+		"""Default exit sequence for state frontalCollision.
+		"""
+		self.__state_vector[8] = self.State.null_state
+		self.__state_conf_vector_position = 8
+		
+	def __exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_wait_for_frontal(self):
+		"""Default exit sequence for state waitForFrontal.
+		"""
+		self.__state_vector[8] = self.State.null_state
+		self.__state_conf_vector_position = 8
+		
+	def __exit_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust(self):
+		"""Default exit sequence for state Adjust.
+		"""
+		self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1()
+		
+	def __exit_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_done(self):
+		"""Default exit sequence for state Done.
+		"""
+		self.__state_vector[7] = self.State.null_state
+		self.__state_conf_vector_position = 7
+		
+	def __exit_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_right(self):
+		"""Default exit sequence for state adjustToTheRight.
+		"""
+		self.__state_vector[7] = self.State.null_state
+		self.__state_conf_vector_position = 7
+		self.__exit_action_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_right()
+		
+	def __exit_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_left(self):
+		"""Default exit sequence for state adjustToTheLeft.
+		"""
+		self.__state_vector[7] = self.State.null_state
+		self.__state_conf_vector_position = 7
+		self.__exit_action_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_left()
+		
+	def __exit_sequence_main_region_processes_collision_prevention_manual_mode(self):
+		"""Default exit sequence for state Manual mode.
+		"""
+		self.__state_vector[7] = self.State.null_state
+		self.__state_conf_vector_position = 7
+		
+	def __exit_sequence_main_region_processes_collision_prevention_no_collision_detection(self):
+		"""Default exit sequence for state noCollisionDetection.
+		"""
+		self.__state_vector[7] = self.State.null_state
+		self.__state_conf_vector_position = 7
+		
 	def __exit_sequence_main_region(self):
 		"""Default exit sequence for region main region.
 		"""
 		state = self.__state_vector[0]
 		if state == self.State.main_region_processes_auto_bot_square_bot_r1forward:
 			self.__exit_sequence_main_region_processes_auto_bot_square_bot_r1_forward()
-		elif state == self.State.main_region_processes_auto_bot_square_bot_r1turn:
-			self.__exit_sequence_main_region_processes_auto_bot_square_bot_r1_turn()
+		elif state == self.State.main_region_processes_auto_bot_square_bot_r1turn_left:
+			self.__exit_sequence_main_region_processes_auto_bot_square_bot_r1_turn_left()
+		elif state == self.State.main_region_processes_auto_bot_square_bot_r1decision:
+			self.__exit_sequence_main_region_processes_auto_bot_square_bot_r1_decision()
+		elif state == self.State.main_region_processes_auto_bot_square_bot_r1turn_right:
+			self.__exit_sequence_main_region_processes_auto_bot_square_bot_r1_turn_right()
+		elif state == self.State.main_region_processes_auto_bot_square_bot_r1turn_around:
+			self.__exit_sequence_main_region_processes_auto_bot_square_bot_r1_turn_around()
 		elif state == self.State.main_region_processes_auto_bot_manual_movement_movement:
 			self.__exit_sequence_main_region_processes_auto_bot_manual_movement_movement()
 		state = self.__state_vector[1]
+		if state == self.State.main_region_processes_brains_wait_for_start:
+			self.__exit_sequence_main_region_processes_brains_wait_for_start()
+		elif state == self.State.main_region_processes_brains_brains_r1logging_brains_r1decision:
+			self.__exit_sequence_main_region_processes_brains_brains_r1_logging_brains_r1_decision()
+		elif state == self.State.main_region_processes_brains_brains_r1logging_brains_r1wait:
+			self.__exit_sequence_main_region_processes_brains_brains_r1_logging_brains_r1_wait()
+		elif state == self.State.main_region_processes_brains_brains_r1logging_brains_r1initialize:
+			self.__exit_sequence_main_region_processes_brains_brains_r1_logging_brains_r1_initialize()
+		elif state == self.State.main_region_processes_brains_brains_r1solve_brains_r1decision:
+			self.__exit_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_decision()
+		elif state == self.State.main_region_processes_brains_brains_r1solve_brains_r1initialize:
+			self.__exit_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_initialize()
+		elif state == self.State.main_region_processes_brains_brains_r1solve_brains_r1turn_and_move:
+			self.__exit_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_turn_and_move()
+		elif state == self.State.main_region_processes_brains_brains_r1solve_brains_r1wait_:
+			self.__exit_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_wait_()
+		elif state == self.State.main_region_processes_brains_brains_r1solve_brains_r1finished:
+			self.__exit_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_finished()
+		state = self.__state_vector[2]
 		if state == self.State.main_region_processes_orientation_orientation_turn_stop_and_turn:
 			self.__exit_sequence_main_region_processes_orientation_orientation_turn_stop_and_turn()
 		elif state == self.State.main_region_processes_orientation_orientation_turn_turn_quick:
 			self.__exit_sequence_main_region_processes_orientation_orientation_turn_turn_quick()
 		elif state == self.State.main_region_processes_orientation_orientation_turn_turn_medium:
 			self.__exit_sequence_main_region_processes_orientation_orientation_turn_turn_medium()
-		elif state == self.State.main_region_processes_orientation_orientation_turn_turn_slow:
-			self.__exit_sequence_main_region_processes_orientation_orientation_turn_turn_slow()
 		elif state == self.State.main_region_processes_orientation_orientation_turn_turn_ready:
 			self.__exit_sequence_main_region_processes_orientation_orientation_turn_turn_ready()
 		elif state == self.State.main_region_processes_orientation_idle:
 			self.__exit_sequence_main_region_processes_orientation_idle()
-		state = self.__state_vector[2]
-		if state == self.State.main_region_processes_orientation_orientation_re_align_align:
-			self.__exit_sequence_main_region_processes_orientation_orientation_re_align_align()
-		elif state == self.State.main_region_processes_orientation_orientation_re_align_turn_medium:
-			self.__exit_sequence_main_region_processes_orientation_orientation_re_align_turn_medium()
-		elif state == self.State.main_region_processes_orientation_orientation_re_align_turn_slow:
-			self.__exit_sequence_main_region_processes_orientation_orientation_re_align_turn_slow()
-		elif state == self.State.main_region_processes_orientation_orientation_re_align_align_ready:
-			self.__exit_sequence_main_region_processes_orientation_orientation_re_align_align_ready()
+		elif state == self.State.main_region_processes_orientation_re_align_r1align_ready:
+			self.__exit_sequence_main_region_processes_orientation_re_align_r1_align_ready()
+		elif state == self.State.main_region_processes_orientation_re_align_r1align:
+			self.__exit_sequence_main_region_processes_orientation_re_align_r1_align()
+		elif state == self.State.main_region_processes_orientation_re_align_r1turn_slow:
+			self.__exit_sequence_main_region_processes_orientation_re_align_r1_turn_slow()
+		elif state == self.State.main_region_processes_orientation_re_align_r1turn_medium:
+			self.__exit_sequence_main_region_processes_orientation_re_align_r1_turn_medium()
 		state = self.__state_vector[3]
 		if state == self.State.main_region_processes_engine_engine_modus_forward_restricted_forward_interrupted_stopped:
 			self.__exit_sequence_main_region_processes_engine_engine_modus_forward_restricted_forward_interrupted_stopped()
@@ -1645,19 +2661,61 @@ class Model:
 			self.__exit_sequence_main_region_processes_engine_engine_modus_reverse_restricted_backward_interrupted_forward()
 		elif state == self.State.main_region_processes_engine_engine_modus_complete_restricted_all_interrupted_stopped:
 			self.__exit_sequence_main_region_processes_engine_engine_modus_complete_restricted_all_interrupted_stopped()
+		elif state == self.State.main_region_processes_engine_manual:
+			self.__exit_sequence_main_region_processes_engine_manual()
 		state = self.__state_vector[4]
 		if state == self.State.main_region_processes_locomotion_move1step_r1move:
 			self.__exit_sequence_main_region_processes_locomotion_move1step_r1_move()
-		elif state == self.State.main_region_processes_locomotion_move1step_r1move_xr1move_west:
-			self.__exit_sequence_main_region_processes_locomotion_move1step_r1_move_x_r1_move_west()
-		elif state == self.State.main_region_processes_locomotion_move1step_r1move_xr1move_east:
-			self.__exit_sequence_main_region_processes_locomotion_move1step_r1_move_x_r1_move_east()
-		elif state == self.State.main_region_processes_locomotion_move1step_r1move_yr1move_north:
-			self.__exit_sequence_main_region_processes_locomotion_move1step_r1_move_y_r1_move_north()
-		elif state == self.State.main_region_processes_locomotion_move1step_r1move_yr1move_south:
-			self.__exit_sequence_main_region_processes_locomotion_move1step_r1_move_y_r1_move_south()
+		elif state == self.State.main_region_processes_locomotion_move1step_r1move_north:
+			self.__exit_sequence_main_region_processes_locomotion_move1step_r1_move_north()
+		elif state == self.State.main_region_processes_locomotion_move1step_r1move_south:
+			self.__exit_sequence_main_region_processes_locomotion_move1step_r1_move_south()
+		elif state == self.State.main_region_processes_locomotion_move1step_r1move_east:
+			self.__exit_sequence_main_region_processes_locomotion_move1step_r1_move_east()
+		elif state == self.State.main_region_processes_locomotion_move1step_r1move_west:
+			self.__exit_sequence_main_region_processes_locomotion_move1step_r1_move_west()
 		elif state == self.State.main_region_processes_locomotion_wait_step:
 			self.__exit_sequence_main_region_processes_locomotion_wait_step()
+		state = self.__state_vector[5]
+		if state == self.State.main_region_processes_logging_idle:
+			self.__exit_sequence_main_region_processes_logging_idle()
+		elif state == self.State.main_region_processes_logging_log_r1wall_check:
+			self.__exit_sequence_main_region_processes_logging_log_r1_wall_check()
+		elif state == self.State.main_region_processes_logging_log_r1update:
+			self.__exit_sequence_main_region_processes_logging_log_r1_update()
+		elif state == self.State.main_region_processes_logging_log_r1reset:
+			self.__exit_sequence_main_region_processes_logging_log_r1_reset()
+		state = self.__state_vector[6]
+		if state == self.State.main_region_processes_initialize_init:
+			self.__exit_sequence_main_region_processes_initialize_init()
+		elif state == self.State.main_region_processes_initialize_init_done:
+			self.__exit_sequence_main_region_processes_initialize_init_done()
+		elif state == self.State.main_region_processes_initialize_pre_init:
+			self.__exit_sequence_main_region_processes_initialize_pre_init()
+		elif state == self.State.main_region_processes_initialize_init_wait:
+			self.__exit_sequence_main_region_processes_initialize_init_wait()
+		state = self.__state_vector[7]
+		if state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1prevent_side_collisions:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_prevent_side_collisions()
+		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1wait_for_move:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_wait_for_move()
+		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1wait_for_movement:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_wait_for_movement()
+		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1adjust_r1done:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_done()
+		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1adjust_r1adjust_to_the_right:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_right()
+		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1adjust_r1adjust_to_the_left:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_left()
+		elif state == self.State.main_region_processes_collision_prevention_manual_mode:
+			self.__exit_sequence_main_region_processes_collision_prevention_manual_mode()
+		elif state == self.State.main_region_processes_collision_prevention_no_collision_detection:
+			self.__exit_sequence_main_region_processes_collision_prevention_no_collision_detection()
+		state = self.__state_vector[8]
+		if state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r2frontal_collision:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_frontal_collision()
+		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r2wait_for_frontal:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_wait_for_frontal()
 		
 	def __exit_sequence_main_region_processes_auto_bot_square_bot_r1(self):
 		"""Default exit sequence for region r1.
@@ -1665,8 +2723,14 @@ class Model:
 		state = self.__state_vector[0]
 		if state == self.State.main_region_processes_auto_bot_square_bot_r1forward:
 			self.__exit_sequence_main_region_processes_auto_bot_square_bot_r1_forward()
-		elif state == self.State.main_region_processes_auto_bot_square_bot_r1turn:
-			self.__exit_sequence_main_region_processes_auto_bot_square_bot_r1_turn()
+		elif state == self.State.main_region_processes_auto_bot_square_bot_r1turn_left:
+			self.__exit_sequence_main_region_processes_auto_bot_square_bot_r1_turn_left()
+		elif state == self.State.main_region_processes_auto_bot_square_bot_r1decision:
+			self.__exit_sequence_main_region_processes_auto_bot_square_bot_r1_decision()
+		elif state == self.State.main_region_processes_auto_bot_square_bot_r1turn_right:
+			self.__exit_sequence_main_region_processes_auto_bot_square_bot_r1_turn_right()
+		elif state == self.State.main_region_processes_auto_bot_square_bot_r1turn_around:
+			self.__exit_sequence_main_region_processes_auto_bot_square_bot_r1_turn_around()
 		
 	def __exit_sequence_main_region_processes_auto_bot_manual_movement(self):
 		"""Default exit sequence for region movement.
@@ -1675,33 +2739,86 @@ class Model:
 		if state == self.State.main_region_processes_auto_bot_manual_movement_movement:
 			self.__exit_sequence_main_region_processes_auto_bot_manual_movement_movement()
 		
+	def __exit_sequence_main_region_processes_brains_brains_r1(self):
+		"""Default exit sequence for region r1.
+		"""
+		state = self.__state_vector[1]
+		if state == self.State.main_region_processes_brains_brains_r1logging_brains_r1decision:
+			self.__exit_sequence_main_region_processes_brains_brains_r1_logging_brains_r1_decision()
+		elif state == self.State.main_region_processes_brains_brains_r1logging_brains_r1wait:
+			self.__exit_sequence_main_region_processes_brains_brains_r1_logging_brains_r1_wait()
+		elif state == self.State.main_region_processes_brains_brains_r1logging_brains_r1initialize:
+			self.__exit_sequence_main_region_processes_brains_brains_r1_logging_brains_r1_initialize()
+		elif state == self.State.main_region_processes_brains_brains_r1solve_brains_r1decision:
+			self.__exit_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_decision()
+		elif state == self.State.main_region_processes_brains_brains_r1solve_brains_r1initialize:
+			self.__exit_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_initialize()
+		elif state == self.State.main_region_processes_brains_brains_r1solve_brains_r1turn_and_move:
+			self.__exit_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_turn_and_move()
+		elif state == self.State.main_region_processes_brains_brains_r1solve_brains_r1wait_:
+			self.__exit_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_wait_()
+		elif state == self.State.main_region_processes_brains_brains_r1solve_brains_r1finished:
+			self.__exit_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_finished()
+		
+	def __exit_sequence_main_region_processes_brains_brains_r1_logging_brains_r1(self):
+		"""Default exit sequence for region r1.
+		"""
+		state = self.__state_vector[1]
+		if state == self.State.main_region_processes_brains_brains_r1logging_brains_r1decision:
+			self.__exit_sequence_main_region_processes_brains_brains_r1_logging_brains_r1_decision()
+		elif state == self.State.main_region_processes_brains_brains_r1logging_brains_r1wait:
+			self.__exit_sequence_main_region_processes_brains_brains_r1_logging_brains_r1_wait()
+		elif state == self.State.main_region_processes_brains_brains_r1logging_brains_r1initialize:
+			self.__exit_sequence_main_region_processes_brains_brains_r1_logging_brains_r1_initialize()
+		
 	def __exit_sequence_main_region_processes_orientation_orientation_turn(self):
 		"""Default exit sequence for region Turn.
 		"""
-		state = self.__state_vector[1]
+		state = self.__state_vector[2]
 		if state == self.State.main_region_processes_orientation_orientation_turn_stop_and_turn:
 			self.__exit_sequence_main_region_processes_orientation_orientation_turn_stop_and_turn()
 		elif state == self.State.main_region_processes_orientation_orientation_turn_turn_quick:
 			self.__exit_sequence_main_region_processes_orientation_orientation_turn_turn_quick()
 		elif state == self.State.main_region_processes_orientation_orientation_turn_turn_medium:
 			self.__exit_sequence_main_region_processes_orientation_orientation_turn_turn_medium()
-		elif state == self.State.main_region_processes_orientation_orientation_turn_turn_slow:
-			self.__exit_sequence_main_region_processes_orientation_orientation_turn_turn_slow()
 		elif state == self.State.main_region_processes_orientation_orientation_turn_turn_ready:
 			self.__exit_sequence_main_region_processes_orientation_orientation_turn_turn_ready()
 		
-	def __exit_sequence_main_region_processes_orientation_orientation_re_align(self):
-		"""Default exit sequence for region Re-Align.
+	def __exit_sequence_main_region_processes_orientation_re_align_r1(self):
+		"""Default exit sequence for region r1.
 		"""
 		state = self.__state_vector[2]
-		if state == self.State.main_region_processes_orientation_orientation_re_align_align:
-			self.__exit_sequence_main_region_processes_orientation_orientation_re_align_align()
-		elif state == self.State.main_region_processes_orientation_orientation_re_align_turn_medium:
-			self.__exit_sequence_main_region_processes_orientation_orientation_re_align_turn_medium()
-		elif state == self.State.main_region_processes_orientation_orientation_re_align_turn_slow:
-			self.__exit_sequence_main_region_processes_orientation_orientation_re_align_turn_slow()
-		elif state == self.State.main_region_processes_orientation_orientation_re_align_align_ready:
-			self.__exit_sequence_main_region_processes_orientation_orientation_re_align_align_ready()
+		if state == self.State.main_region_processes_orientation_re_align_r1align_ready:
+			self.__exit_sequence_main_region_processes_orientation_re_align_r1_align_ready()
+		elif state == self.State.main_region_processes_orientation_re_align_r1align:
+			self.__exit_sequence_main_region_processes_orientation_re_align_r1_align()
+		elif state == self.State.main_region_processes_orientation_re_align_r1turn_slow:
+			self.__exit_sequence_main_region_processes_orientation_re_align_r1_turn_slow()
+		elif state == self.State.main_region_processes_orientation_re_align_r1turn_medium:
+			self.__exit_sequence_main_region_processes_orientation_re_align_r1_turn_medium()
+		
+	def __exit_sequence_main_region_processes_engine_engine_modus(self):
+		"""Default exit sequence for region Modus.
+		"""
+		state = self.__state_vector[3]
+		if state == self.State.main_region_processes_engine_engine_modus_forward_restricted_forward_interrupted_stopped:
+			self.__exit_sequence_main_region_processes_engine_engine_modus_forward_restricted_forward_interrupted_stopped()
+		elif state == self.State.main_region_processes_engine_engine_modus_forward_restricted_forward_interrupted_back_up:
+			self.__exit_sequence_main_region_processes_engine_engine_modus_forward_restricted_forward_interrupted_back_up()
+		elif state == self.State.main_region_processes_engine_engine_modus_unrestricted_r1idle:
+			self.__exit_sequence_main_region_processes_engine_engine_modus_unrestricted_r1_idle()
+		elif state == self.State.main_region_processes_engine_engine_modus_unrestricted_r1stop:
+			self.__exit_sequence_main_region_processes_engine_engine_modus_unrestricted_r1_stop()
+		elif state == self.State.main_region_processes_engine_engine_modus_unrestricted_r1forward:
+			self.__exit_sequence_main_region_processes_engine_engine_modus_unrestricted_r1_forward()
+		elif state == self.State.main_region_processes_engine_engine_modus_unrestricted_r1back_up:
+			self.__exit_sequence_main_region_processes_engine_engine_modus_unrestricted_r1_back_up()
+		elif state == self.State.main_region_processes_engine_engine_modus_reverse_restricted_backward_interrupted_stopped:
+			self.__exit_sequence_main_region_processes_engine_engine_modus_reverse_restricted_backward_interrupted_stopped()
+		elif state == self.State.main_region_processes_engine_engine_modus_reverse_restricted_backward_interrupted_forward:
+			self.__exit_sequence_main_region_processes_engine_engine_modus_reverse_restricted_backward_interrupted_forward()
+		elif state == self.State.main_region_processes_engine_engine_modus_complete_restricted_all_interrupted_stopped:
+			self.__exit_sequence_main_region_processes_engine_engine_modus_complete_restricted_all_interrupted_stopped()
 		
 	def __exit_sequence_main_region_processes_engine_engine_modus_forward_restricted_forward_interrupted(self):
 		"""Default exit sequence for region Forward Interrupted.
@@ -1747,14 +2864,88 @@ class Model:
 		state = self.__state_vector[4]
 		if state == self.State.main_region_processes_locomotion_move1step_r1move:
 			self.__exit_sequence_main_region_processes_locomotion_move1step_r1_move()
-		elif state == self.State.main_region_processes_locomotion_move1step_r1move_xr1move_west:
-			self.__exit_sequence_main_region_processes_locomotion_move1step_r1_move_x_r1_move_west()
-		elif state == self.State.main_region_processes_locomotion_move1step_r1move_xr1move_east:
-			self.__exit_sequence_main_region_processes_locomotion_move1step_r1_move_x_r1_move_east()
-		elif state == self.State.main_region_processes_locomotion_move1step_r1move_yr1move_north:
-			self.__exit_sequence_main_region_processes_locomotion_move1step_r1_move_y_r1_move_north()
-		elif state == self.State.main_region_processes_locomotion_move1step_r1move_yr1move_south:
-			self.__exit_sequence_main_region_processes_locomotion_move1step_r1_move_y_r1_move_south()
+		elif state == self.State.main_region_processes_locomotion_move1step_r1move_north:
+			self.__exit_sequence_main_region_processes_locomotion_move1step_r1_move_north()
+		elif state == self.State.main_region_processes_locomotion_move1step_r1move_south:
+			self.__exit_sequence_main_region_processes_locomotion_move1step_r1_move_south()
+		elif state == self.State.main_region_processes_locomotion_move1step_r1move_east:
+			self.__exit_sequence_main_region_processes_locomotion_move1step_r1_move_east()
+		elif state == self.State.main_region_processes_locomotion_move1step_r1move_west:
+			self.__exit_sequence_main_region_processes_locomotion_move1step_r1_move_west()
+		
+	def __exit_sequence_main_region_processes_logging_log_r1(self):
+		"""Default exit sequence for region r1.
+		"""
+		state = self.__state_vector[5]
+		if state == self.State.main_region_processes_logging_log_r1wall_check:
+			self.__exit_sequence_main_region_processes_logging_log_r1_wall_check()
+		elif state == self.State.main_region_processes_logging_log_r1update:
+			self.__exit_sequence_main_region_processes_logging_log_r1_update()
+		elif state == self.State.main_region_processes_logging_log_r1reset:
+			self.__exit_sequence_main_region_processes_logging_log_r1_reset()
+		
+	def __exit_sequence_main_region_processes_collision_prevention_collision_state_r1(self):
+		"""Default exit sequence for region r1.
+		"""
+		state = self.__state_vector[7]
+		if state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1prevent_side_collisions:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_prevent_side_collisions()
+		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1wait_for_move:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_wait_for_move()
+		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1wait_for_movement:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_wait_for_movement()
+		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1adjust_r1done:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_done()
+		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1adjust_r1adjust_to_the_right:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_right()
+		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1adjust_r1adjust_to_the_left:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_left()
+		state = self.__state_vector[8]
+		if state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r2frontal_collision:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_frontal_collision()
+		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r2wait_for_frontal:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_wait_for_frontal()
+		
+	def __exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1(self):
+		"""Default exit sequence for region r1.
+		"""
+		state = self.__state_vector[7]
+		if state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1prevent_side_collisions:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_prevent_side_collisions()
+		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1wait_for_move:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_wait_for_move()
+		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1wait_for_movement:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_wait_for_movement()
+		
+	def __exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2(self):
+		"""Default exit sequence for region r2.
+		"""
+		state = self.__state_vector[8]
+		if state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r2frontal_collision:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_frontal_collision()
+		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r2wait_for_frontal:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_wait_for_frontal()
+		
+	def __exit_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1(self):
+		"""Default exit sequence for region r1.
+		"""
+		state = self.__state_vector[7]
+		if state == self.State.main_region_processes_collision_prevention_collision_state_r1adjust_r1done:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_done()
+		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1adjust_r1adjust_to_the_right:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_right()
+		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1adjust_r1adjust_to_the_left:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_left()
+		
+	def __react_main_region_processes_auto_bot_square_bot_r1__choice_0(self):
+		"""The reactions of state null..
+		"""
+		if self.grid.orientation == 0:
+			self.orientation.direction = 3
+			self.__enter_sequence_main_region_processes_auto_bot_square_bot_r1_turn_left_default()
+		elif self.grid.orientation > 0:
+			self.orientation.direction = self.orientation.direction - 1
+			self.__enter_sequence_main_region_processes_auto_bot_square_bot_r1_turn_left_default()
 		
 	def __react_main_region__entry_default(self):
 		"""Default react sequence for initial entry .
@@ -1764,7 +2955,7 @@ class Model:
 	def __react_main_region_processes_auto_bot_square_bot_r1__entry_default(self):
 		"""Default react sequence for initial entry .
 		"""
-		self.__enter_sequence_main_region_processes_auto_bot_square_bot_r1_forward_default()
+		self.__enter_sequence_main_region_processes_auto_bot_square_bot_r1_decision_default()
 		
 	def __react_main_region_processes_auto_bot__entry_default(self):
 		"""Default react sequence for initial entry .
@@ -1775,6 +2966,30 @@ class Model:
 		"""Default react sequence for initial entry .
 		"""
 		self.__enter_sequence_main_region_processes_auto_bot_manual_movement_movement_default()
+		
+	def __react_main_region_processes_brains__entry_default(self):
+		"""Default react sequence for initial entry .
+		"""
+		self.__enter_sequence_main_region_processes_brains_wait_for_start_default()
+		
+	def __react_main_region_processes_brains_brains_r1_logging_brains_r1__entry_default(self):
+		"""Default react sequence for initial entry .
+		"""
+		self.__enter_sequence_main_region_processes_brains_brains_r1_logging_brains_r1_initialize_default()
+		
+	def __react_main_region_processes_brains_brains_r1_shallow(self):
+		"""Default react sequence for shallow history entry shallow.
+		"""
+		#Enter the region with shallow history
+		if self.__history_vector[0] is not self.State.null_state:
+			self.__shallow_enter_sequence_main_region_processes_brains_brains_r1()
+		else:
+			self.__enter_sequence_main_region_processes_brains_brains_r1_logging_brains_default()
+		
+	def __react_main_region_processes_brains_brains_r1_solve_brains_r1__entry_default(self):
+		"""Default react sequence for initial entry .
+		"""
+		self.__enter_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_initialize_default()
 		
 	def __react_main_region_processes_orientation__entry_default(self):
 		"""Default react sequence for initial entry .
@@ -1791,15 +3006,6 @@ class Model:
 		"""
 		self.__enter_sequence_main_region_processes_engine_engine_modus_unrestricted_r1_idle_default()
 		
-	def __react_main_region_processes_engine_engine_modus__entry_default(self):
-		"""Default react sequence for shallow history entry .
-		"""
-		#Enter the region with shallow history
-		if self.__history_vector[0] is not self.State.null_state:
-			self.__shallow_enter_sequence_main_region_processes_engine_engine_modus()
-		else:
-			self.__enter_sequence_main_region_processes_engine_engine_modus_unrestricted_default()
-		
 	def __react_main_region_processes_engine_engine_modus_reverse_restricted_backward_interrupted__entry_default(self):
 		"""Default react sequence for initial entry .
 		"""
@@ -1810,10 +3016,15 @@ class Model:
 		"""
 		self.__enter_sequence_main_region_processes_engine_engine_modus_complete_restricted_all_interrupted_stopped_default()
 		
+	def __react_main_region_processes_engine_engine_modus__entry_default(self):
+		"""Default react sequence for initial entry .
+		"""
+		self.__enter_sequence_main_region_processes_engine_engine_modus_unrestricted_default()
+		
 	def __react_main_region_processes_engine__entry_default(self):
 		"""Default react sequence for initial entry .
 		"""
-		self.__enter_sequence_main_region_processes_engine_engine_default()
+		self.__enter_sequence_main_region_processes_engine_manual_default()
 		
 	def __react_main_region_processes_locomotion_move1step_r1__entry_default(self):
 		"""Default react sequence for initial entry .
@@ -1825,6 +3036,51 @@ class Model:
 		"""
 		self.__enter_sequence_main_region_processes_locomotion_wait_step_default()
 		
+	def __react_main_region_processes_logging__entry_default(self):
+		"""Default react sequence for initial entry .
+		"""
+		self.__enter_sequence_main_region_processes_logging_idle_default()
+		
+	def __react_main_region_processes_logging_log_r1__entry_default(self):
+		"""Default react sequence for initial entry .
+		"""
+		self.__enter_sequence_main_region_processes_logging_log_r1_wall_check_default()
+		
+	def __react_main_region_processes_initialize__entry_default(self):
+		"""Default react sequence for initial entry .
+		"""
+		self.__enter_sequence_main_region_processes_initialize_pre_init_default()
+		
+	def __react_main_region_processes_collision_prevention__entry_default(self):
+		"""Default react sequence for initial entry .
+		"""
+		self.__enter_sequence_main_region_processes_collision_prevention_manual_mode_default()
+		
+	def __react_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1__entry_default(self):
+		"""Default react sequence for initial entry .
+		"""
+		self.__enter_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_prevent_side_collisions_default()
+		
+	def __react_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2__entry_default(self):
+		"""Default react sequence for initial entry .
+		"""
+		self.__enter_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_wait_for_frontal_default()
+		
+	def __react_main_region_processes_collision_prevention_collision_state_r1__entry_default(self):
+		"""Default react sequence for initial entry .
+		"""
+		self.__enter_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_default()
+		
+	def __react_main_region_processes_orientation_orientation_turn_turn_done(self):
+		"""The reactions of exit turnDone..
+		"""
+		self.__effect_main_region_processes_orientation_orientation_tr0()
+		
+	def __react_main_region_processes_orientation_re_align_r1_turn_done(self):
+		"""The reactions of exit turnDone..
+		"""
+		self.__effect_main_region_processes_orientation_re_align_tr0()
+		
 	def __react(self, transitioned_before):
 		"""Implementation of __react function.
 		"""
@@ -1835,10 +3091,7 @@ class Model:
 		"""Implementation of __main_region_processes_react function.
 		"""
 		transitioned_after = transitioned_before
-		if not self.__do_completion:
-			#If no transition was taken then execute local reactions
-			if transitioned_after == transitioned_before:
-				transitioned_after = self.__react(transitioned_before)
+		transitioned_after = self.__react(transitioned_before)
 		return transitioned_after
 	
 	
@@ -1846,10 +3099,12 @@ class Model:
 		"""Implementation of __main_region_processes_auto_bot_square_bot_react function.
 		"""
 		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_react(transitioned_before)
 		if not self.__do_completion:
 			if transitioned_after < 0:
 				if self.computer.m_press:
 					self.__exit_sequence_main_region_processes_auto_bot_square_bot()
+					self.raise_mode_manual()
 					self.__enter_sequence_main_region_processes_auto_bot_manual_default()
 					transitioned_after = 0
 		return transitioned_after
@@ -1859,33 +3114,81 @@ class Model:
 		"""Implementation of __main_region_processes_auto_bot_square_bot_r1_forward_react function.
 		"""
 		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_auto_bot_square_bot_react(transitioned_before)
 		if not self.__do_completion:
 			if transitioned_after < 0:
 				if self.end_move:
 					self.__exit_sequence_main_region_processes_auto_bot_square_bot_r1_forward()
-					self.__enter_sequence_main_region_processes_auto_bot_square_bot_r1_turn_default()
-					self.__main_region_processes_auto_bot_square_bot_react(0)
+					self.__enter_sequence_main_region_processes_auto_bot_square_bot_r1_decision_default()
 					transitioned_after = 0
-			#If no transition was taken then execute local reactions
-			if transitioned_after == transitioned_before:
-				transitioned_after = self.__main_region_processes_auto_bot_square_bot_react(transitioned_before)
 		return transitioned_after
 	
 	
-	def __main_region_processes_auto_bot_square_bot_r1_turn_react(self, transitioned_before):
-		"""Implementation of __main_region_processes_auto_bot_square_bot_r1_turn_react function.
+	def __main_region_processes_auto_bot_square_bot_r1_turn_left_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_auto_bot_square_bot_r1_turn_left_react function.
 		"""
 		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_auto_bot_square_bot_react(transitioned_before)
 		if not self.__do_completion:
 			if transitioned_after < 0:
 				if self.orientation_done:
-					self.__exit_sequence_main_region_processes_auto_bot_square_bot_r1_turn()
+					self.__exit_sequence_main_region_processes_auto_bot_square_bot_r1_turn_left()
 					self.__enter_sequence_main_region_processes_auto_bot_square_bot_r1_forward_default()
-					self.__main_region_processes_auto_bot_square_bot_react(0)
 					transitioned_after = 0
-			#If no transition was taken then execute local reactions
-			if transitioned_after == transitioned_before:
-				transitioned_after = self.__main_region_processes_auto_bot_square_bot_react(transitioned_before)
+		return transitioned_after
+	
+	
+	def __main_region_processes_auto_bot_square_bot_r1_decision_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_auto_bot_square_bot_r1_decision_react function.
+		"""
+		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_auto_bot_square_bot_react(transitioned_before)
+		if not self.__do_completion:
+			if transitioned_after < 0:
+				if self.turn_around:
+					self.__exit_sequence_main_region_processes_auto_bot_square_bot_r1_decision()
+					self.__enter_sequence_main_region_processes_auto_bot_square_bot_r1_turn_around_default()
+					transitioned_after = 0
+				elif self.turn_left:
+					self.__exit_sequence_main_region_processes_auto_bot_square_bot_r1_decision()
+					self.__react_main_region_processes_auto_bot_square_bot_r1__choice_0()
+					transitioned_after = 0
+				elif self.turn_right:
+					self.__exit_sequence_main_region_processes_auto_bot_square_bot_r1_decision()
+					self.__enter_sequence_main_region_processes_auto_bot_square_bot_r1_turn_right_default()
+					transitioned_after = 0
+				elif self.go_forward:
+					self.__exit_sequence_main_region_processes_auto_bot_square_bot_r1_decision()
+					self.__enter_sequence_main_region_processes_auto_bot_square_bot_r1_forward_default()
+					transitioned_after = 0
+		return transitioned_after
+	
+	
+	def __main_region_processes_auto_bot_square_bot_r1_turn_right_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_auto_bot_square_bot_r1_turn_right_react function.
+		"""
+		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_auto_bot_square_bot_react(transitioned_before)
+		if not self.__do_completion:
+			if transitioned_after < 0:
+				if self.orientation_done:
+					self.__exit_sequence_main_region_processes_auto_bot_square_bot_r1_turn_right()
+					self.__enter_sequence_main_region_processes_auto_bot_square_bot_r1_forward_default()
+					transitioned_after = 0
+		return transitioned_after
+	
+	
+	def __main_region_processes_auto_bot_square_bot_r1_turn_around_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_auto_bot_square_bot_r1_turn_around_react function.
+		"""
+		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_auto_bot_square_bot_react(transitioned_before)
+		if not self.__do_completion:
+			if transitioned_after < 0:
+				if self.orientation_done:
+					self.__exit_sequence_main_region_processes_auto_bot_square_bot_r1_turn_around()
+					self.__enter_sequence_main_region_processes_auto_bot_square_bot_r1_forward_default()
+					transitioned_after = 0
 		return transitioned_after
 	
 	
@@ -1893,10 +3196,12 @@ class Model:
 		"""Implementation of __main_region_processes_auto_bot_manual_react function.
 		"""
 		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_react(transitioned_before)
 		if not self.__do_completion:
 			if transitioned_after < 0:
 				if self.computer.m_press:
 					self.__exit_sequence_main_region_processes_auto_bot_manual()
+					self.raise_mode_automatic()
 					self.__enter_sequence_main_region_processes_auto_bot_square_bot_default()
 					transitioned_after = 0
 		return transitioned_after
@@ -1906,6 +3211,7 @@ class Model:
 		"""Implementation of __main_region_processes_auto_bot_manual_movement_movement_react function.
 		"""
 		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_auto_bot_manual_react(transitioned_before)
 		if not self.__do_completion:
 			#If no transition was taken then execute local reactions
 			if transitioned_after == transitioned_before:
@@ -1919,11 +3225,224 @@ class Model:
 					self.output.rotation = self.output.rotation - self.user_var.base_rotation
 				if self.computer.x_press:
 					self.raise_orientation_align()
-				if self.output.rotation > 0:
-					self.orientation.turning_direction = 1
-				if self.output.rotation < 0:
-					self.orientation.turning_direction = -1
-				transitioned_after = self.__main_region_processes_auto_bot_manual_react(transitioned_before)
+		return transitioned_after
+	
+	
+	def __main_region_processes_brains_wait_for_start_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_brains_wait_for_start_react function.
+		"""
+		transitioned_after = transitioned_before
+		if not self.__do_completion:
+			if transitioned_after < 1:
+				if self.mode_automatic:
+					self.__exit_sequence_main_region_processes_brains_wait_for_start()
+					self.__react_main_region_processes_brains_brains_r1_shallow()
+					transitioned_after = 1
+		return transitioned_after
+	
+	
+	def __main_region_processes_brains_brains_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_brains_brains_react function.
+		"""
+		transitioned_after = transitioned_before
+		if not self.__do_completion:
+			if transitioned_after < 1:
+				if self.mode_manual:
+					self.__exit_sequence_main_region_processes_brains_brains()
+					self.__enter_sequence_main_region_processes_brains_wait_for_start_default()
+					transitioned_after = 1
+		return transitioned_after
+	
+	
+	def __main_region_processes_brains_brains_r1_logging_brains_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_brains_brains_r1_logging_brains_react function.
+		"""
+		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_brains_brains_react(transitioned_before)
+		return transitioned_after
+	
+	
+	def __main_region_processes_brains_brains_r1_logging_brains_r1_decision_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_brains_brains_r1_logging_brains_r1_decision_react function.
+		"""
+		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_brains_brains_r1_logging_brains_react(transitioned_before)
+		if not self.__do_completion:
+			if transitioned_after < 1:
+				if self.laser_distance.dleft_mean < self.grid.grid_size and self.laser_distance.dfront_mean < self.grid.grid_size and self.laser_distance.dright_mean < self.grid.grid_size:
+					self.__exit_sequence_main_region_processes_brains_brains_r1_logging_brains_r1_decision()
+					self.orientation.direction = (((self.grid.orientation + 2)) % 4)
+					self.raise_turn_around()
+					self.__enter_sequence_main_region_processes_brains_brains_r1_logging_brains_r1_wait_default()
+					transitioned_after = 1
+				elif self.laser_distance.dleft_mean > self.grid.grid_size:
+					self.__exit_sequence_main_region_processes_brains_brains_r1_logging_brains_r1_decision()
+					self.raise_turn_left()
+					self.operation_callback.debug_real(1.23)
+					self.__enter_sequence_main_region_processes_brains_brains_r1_logging_brains_r1_wait_default()
+					transitioned_after = 1
+				elif self.laser_distance.dfront_mean < self.grid.grid_size:
+					self.__exit_sequence_main_region_processes_brains_brains_r1_logging_brains_r1_decision()
+					self.raise_turn_right()
+					self.__enter_sequence_main_region_processes_brains_brains_r1_logging_brains_r1_wait_default()
+					transitioned_after = 1
+				elif self.laser_distance.dfront_mean > self.grid.grid_size:
+					self.__exit_sequence_main_region_processes_brains_brains_r1_logging_brains_r1_decision()
+					self.raise_go_forward()
+					self.__enter_sequence_main_region_processes_brains_brains_r1_logging_brains_r1_wait_default()
+					transitioned_after = 1
+		return transitioned_after
+	
+	
+	def __main_region_processes_brains_brains_r1_logging_brains_r1_wait_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_brains_brains_r1_logging_brains_r1_wait_react function.
+		"""
+		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_brains_brains_r1_logging_brains_react(transitioned_before)
+		if not self.__do_completion:
+			if transitioned_after < 1:
+				if (self.logging_done) and (self.grid.row == 0 and self.grid.column == 0):
+					self.__exit_sequence_main_region_processes_brains_brains_r1_logging_brains()
+					self.raise_solve_maze()
+					self.__enter_sequence_main_region_processes_brains_brains_r1_solve_brains_default()
+					transitioned_after = 1
+				elif self.logging_done:
+					self.__exit_sequence_main_region_processes_brains_brains_r1_logging_brains_r1_wait()
+					self.__enter_sequence_main_region_processes_brains_brains_r1_logging_brains_r1_decision_default()
+					transitioned_after = 1
+			#If no transition was taken then execute local reactions
+			if transitioned_after == transitioned_before:
+				if self.end_move:
+					self.raise_logging_start()
+		return transitioned_after
+	
+	
+	def __main_region_processes_brains_brains_r1_logging_brains_r1_initialize_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_brains_brains_r1_logging_brains_r1_initialize_react function.
+		"""
+		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_brains_brains_r1_logging_brains_react(transitioned_before)
+		if not self.__do_completion:
+			if transitioned_after < 1:
+				if self.logging_done:
+					self.__exit_sequence_main_region_processes_brains_brains_r1_logging_brains_r1_initialize()
+					self.__enter_sequence_main_region_processes_brains_brains_r1_logging_brains_r1_decision_default()
+					transitioned_after = 1
+			#If no transition was taken then execute local reactions
+			if transitioned_after == transitioned_before:
+				if self.end_init:
+					self.raise_logging_start()
+		return transitioned_after
+	
+	
+	def __main_region_processes_brains_brains_r1_solve_brains_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_brains_brains_r1_solve_brains_react function.
+		"""
+		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_brains_brains_react(transitioned_before)
+		return transitioned_after
+	
+	
+	def __main_region_processes_brains_brains_r1_solve_brains_r1_decision_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_brains_brains_r1_solve_brains_r1_decision_react function.
+		"""
+		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_brains_brains_r1_solve_brains_react(transitioned_before)
+		if not self.__do_completion:
+			if transitioned_after < 1:
+				if self.solve.recalculate:
+					self.__exit_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_decision()
+					self.solve.recalculate = False
+					self.__enter_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_initialize_default()
+					transitioned_after = 1
+				elif self.solve.target_row == -1 and self.solve.target_col == -1:
+					self.__exit_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_decision()
+					self.__enter_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_finished_default()
+					transitioned_after = 1
+				elif (self.solve_move) and ((self.solve.target_row + 1) == self.grid.row):
+					self.__exit_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_decision()
+					self.orientation.direction = 0
+					self.__enter_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_turn_and_move_default()
+					transitioned_after = 1
+				elif (self.solve_move) and ((self.solve.target_col - 1) == self.grid.column):
+					self.__exit_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_decision()
+					self.orientation.direction = 1
+					self.__enter_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_turn_and_move_default()
+					transitioned_after = 1
+				elif (self.solve_move) and ((self.solve.target_row - 1) == self.grid.row):
+					self.__exit_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_decision()
+					self.orientation.direction = 2
+					self.__enter_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_turn_and_move_default()
+					transitioned_after = 1
+				elif (self.solve_move) and ((self.solve.target_col + 1) == self.grid.column):
+					self.__exit_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_decision()
+					self.orientation.direction = 3
+					self.__enter_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_turn_and_move_default()
+					transitioned_after = 1
+			#If no transition was taken then execute local reactions
+			if transitioned_after == transitioned_before:
+				if self.__time_events[0]:
+					self.raise_solve_move()
+		return transitioned_after
+	
+	
+	def __main_region_processes_brains_brains_r1_solve_brains_r1_initialize_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_brains_brains_r1_solve_brains_r1_initialize_react function.
+		"""
+		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_brains_brains_r1_solve_brains_react(transitioned_before)
+		if not self.__do_completion:
+			if transitioned_after < 1:
+				if self.solve.calculated:
+					self.__exit_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_initialize()
+					self.solve.calculated = False
+					self.__enter_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_decision_default()
+					transitioned_after = 1
+			#If no transition was taken then execute local reactions
+			if transitioned_after == transitioned_before:
+				if self.end_init:
+					self.operation_callback.compute_path(3, 2)
+		return transitioned_after
+	
+	
+	def __main_region_processes_brains_brains_r1_solve_brains_r1_turn_and_move_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_brains_brains_r1_solve_brains_r1_turn_and_move_react function.
+		"""
+		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_brains_brains_r1_solve_brains_react(transitioned_before)
+		if not self.__do_completion:
+			if transitioned_after < 1:
+				if self.end_move:
+					self.__exit_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_turn_and_move()
+					self.__enter_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_wait__default()
+					transitioned_after = 1
+			#If no transition was taken then execute local reactions
+			if transitioned_after == transitioned_before:
+				if self.orientation_done:
+					self.raise_go_step()
+		return transitioned_after
+	
+	
+	def __main_region_processes_brains_brains_r1_solve_brains_r1_wait__react(self, transitioned_before):
+		"""Implementation of __main_region_processes_brains_brains_r1_solve_brains_r1_wait__react function.
+		"""
+		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_brains_brains_r1_solve_brains_react(transitioned_before)
+		if not self.__do_completion:
+			if transitioned_after < 1:
+				if self.__time_events[1]:
+					self.__exit_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_wait_()
+					self.__time_events[1] = False
+					self.__enter_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_decision_default()
+					transitioned_after = 1
+		return transitioned_after
+	
+	
+	def __main_region_processes_brains_brains_r1_solve_brains_r1_finished_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_brains_brains_r1_solve_brains_r1_finished_react function.
+		"""
+		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_brains_brains_r1_solve_brains_react(transitioned_before)
 		return transitioned_after
 	
 	
@@ -1932,8 +3451,8 @@ class Model:
 		"""
 		transitioned_after = transitioned_before
 		if not self.__do_completion:
-			if transitioned_after < 1:
-				if self.orientation_done:
+			if transitioned_after < 2:
+				if self.mode_manual or self.engine_stop:
 					self.__exit_sequence_main_region_processes_orientation_orientation()
 					self.__enter_sequence_main_region_processes_orientation_idle_default()
 					transitioned_after = 2
@@ -1944,13 +3463,14 @@ class Model:
 		"""Implementation of __main_region_processes_orientation_orientation_turn_stop_and_turn_react function.
 		"""
 		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_orientation_orientation_react(transitioned_before)
 		if self.__do_completion:
-			self.__state_vector[1] = self.State.null_state
-			self.__state_conf_vector_position = 1
+			self.__state_vector[2] = self.State.null_state
+			self.__state_conf_vector_position = 2
 			self.__exit_action_main_region_processes_orientation_orientation_turn_stop_and_turn()
 			self.__entry_action_main_region_processes_orientation_orientation_turn_turn_quick()
-			self.__state_vector[1] = self.State.main_region_processes_orientation_orientation_turn_turn_quick
-			self.__state_conf_vector_position = 1
+			self.__state_vector[2] = self.State.main_region_processes_orientation_orientation_turn_turn_quick
+			self.__state_conf_vector_position = 2
 			self.__state_conf_vector_changed = True
 		return transitioned_after
 	
@@ -1959,12 +3479,13 @@ class Model:
 		"""Implementation of __main_region_processes_orientation_orientation_turn_turn_quick_react function.
 		"""
 		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_orientation_orientation_react(transitioned_before)
 		if not self.__do_completion:
-			if transitioned_after < 1:
+			if transitioned_after < 2:
 				if self.orientation_slowdown:
 					self.__exit_sequence_main_region_processes_orientation_orientation_turn_turn_quick()
 					self.__enter_sequence_main_region_processes_orientation_orientation_turn_turn_medium_default()
-					transitioned_after = 1
+					transitioned_after = 2
 			#If no transition was taken then execute local reactions
 			if transitioned_after == transitioned_before:
 				if (self.orientation.target - self.imu.yaw) > -15 and (self.orientation.target - self.imu.yaw) < 15:
@@ -1976,32 +3497,16 @@ class Model:
 		"""Implementation of __main_region_processes_orientation_orientation_turn_turn_medium_react function.
 		"""
 		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_orientation_orientation_react(transitioned_before)
 		if not self.__do_completion:
-			if transitioned_after < 1:
-				if self.orientation_slowdown:
+			if transitioned_after < 2:
+				if self.orientation_ready:
 					self.__exit_sequence_main_region_processes_orientation_orientation_turn_turn_medium()
-					self.__enter_sequence_main_region_processes_orientation_orientation_turn_turn_slow_default()
-					transitioned_after = 1
+					self.__enter_sequence_main_region_processes_orientation_orientation_turn_turn_ready_default()
+					transitioned_after = 2
 			#If no transition was taken then execute local reactions
 			if transitioned_after == transitioned_before:
 				if (self.orientation.target - self.imu.yaw) > -5 and (self.orientation.target - self.imu.yaw) < 5:
-					self.raise_orientation_slowdown()
-		return transitioned_after
-	
-	
-	def __main_region_processes_orientation_orientation_turn_turn_slow_react(self, transitioned_before):
-		"""Implementation of __main_region_processes_orientation_orientation_turn_turn_slow_react function.
-		"""
-		transitioned_after = transitioned_before
-		if not self.__do_completion:
-			if transitioned_after < 1:
-				if self.orientation_ready:
-					self.__exit_sequence_main_region_processes_orientation_orientation_turn_turn_slow()
-					self.__enter_sequence_main_region_processes_orientation_orientation_turn_turn_ready_default()
-					transitioned_after = 1
-			#If no transition was taken then execute local reactions
-			if transitioned_after == transitioned_before:
-				if (self.orientation.target - self.imu.yaw) > -2 and (self.orientation.target - self.imu.yaw) < 2:
 					self.raise_orientation_ready()
 		return transitioned_after
 	
@@ -2010,84 +3515,15 @@ class Model:
 		"""Implementation of __main_region_processes_orientation_orientation_turn_turn_ready_react function.
 		"""
 		transitioned_after = transitioned_before
-		if not self.__do_completion:
-			if transitioned_after < 1:
-				if self.__time_events[0]:
-					self.__exit_sequence_main_region_processes_orientation_orientation()
-					self.raise_orientation_done()
-					self.__time_events[0] = False
-					self.__enter_sequence_main_region_processes_orientation_idle_default()
-					transitioned_after = 1
-		return transitioned_after
-	
-	
-	def __main_region_processes_orientation_orientation_re_align_align_react(self, transitioned_before):
-		"""Implementation of __main_region_processes_orientation_orientation_re_align_align_react function.
-		"""
-		transitioned_after = transitioned_before
-		if self.__do_completion:
-			self.__state_vector[2] = self.State.null_state
-			self.__state_conf_vector_position = 2
-			self.__entry_action_main_region_processes_orientation_orientation_re_align_turn_medium()
-			self.__state_vector[2] = self.State.main_region_processes_orientation_orientation_re_align_turn_medium
-			self.__state_conf_vector_position = 2
-			self.__state_conf_vector_changed = True
-			self.__main_region_processes_orientation_orientation_react(1)
-		else:
-			#If no transition was taken then execute local reactions
-			if transitioned_after == transitioned_before:
-				transitioned_after = self.__main_region_processes_orientation_orientation_react(transitioned_before)
-		return transitioned_after
-	
-	
-	def __main_region_processes_orientation_orientation_re_align_turn_medium_react(self, transitioned_before):
-		"""Implementation of __main_region_processes_orientation_orientation_re_align_turn_medium_react function.
-		"""
-		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_orientation_orientation_react(transitioned_before)
 		if not self.__do_completion:
 			if transitioned_after < 2:
-				if self.orientation_slowdown:
-					self.__exit_sequence_main_region_processes_orientation_orientation_re_align_turn_medium()
-					self.__enter_sequence_main_region_processes_orientation_orientation_re_align_turn_slow_default()
-					self.__main_region_processes_orientation_orientation_react(1)
-					transitioned_after = 2
-			#If no transition was taken then execute local reactions
-			if transitioned_after == transitioned_before:
-				if (self.orientation.target - self.imu.yaw) > -5 and (self.orientation.target - self.imu.yaw) < 5:
-					self.raise_orientation_slowdown()
-				transitioned_after = self.__main_region_processes_orientation_orientation_react(transitioned_before)
-		return transitioned_after
-	
-	
-	def __main_region_processes_orientation_orientation_re_align_turn_slow_react(self, transitioned_before):
-		"""Implementation of __main_region_processes_orientation_orientation_re_align_turn_slow_react function.
-		"""
-		transitioned_after = transitioned_before
-		if not self.__do_completion:
-			if transitioned_after < 2:
-				if self.orientation_ready:
-					self.__exit_sequence_main_region_processes_orientation_orientation_re_align_turn_slow()
-					self.__enter_sequence_main_region_processes_orientation_orientation_re_align_align_ready_default()
-					self.__main_region_processes_orientation_orientation_react(1)
-					transitioned_after = 2
-			#If no transition was taken then execute local reactions
-			if transitioned_after == transitioned_before:
-				if (self.orientation.target - self.imu.yaw) > -2 and (self.orientation.target - self.imu.yaw) < 2:
-					self.raise_orientation_ready()
-				transitioned_after = self.__main_region_processes_orientation_orientation_react(transitioned_before)
-		return transitioned_after
-	
-	
-	def __main_region_processes_orientation_orientation_re_align_align_ready_react(self, transitioned_before):
-		"""Implementation of __main_region_processes_orientation_orientation_re_align_align_ready_react function.
-		"""
-		transitioned_after = transitioned_before
-		if not self.__do_completion:
-			#If no transition was taken then execute local reactions
-			if transitioned_after == transitioned_before:
-				if self.__time_events[1]:
+				if self.__time_events[2]:
+					self.__exit_sequence_main_region_processes_orientation_orientation_turn_turn_ready()
 					self.raise_orientation_done()
-				transitioned_after = self.__main_region_processes_orientation_orientation_react(transitioned_before)
+					self.__time_events[2] = False
+					self.__react_main_region_processes_orientation_orientation_turn_turn_done()
+					transitioned_after = 2
 		return transitioned_after
 	
 	
@@ -2096,15 +3532,95 @@ class Model:
 		"""
 		transitioned_after = transitioned_before
 		if not self.__do_completion:
-			if transitioned_after < 1:
+			if transitioned_after < 2:
 				if self.orientation_turn:
 					self.__exit_sequence_main_region_processes_orientation_idle()
 					self.__enter_sequence_main_region_processes_orientation_orientation_turn_stop_and_turn_default()
-					transitioned_after = 1
+					transitioned_after = 2
 				elif self.orientation_align:
 					self.__exit_sequence_main_region_processes_orientation_idle()
-					self.__enter_sequence_main_region_processes_orientation_orientation_re_align_align_default()
-					transitioned_after = 1
+					self.__enter_sequence_main_region_processes_orientation_re_align_r1_align_default()
+					transitioned_after = 2
+		return transitioned_after
+	
+	
+	def __main_region_processes_orientation_re_align_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_orientation_re_align_react function.
+		"""
+		transitioned_after = transitioned_before
+		if not self.__do_completion:
+			if transitioned_after < 2:
+				if self.mode_manual or self.engine_stop:
+					self.__exit_sequence_main_region_processes_orientation_re_align()
+					self.__enter_sequence_main_region_processes_orientation_idle_default()
+					transitioned_after = 2
+		return transitioned_after
+	
+	
+	def __main_region_processes_orientation_re_align_r1_align_ready_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_orientation_re_align_r1_align_ready_react function.
+		"""
+		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_orientation_re_align_react(transitioned_before)
+		if not self.__do_completion:
+			if transitioned_after < 2:
+				if self.__time_events[3]:
+					self.__exit_sequence_main_region_processes_orientation_re_align_r1_align_ready()
+					self.raise_orientation_done()
+					self.__time_events[3] = False
+					self.__react_main_region_processes_orientation_re_align_r1_turn_done()
+					transitioned_after = 2
+		return transitioned_after
+	
+	
+	def __main_region_processes_orientation_re_align_r1_align_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_orientation_re_align_r1_align_react function.
+		"""
+		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_orientation_re_align_react(transitioned_before)
+		if self.__do_completion:
+			self.__state_vector[2] = self.State.null_state
+			self.__state_conf_vector_position = 2
+			self.__entry_action_main_region_processes_orientation_re_align_r1_turn_medium()
+			self.__state_vector[2] = self.State.main_region_processes_orientation_re_align_r1turn_medium
+			self.__state_conf_vector_position = 2
+			self.__state_conf_vector_changed = True
+		return transitioned_after
+	
+	
+	def __main_region_processes_orientation_re_align_r1_turn_slow_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_orientation_re_align_r1_turn_slow_react function.
+		"""
+		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_orientation_re_align_react(transitioned_before)
+		if not self.__do_completion:
+			if transitioned_after < 2:
+				if self.orientation_ready:
+					self.__exit_sequence_main_region_processes_orientation_re_align_r1_turn_slow()
+					self.__enter_sequence_main_region_processes_orientation_re_align_r1_align_ready_default()
+					transitioned_after = 2
+			#If no transition was taken then execute local reactions
+			if transitioned_after == transitioned_before:
+				if (self.orientation.target - self.imu.yaw) > -2 and (self.orientation.target - self.imu.yaw) < 2:
+					self.raise_orientation_ready()
+		return transitioned_after
+	
+	
+	def __main_region_processes_orientation_re_align_r1_turn_medium_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_orientation_re_align_r1_turn_medium_react function.
+		"""
+		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_orientation_re_align_react(transitioned_before)
+		if not self.__do_completion:
+			if transitioned_after < 2:
+				if self.orientation_slowdown:
+					self.__exit_sequence_main_region_processes_orientation_re_align_r1_turn_medium()
+					self.__enter_sequence_main_region_processes_orientation_re_align_r1_turn_slow_default()
+					transitioned_after = 2
+			#If no transition was taken then execute local reactions
+			if transitioned_after == transitioned_before:
+				if (self.orientation.target - self.imu.yaw) > -5 and (self.orientation.target - self.imu.yaw) < 5:
+					self.raise_orientation_slowdown()
 		return transitioned_after
 	
 	
@@ -2112,6 +3628,12 @@ class Model:
 		"""Implementation of __main_region_processes_engine_engine_react function.
 		"""
 		transitioned_after = transitioned_before
+		if not self.__do_completion:
+			if transitioned_after < 3:
+				if self.mode_manual:
+					self.__exit_sequence_main_region_processes_engine_engine()
+					self.__enter_sequence_main_region_processes_engine_manual_default()
+					transitioned_after = 3
 		return transitioned_after
 	
 	
@@ -2119,16 +3641,13 @@ class Model:
 		"""Implementation of __main_region_processes_engine_engine_modus_forward_restricted_react function.
 		"""
 		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_engine_engine_react(transitioned_before)
 		if not self.__do_completion:
 			if transitioned_after < 3:
 				if self.engine_unrestricted:
 					self.__exit_sequence_main_region_processes_engine_engine_modus_forward_restricted()
 					self.__enter_sequence_main_region_processes_engine_engine_modus_unrestricted_default()
-					self.__main_region_processes_engine_engine_react(3)
 					transitioned_after = 3
-			#If no transition was taken then execute local reactions
-			if transitioned_after == transitioned_before:
-				transitioned_after = self.__main_region_processes_engine_engine_react(transitioned_before)
 		return transitioned_after
 	
 	
@@ -2136,16 +3655,13 @@ class Model:
 		"""Implementation of __main_region_processes_engine_engine_modus_forward_restricted_forward_interrupted_stopped_react function.
 		"""
 		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_engine_engine_modus_forward_restricted_react(transitioned_before)
 		if not self.__do_completion:
 			if transitioned_after < 3:
 				if self.engine_reverse:
 					self.__exit_sequence_main_region_processes_engine_engine_modus_forward_restricted_forward_interrupted_stopped()
 					self.__enter_sequence_main_region_processes_engine_engine_modus_forward_restricted_forward_interrupted_back_up_default()
-					self.__main_region_processes_engine_engine_modus_forward_restricted_react(3)
 					transitioned_after = 3
-			#If no transition was taken then execute local reactions
-			if transitioned_after == transitioned_before:
-				transitioned_after = self.__main_region_processes_engine_engine_modus_forward_restricted_react(transitioned_before)
 		return transitioned_after
 	
 	
@@ -2153,16 +3669,13 @@ class Model:
 		"""Implementation of __main_region_processes_engine_engine_modus_forward_restricted_forward_interrupted_back_up_react function.
 		"""
 		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_engine_engine_modus_forward_restricted_react(transitioned_before)
 		if not self.__do_completion:
 			if transitioned_after < 3:
 				if self.engine_stop:
 					self.__exit_sequence_main_region_processes_engine_engine_modus_forward_restricted_forward_interrupted_back_up()
 					self.__enter_sequence_main_region_processes_engine_engine_modus_forward_restricted_forward_interrupted_stopped_default()
-					self.__main_region_processes_engine_engine_modus_forward_restricted_react(3)
 					transitioned_after = 3
-			#If no transition was taken then execute local reactions
-			if transitioned_after == transitioned_before:
-				transitioned_after = self.__main_region_processes_engine_engine_modus_forward_restricted_react(transitioned_before)
 		return transitioned_after
 	
 	
@@ -2170,26 +3683,21 @@ class Model:
 		"""Implementation of __main_region_processes_engine_engine_modus_unrestricted_react function.
 		"""
 		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_engine_engine_react(transitioned_before)
 		if not self.__do_completion:
 			if transitioned_after < 3:
 				if self.engine_restrict_f:
 					self.__exit_sequence_main_region_processes_engine_engine_modus_unrestricted()
 					self.__enter_sequence_main_region_processes_engine_engine_modus_forward_restricted_default()
-					self.__main_region_processes_engine_engine_react(3)
 					transitioned_after = 3
 				elif self.engine_restrict_r:
 					self.__exit_sequence_main_region_processes_engine_engine_modus_unrestricted()
 					self.__enter_sequence_main_region_processes_engine_engine_modus_reverse_restricted_default()
-					self.__main_region_processes_engine_engine_react(3)
 					transitioned_after = 3
 				elif self.engine_restrict_all:
 					self.__exit_sequence_main_region_processes_engine_engine_modus_unrestricted()
 					self.__enter_sequence_main_region_processes_engine_engine_modus_complete_restricted_default()
-					self.__main_region_processes_engine_engine_react(3)
 					transitioned_after = 3
-			#If no transition was taken then execute local reactions
-			if transitioned_after == transitioned_before:
-				transitioned_after = self.__main_region_processes_engine_engine_react(transitioned_before)
 		return transitioned_after
 	
 	
@@ -2197,21 +3705,17 @@ class Model:
 		"""Implementation of __main_region_processes_engine_engine_modus_unrestricted_r1_idle_react function.
 		"""
 		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_engine_engine_modus_unrestricted_react(transitioned_before)
 		if not self.__do_completion:
 			if transitioned_after < 3:
 				if self.engine_start:
 					self.__exit_sequence_main_region_processes_engine_engine_modus_unrestricted_r1_idle()
 					self.__enter_sequence_main_region_processes_engine_engine_modus_unrestricted_r1_forward_default()
-					self.__main_region_processes_engine_engine_modus_unrestricted_react(3)
 					transitioned_after = 3
 				elif self.engine_reverse:
 					self.__exit_sequence_main_region_processes_engine_engine_modus_unrestricted_r1_idle()
 					self.__enter_sequence_main_region_processes_engine_engine_modus_unrestricted_r1_back_up_default()
-					self.__main_region_processes_engine_engine_modus_unrestricted_react(3)
 					transitioned_after = 3
-			#If no transition was taken then execute local reactions
-			if transitioned_after == transitioned_before:
-				transitioned_after = self.__main_region_processes_engine_engine_modus_unrestricted_react(transitioned_before)
 		return transitioned_after
 	
 	
@@ -2219,17 +3723,13 @@ class Model:
 		"""Implementation of __main_region_processes_engine_engine_modus_unrestricted_r1_stop_react function.
 		"""
 		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_engine_engine_modus_unrestricted_react(transitioned_before)
 		if self.__do_completion:
 			self.__state_vector[3] = self.State.null_state
 			self.__state_conf_vector_position = 3
 			self.__state_vector[3] = self.State.main_region_processes_engine_engine_modus_unrestricted_r1idle
 			self.__state_conf_vector_position = 3
 			self.__state_conf_vector_changed = True
-			self.__main_region_processes_engine_engine_modus_unrestricted_react(3)
-		else:
-			#If no transition was taken then execute local reactions
-			if transitioned_after == transitioned_before:
-				transitioned_after = self.__main_region_processes_engine_engine_modus_unrestricted_react(transitioned_before)
 		return transitioned_after
 	
 	
@@ -2237,16 +3737,18 @@ class Model:
 		"""Implementation of __main_region_processes_engine_engine_modus_unrestricted_r1_forward_react function.
 		"""
 		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_engine_engine_modus_unrestricted_react(transitioned_before)
 		if not self.__do_completion:
 			if transitioned_after < 3:
 				if self.engine_stop:
 					self.__exit_sequence_main_region_processes_engine_engine_modus_unrestricted_r1_forward()
 					self.__enter_sequence_main_region_processes_engine_engine_modus_unrestricted_r1_stop_default()
-					self.__main_region_processes_engine_engine_modus_unrestricted_react(3)
 					transitioned_after = 3
 			#If no transition was taken then execute local reactions
 			if transitioned_after == transitioned_before:
-				transitioned_after = self.__main_region_processes_engine_engine_modus_unrestricted_react(transitioned_before)
+				if self.engine_slow_down:
+					self.output.speed = (self.user_var.base_speed / 2)
+					self.engine.slow_mode = True
 		return transitioned_after
 	
 	
@@ -2254,16 +3756,13 @@ class Model:
 		"""Implementation of __main_region_processes_engine_engine_modus_unrestricted_r1_back_up_react function.
 		"""
 		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_engine_engine_modus_unrestricted_react(transitioned_before)
 		if not self.__do_completion:
 			if transitioned_after < 3:
 				if self.engine_stop:
 					self.__exit_sequence_main_region_processes_engine_engine_modus_unrestricted_r1_back_up()
 					self.__enter_sequence_main_region_processes_engine_engine_modus_unrestricted_r1_stop_default()
-					self.__main_region_processes_engine_engine_modus_unrestricted_react(3)
 					transitioned_after = 3
-			#If no transition was taken then execute local reactions
-			if transitioned_after == transitioned_before:
-				transitioned_after = self.__main_region_processes_engine_engine_modus_unrestricted_react(transitioned_before)
 		return transitioned_after
 	
 	
@@ -2271,16 +3770,13 @@ class Model:
 		"""Implementation of __main_region_processes_engine_engine_modus_reverse_restricted_react function.
 		"""
 		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_engine_engine_react(transitioned_before)
 		if not self.__do_completion:
 			if transitioned_after < 3:
 				if self.engine_unrestricted:
 					self.__exit_sequence_main_region_processes_engine_engine_modus_reverse_restricted()
 					self.__enter_sequence_main_region_processes_engine_engine_modus_unrestricted_default()
-					self.__main_region_processes_engine_engine_react(3)
 					transitioned_after = 3
-			#If no transition was taken then execute local reactions
-			if transitioned_after == transitioned_before:
-				transitioned_after = self.__main_region_processes_engine_engine_react(transitioned_before)
 		return transitioned_after
 	
 	
@@ -2288,16 +3784,13 @@ class Model:
 		"""Implementation of __main_region_processes_engine_engine_modus_reverse_restricted_backward_interrupted_stopped_react function.
 		"""
 		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_engine_engine_modus_reverse_restricted_react(transitioned_before)
 		if not self.__do_completion:
 			if transitioned_after < 3:
 				if self.engine_start:
 					self.__exit_sequence_main_region_processes_engine_engine_modus_reverse_restricted_backward_interrupted_stopped()
 					self.__enter_sequence_main_region_processes_engine_engine_modus_reverse_restricted_backward_interrupted_forward_default()
-					self.__main_region_processes_engine_engine_modus_reverse_restricted_react(3)
 					transitioned_after = 3
-			#If no transition was taken then execute local reactions
-			if transitioned_after == transitioned_before:
-				transitioned_after = self.__main_region_processes_engine_engine_modus_reverse_restricted_react(transitioned_before)
 		return transitioned_after
 	
 	
@@ -2305,16 +3798,13 @@ class Model:
 		"""Implementation of __main_region_processes_engine_engine_modus_reverse_restricted_backward_interrupted_forward_react function.
 		"""
 		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_engine_engine_modus_reverse_restricted_react(transitioned_before)
 		if not self.__do_completion:
 			if transitioned_after < 3:
 				if self.engine_stop:
 					self.__exit_sequence_main_region_processes_engine_engine_modus_reverse_restricted_backward_interrupted_forward()
 					self.__enter_sequence_main_region_processes_engine_engine_modus_reverse_restricted_backward_interrupted_stopped_default()
-					self.__main_region_processes_engine_engine_modus_reverse_restricted_react(3)
 					transitioned_after = 3
-			#If no transition was taken then execute local reactions
-			if transitioned_after == transitioned_before:
-				transitioned_after = self.__main_region_processes_engine_engine_modus_reverse_restricted_react(transitioned_before)
 		return transitioned_after
 	
 	
@@ -2322,16 +3812,13 @@ class Model:
 		"""Implementation of __main_region_processes_engine_engine_modus_complete_restricted_react function.
 		"""
 		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_engine_engine_react(transitioned_before)
 		if not self.__do_completion:
 			if transitioned_after < 3:
 				if self.engine_unrestricted:
 					self.__exit_sequence_main_region_processes_engine_engine_modus_complete_restricted()
 					self.__enter_sequence_main_region_processes_engine_engine_modus_unrestricted_default()
-					self.__main_region_processes_engine_engine_react(3)
 					transitioned_after = 3
-			#If no transition was taken then execute local reactions
-			if transitioned_after == transitioned_before:
-				transitioned_after = self.__main_region_processes_engine_engine_react(transitioned_before)
 		return transitioned_after
 	
 	
@@ -2339,10 +3826,20 @@ class Model:
 		"""Implementation of __main_region_processes_engine_engine_modus_complete_restricted_all_interrupted_stopped_react function.
 		"""
 		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_engine_engine_modus_complete_restricted_react(transitioned_before)
+		return transitioned_after
+	
+	
+	def __main_region_processes_engine_manual_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_engine_manual_react function.
+		"""
+		transitioned_after = transitioned_before
 		if not self.__do_completion:
-			#If no transition was taken then execute local reactions
-			if transitioned_after == transitioned_before:
-				transitioned_after = self.__main_region_processes_engine_engine_modus_complete_restricted_react(transitioned_before)
+			if transitioned_after < 3:
+				if self.mode_automatic:
+					self.__exit_sequence_main_region_processes_engine_manual()
+					self.__enter_sequence_main_region_processes_engine_engine_default()
+					transitioned_after = 3
 		return transitioned_after
 	
 	
@@ -2355,11 +3852,11 @@ class Model:
 				if self.end_move:
 					self.__exit_sequence_main_region_processes_locomotion_move1step()
 					self.__enter_sequence_main_region_processes_locomotion_wait_step_default()
-					self.__main_region_processes_react(0)
 					transitioned_after = 4
-			#If no transition was taken then execute local reactions
-			if transitioned_after == transitioned_before:
-				transitioned_after = self.__main_region_processes_react(transitioned_before)
+				elif self.mode_manual:
+					self.__exit_sequence_main_region_processes_locomotion_move1step()
+					self.__enter_sequence_main_region_processes_locomotion_wait_step_default()
+					transitioned_after = 4
 		return transitioned_after
 	
 	
@@ -2367,109 +3864,85 @@ class Model:
 		"""Implementation of __main_region_processes_locomotion_move1step_r1_move_react function.
 		"""
 		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_locomotion_move1step_react(transitioned_before)
 		if not self.__do_completion:
 			if transitioned_after < 4:
 				if self.grid.orientation == 0:
 					self.__exit_sequence_main_region_processes_locomotion_move1step_r1_move()
-					self.__entry_action_main_region_processes_locomotion_move1step_r1_move_x()
-					self.__enter_sequence_main_region_processes_locomotion_move1step_r1_move_x_r1_move_east_default()
-					self.__main_region_processes_locomotion_move1step_react(4)
+					self.__enter_sequence_main_region_processes_locomotion_move1step_r1_move_north_default()
 					transitioned_after = 4
 				elif self.grid.orientation == 3:
 					self.__exit_sequence_main_region_processes_locomotion_move1step_r1_move()
-					self.__entry_action_main_region_processes_locomotion_move1step_r1_move_y()
-					self.__enter_sequence_main_region_processes_locomotion_move1step_r1_move_y_r1_move_north_default()
-					self.__main_region_processes_locomotion_move1step_react(4)
+					self.__enter_sequence_main_region_processes_locomotion_move1step_r1_move_west_default()
 					transitioned_after = 4
 				elif self.grid.orientation == 2:
 					self.__exit_sequence_main_region_processes_locomotion_move1step_r1_move()
-					self.__entry_action_main_region_processes_locomotion_move1step_r1_move_x()
-					self.__enter_sequence_main_region_processes_locomotion_move1step_r1_move_x_r1_move_west_default()
-					self.__main_region_processes_locomotion_move1step_react(4)
+					self.__enter_sequence_main_region_processes_locomotion_move1step_r1_move_south_default()
 					transitioned_after = 4
 				elif self.grid.orientation == 1:
 					self.__exit_sequence_main_region_processes_locomotion_move1step_r1_move()
-					self.__entry_action_main_region_processes_locomotion_move1step_r1_move_y()
-					self.__enter_sequence_main_region_processes_locomotion_move1step_r1_move_y_r1_move_south_default()
-					self.__main_region_processes_locomotion_move1step_react(4)
+					self.__enter_sequence_main_region_processes_locomotion_move1step_r1_move_east_default()
 					transitioned_after = 4
-			#If no transition was taken then execute local reactions
-			if transitioned_after == transitioned_before:
-				transitioned_after = self.__main_region_processes_locomotion_move1step_react(transitioned_before)
 		return transitioned_after
 	
 	
-	def __main_region_processes_locomotion_move1step_r1_move_x_react(self, transitioned_before):
-		"""Implementation of __main_region_processes_locomotion_move1step_r1_move_x_react function.
+	def __main_region_processes_locomotion_move1step_r1_move_north_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_locomotion_move1step_r1_move_north_react function.
 		"""
 		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_locomotion_move1step_react(transitioned_before)
 		if not self.__do_completion:
 			#If no transition was taken then execute local reactions
 			if transitioned_after == transitioned_before:
-				transitioned_after = self.__main_region_processes_locomotion_move1step_react(transitioned_before)
-		return transitioned_after
-	
-	
-	def __main_region_processes_locomotion_move1step_r1_move_x_r1_move_west_react(self, transitioned_before):
-		"""Implementation of __main_region_processes_locomotion_move1step_r1_move_x_r1_move_west_react function.
-		"""
-		transitioned_after = transitioned_before
-		if not self.__do_completion:
-			#If no transition was taken then execute local reactions
-			if transitioned_after == transitioned_before:
-				if self.odom.x <= self.move.target_pos:
-					self.raise_end_move()
-				transitioned_after = self.__main_region_processes_locomotion_move1step_r1_move_x_react(transitioned_before)
-		return transitioned_after
-	
-	
-	def __main_region_processes_locomotion_move1step_r1_move_x_r1_move_east_react(self, transitioned_before):
-		"""Implementation of __main_region_processes_locomotion_move1step_r1_move_x_r1_move_east_react function.
-		"""
-		transitioned_after = transitioned_before
-		if not self.__do_completion:
-			#If no transition was taken then execute local reactions
-			if transitioned_after == transitioned_before:
-				if self.odom.x >= self.move.target_pos:
-					self.raise_end_move()
-				transitioned_after = self.__main_region_processes_locomotion_move1step_r1_move_x_react(transitioned_before)
-		return transitioned_after
-	
-	
-	def __main_region_processes_locomotion_move1step_r1_move_y_react(self, transitioned_before):
-		"""Implementation of __main_region_processes_locomotion_move1step_r1_move_y_react function.
-		"""
-		transitioned_after = transitioned_before
-		if not self.__do_completion:
-			#If no transition was taken then execute local reactions
-			if transitioned_after == transitioned_before:
-				transitioned_after = self.__main_region_processes_locomotion_move1step_react(transitioned_before)
-		return transitioned_after
-	
-	
-	def __main_region_processes_locomotion_move1step_r1_move_y_r1_move_north_react(self, transitioned_before):
-		"""Implementation of __main_region_processes_locomotion_move1step_r1_move_y_r1_move_north_react function.
-		"""
-		transitioned_after = transitioned_before
-		if not self.__do_completion:
-			#If no transition was taken then execute local reactions
-			if transitioned_after == transitioned_before:
+				if self.odom.y >= ((self.move.target_pos - 0.24)) and not self.engine.slow_mode:
+					self.raise_engine_slow_down()
 				if self.odom.y >= self.move.target_pos:
 					self.raise_end_move()
-				transitioned_after = self.__main_region_processes_locomotion_move1step_r1_move_y_react(transitioned_before)
 		return transitioned_after
 	
 	
-	def __main_region_processes_locomotion_move1step_r1_move_y_r1_move_south_react(self, transitioned_before):
-		"""Implementation of __main_region_processes_locomotion_move1step_r1_move_y_r1_move_south_react function.
+	def __main_region_processes_locomotion_move1step_r1_move_south_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_locomotion_move1step_r1_move_south_react function.
 		"""
 		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_locomotion_move1step_react(transitioned_before)
 		if not self.__do_completion:
 			#If no transition was taken then execute local reactions
 			if transitioned_after == transitioned_before:
+				if self.odom.y <= ((self.move.target_pos + 0.24)) and not self.engine.slow_mode:
+					self.raise_engine_slow_down()
 				if self.odom.y <= self.move.target_pos:
 					self.raise_end_move()
-				transitioned_after = self.__main_region_processes_locomotion_move1step_r1_move_y_react(transitioned_before)
+		return transitioned_after
+	
+	
+	def __main_region_processes_locomotion_move1step_r1_move_east_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_locomotion_move1step_r1_move_east_react function.
+		"""
+		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_locomotion_move1step_react(transitioned_before)
+		if not self.__do_completion:
+			#If no transition was taken then execute local reactions
+			if transitioned_after == transitioned_before:
+				if self.odom.x >= ((self.move.target_pos - 0.24)) and not self.engine.slow_mode:
+					self.raise_engine_slow_down()
+				if self.odom.x >= self.move.target_pos:
+					self.raise_end_move()
+		return transitioned_after
+	
+	
+	def __main_region_processes_locomotion_move1step_r1_move_west_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_locomotion_move1step_r1_move_west_react function.
+		"""
+		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_locomotion_move1step_react(transitioned_before)
+		if not self.__do_completion:
+			#If no transition was taken then execute local reactions
+			if transitioned_after == transitioned_before:
+				if self.odom.x <= ((self.move.target_pos + 0.24)) and not self.engine.slow_mode:
+					self.raise_engine_slow_down()
+				if self.odom.x <= self.move.target_pos:
+					self.raise_end_move()
 		return transitioned_after
 	
 	
@@ -2482,11 +3955,312 @@ class Model:
 				if self.go_step:
 					self.__exit_sequence_main_region_processes_locomotion_wait_step()
 					self.__enter_sequence_main_region_processes_locomotion_move1step_default()
-					self.__main_region_processes_react(0)
 					transitioned_after = 4
+		return transitioned_after
+	
+	
+	def __main_region_processes_logging_idle_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_logging_idle_react function.
+		"""
+		transitioned_after = transitioned_before
+		if not self.__do_completion:
+			if transitioned_after < 5:
+				if self.logging_start:
+					self.__exit_sequence_main_region_processes_logging_idle()
+					self.__enter_sequence_main_region_processes_logging_log_default()
+					transitioned_after = 5
+		return transitioned_after
+	
+	
+	def __main_region_processes_logging_log_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_logging_log_react function.
+		"""
+		transitioned_after = transitioned_before
+		if not self.__do_completion:
+			if transitioned_after < 5:
+				if self.mode_manual:
+					self.__exit_sequence_main_region_processes_logging_log()
+					self.__enter_sequence_main_region_processes_logging_idle_default()
+					transitioned_after = 5
+		return transitioned_after
+	
+	
+	def __main_region_processes_logging_log_r1_wall_check_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_logging_log_r1_wall_check_react function.
+		"""
+		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_logging_log_react(transitioned_before)
+		if self.__do_completion:
+			self.__state_vector[5] = self.State.null_state
+			self.__state_conf_vector_position = 5
+			self.__entry_action_main_region_processes_logging_log_r1_update()
+			self.__state_vector[5] = self.State.main_region_processes_logging_log_r1update
+			self.__state_conf_vector_position = 5
+			self.__state_conf_vector_changed = True
+		return transitioned_after
+	
+	
+	def __main_region_processes_logging_log_r1_update_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_logging_log_r1_update_react function.
+		"""
+		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_logging_log_react(transitioned_before)
+		if not self.__do_completion:
+			if transitioned_after < 5:
+				if self.__time_events[4]:
+					self.__exit_sequence_main_region_processes_logging_log_r1_update()
+					self.__time_events[4] = False
+					self.__enter_sequence_main_region_processes_logging_log_r1_reset_default()
+					transitioned_after = 5
+		return transitioned_after
+	
+	
+	def __main_region_processes_logging_log_r1_reset_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_logging_log_r1_reset_react function.
+		"""
+		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_logging_log_react(transitioned_before)
+		if self.__do_completion:
+			self.__state_vector[5] = self.State.null_state
+			self.__state_conf_vector_position = 5
+			self.__exit_action_main_region_processes_logging_log_r1_reset()
+			self.__effect_main_region_processes_logging_log_tr0()
+		return transitioned_after
+	
+	
+	def __main_region_processes_initialize_init_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_initialize_init_react function.
+		"""
+		transitioned_after = transitioned_before
+		if not self.__do_completion:
+			if transitioned_after < 6:
+				if self.end_init:
+					self.__exit_sequence_main_region_processes_initialize_init()
+					self.__enter_sequence_main_region_processes_initialize_init_done_default()
+					transitioned_after = 6
 			#If no transition was taken then execute local reactions
 			if transitioned_after == transitioned_before:
-				transitioned_after = self.__main_region_processes_react(transitioned_before)
+				if self.__time_events[5]:
+					self.start_pos.set_zero = True
+				if self.__time_events[6]:
+					self.raise_end_init()
+		return transitioned_after
+	
+	
+	def __main_region_processes_initialize_init_done_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_initialize_init_done_react function.
+		"""
+		transitioned_after = transitioned_before
+		if not self.__do_completion:
+			if transitioned_after < 6:
+				if self.start_init:
+					self.__exit_sequence_main_region_processes_initialize_init_done()
+					self.__enter_sequence_main_region_processes_initialize_init_wait_default()
+					transitioned_after = 6
+		return transitioned_after
+	
+	
+	def __main_region_processes_initialize_pre_init_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_initialize_pre_init_react function.
+		"""
+		transitioned_after = transitioned_before
+		if not self.__do_completion:
+			if transitioned_after < 6:
+				if self.start_init:
+					self.__exit_sequence_main_region_processes_initialize_pre_init()
+					self.__enter_sequence_main_region_processes_initialize_init_default()
+					transitioned_after = 6
+		return transitioned_after
+	
+	
+	def __main_region_processes_initialize_init_wait_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_initialize_init_wait_react function.
+		"""
+		transitioned_after = transitioned_before
+		if not self.__do_completion:
+			if transitioned_after < 6:
+				if self.end_init or self.mode_manual:
+					self.__exit_sequence_main_region_processes_initialize_init_wait()
+					self.__enter_sequence_main_region_processes_initialize_init_done_default()
+					transitioned_after = 6
+			#If no transition was taken then execute local reactions
+			if transitioned_after == transitioned_before:
+				if self.orientation_done:
+					self.raise_end_init()
+		return transitioned_after
+	
+	
+	def __main_region_processes_collision_prevention_collision_state_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_collision_prevention_collision_state_react function.
+		"""
+		transitioned_after = transitioned_before
+		if not self.__do_completion:
+			if transitioned_after < 7:
+				if self.computer.m_press:
+					self.__exit_sequence_main_region_processes_collision_prevention_collision_state()
+					self.__enter_sequence_main_region_processes_collision_prevention_manual_mode_default()
+					transitioned_after = 8
+				elif self.solve_maze:
+					self.__exit_sequence_main_region_processes_collision_prevention_collision_state()
+					self.__enter_sequence_main_region_processes_collision_prevention_no_collision_detection_default()
+					transitioned_after = 8
+		return transitioned_after
+	
+	
+	def __main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_react function.
+		"""
+		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_collision_prevention_collision_state_react(transitioned_before)
+		return transitioned_after
+	
+	
+	def __main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_prevent_side_collisions_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_prevent_side_collisions_react function.
+		"""
+		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_react(transitioned_before)
+		if not self.__do_completion:
+			if transitioned_after < 7:
+				if self.orientation_align:
+					self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_prevent_side_collisions()
+					self.__enter_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_wait_for_move_default()
+					transitioned_after = 7
+				elif self.go_step:
+					self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_prevent_side_collisions()
+					self.__enter_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_wait_for_movement_default()
+					transitioned_after = 7
+		return transitioned_after
+	
+	
+	def __main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_wait_for_move_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_wait_for_move_react function.
+		"""
+		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_react(transitioned_before)
+		if not self.__do_completion:
+			if transitioned_after < 7:
+				if self.orientation_done:
+					self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_wait_for_move()
+					self.__enter_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_prevent_side_collisions_default()
+					transitioned_after = 7
+		return transitioned_after
+	
+	
+	def __main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_wait_for_movement_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_wait_for_movement_react function.
+		"""
+		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_react(transitioned_before)
+		if not self.__do_completion:
+			if transitioned_after < 7:
+				if self.laser_distance.dright_min <= 0.2:
+					self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions()
+					self.__enter_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_left_default()
+					transitioned_after = 7
+				elif self.laser_distance.dleft_min <= 0.2:
+					self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions()
+					self.__enter_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_right_default()
+					transitioned_after = 7
+		return transitioned_after
+	
+	
+	def __main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_frontal_collision_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_frontal_collision_react function.
+		"""
+		transitioned_after = transitioned_before
+		if not self.__do_completion:
+			if transitioned_after < 8:
+				if self.mode_automatic:
+					self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_frontal_collision()
+					self.__enter_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_wait_for_frontal_default()
+					transitioned_after = 8
+		return transitioned_after
+	
+	
+	def __main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_wait_for_frontal_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_wait_for_frontal_react function.
+		"""
+		transitioned_after = transitioned_before
+		if not self.__do_completion:
+			if transitioned_after < 8:
+				if self.laser_distance.dmin <= 0.11:
+					self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_wait_for_frontal()
+					self.__enter_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_frontal_collision_default()
+					transitioned_after = 8
+		return transitioned_after
+	
+	
+	def __main_region_processes_collision_prevention_collision_state_r1_adjust_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_collision_prevention_collision_state_r1_adjust_react function.
+		"""
+		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_collision_prevention_collision_state_react(transitioned_before)
+		if not self.__do_completion:
+			if transitioned_after < 7:
+				if self.engine_stop or self.orientation_done:
+					self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust()
+					self.__enter_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_prevent_side_collisions_default()
+					self.__enter_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_default()
+					transitioned_after = 7
+		return transitioned_after
+	
+	
+	def __main_region_processes_collision_prevention_collision_state_r1_adjust_r1_done_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_collision_prevention_collision_state_r1_adjust_r1_done_react function.
+		"""
+		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_collision_prevention_collision_state_r1_adjust_react(transitioned_before)
+		return transitioned_after
+	
+	
+	def __main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_right_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_right_react function.
+		"""
+		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_collision_prevention_collision_state_r1_adjust_react(transitioned_before)
+		if not self.__do_completion:
+			if transitioned_after < 7:
+				if self.__time_events[7]:
+					self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_right()
+					self.__time_events[7] = False
+					self.__enter_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_done_default()
+					transitioned_after = 7
+		return transitioned_after
+	
+	
+	def __main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_left_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_left_react function.
+		"""
+		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_collision_prevention_collision_state_r1_adjust_react(transitioned_before)
+		if not self.__do_completion:
+			if transitioned_after < 7:
+				if self.__time_events[8]:
+					self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_left()
+					self.__time_events[8] = False
+					self.__enter_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_done_default()
+					transitioned_after = 7
+		return transitioned_after
+	
+	
+	def __main_region_processes_collision_prevention_manual_mode_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_collision_prevention_manual_mode_react function.
+		"""
+		transitioned_after = transitioned_before
+		if not self.__do_completion:
+			if transitioned_after < 7:
+				if self.computer.m_press:
+					self.__exit_sequence_main_region_processes_collision_prevention_manual_mode()
+					self.__enter_sequence_main_region_processes_collision_prevention_collision_state_default()
+					transitioned_after = 7
+		return transitioned_after
+	
+	
+	def __main_region_processes_collision_prevention_no_collision_detection_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_collision_prevention_no_collision_detection_react function.
+		"""
+		transitioned_after = transitioned_before
 		return transitioned_after
 	
 	
@@ -2501,14 +4275,31 @@ class Model:
 		self.computer.x_press = False
 		self.__time_events[0] = False
 		self.__time_events[1] = False
+		self.__time_events[2] = False
+		self.__time_events[3] = False
+		self.__time_events[4] = False
+		self.__time_events[5] = False
+		self.__time_events[6] = False
+		self.__time_events[7] = False
+		self.__time_events[8] = False
 	
 	
 	def __clear_internal_events(self):
 		"""Implementation of __clear_internal_events function.
 		"""
+		self.solve_move = False
+		self.solve_maze = False
+		self.turn_right = False
+		self.turn_left = False
+		self.turn_around = False
+		self.go_forward = False
+		self.start_init = False
+		self.end_init = False
 		self.stop_move = False
 		self.end_move = False
 		self.go_step = False
+		self.mode_manual = False
+		self.mode_automatic = False
 		self.turn_start = False
 		self.turn_stop = False
 		self.collision_frontal = False
@@ -2519,11 +4310,14 @@ class Model:
 		self.orientation_align = False
 		self.engine_start = False
 		self.engine_stop = False
+		self.engine_slow_down = False
 		self.engine_reverse = False
 		self.engine_unrestricted = False
 		self.engine_restrict_all = False
 		self.engine_restrict_f = False
 		self.engine_restrict_r = False
+		self.logging_start = False
+		self.logging_done = False
 	
 	
 	def __micro_step(self):
@@ -2534,34 +4328,56 @@ class Model:
 		state = self.__state_vector[0]
 		if state == self.State.main_region_processes_auto_bot_square_bot_r1forward:
 			transitioned = self.__main_region_processes_auto_bot_square_bot_r1_forward_react(transitioned)
-		elif state == self.State.main_region_processes_auto_bot_square_bot_r1turn:
-			transitioned = self.__main_region_processes_auto_bot_square_bot_r1_turn_react(transitioned)
+		elif state == self.State.main_region_processes_auto_bot_square_bot_r1turn_left:
+			transitioned = self.__main_region_processes_auto_bot_square_bot_r1_turn_left_react(transitioned)
+		elif state == self.State.main_region_processes_auto_bot_square_bot_r1decision:
+			transitioned = self.__main_region_processes_auto_bot_square_bot_r1_decision_react(transitioned)
+		elif state == self.State.main_region_processes_auto_bot_square_bot_r1turn_right:
+			transitioned = self.__main_region_processes_auto_bot_square_bot_r1_turn_right_react(transitioned)
+		elif state == self.State.main_region_processes_auto_bot_square_bot_r1turn_around:
+			transitioned = self.__main_region_processes_auto_bot_square_bot_r1_turn_around_react(transitioned)
 		elif state == self.State.main_region_processes_auto_bot_manual_movement_movement:
 			transitioned = self.__main_region_processes_auto_bot_manual_movement_movement_react(transitioned)
 		if self.__state_conf_vector_position < 1:
 			state = self.__state_vector[1]
+			if state == self.State.main_region_processes_brains_wait_for_start:
+				transitioned = self.__main_region_processes_brains_wait_for_start_react(transitioned)
+			elif state == self.State.main_region_processes_brains_brains_r1logging_brains_r1decision:
+				transitioned = self.__main_region_processes_brains_brains_r1_logging_brains_r1_decision_react(transitioned)
+			elif state == self.State.main_region_processes_brains_brains_r1logging_brains_r1wait:
+				transitioned = self.__main_region_processes_brains_brains_r1_logging_brains_r1_wait_react(transitioned)
+			elif state == self.State.main_region_processes_brains_brains_r1logging_brains_r1initialize:
+				transitioned = self.__main_region_processes_brains_brains_r1_logging_brains_r1_initialize_react(transitioned)
+			elif state == self.State.main_region_processes_brains_brains_r1solve_brains_r1decision:
+				transitioned = self.__main_region_processes_brains_brains_r1_solve_brains_r1_decision_react(transitioned)
+			elif state == self.State.main_region_processes_brains_brains_r1solve_brains_r1initialize:
+				transitioned = self.__main_region_processes_brains_brains_r1_solve_brains_r1_initialize_react(transitioned)
+			elif state == self.State.main_region_processes_brains_brains_r1solve_brains_r1turn_and_move:
+				transitioned = self.__main_region_processes_brains_brains_r1_solve_brains_r1_turn_and_move_react(transitioned)
+			elif state == self.State.main_region_processes_brains_brains_r1solve_brains_r1wait_:
+				transitioned = self.__main_region_processes_brains_brains_r1_solve_brains_r1_wait__react(transitioned)
+			elif state == self.State.main_region_processes_brains_brains_r1solve_brains_r1finished:
+				transitioned = self.__main_region_processes_brains_brains_r1_solve_brains_r1_finished_react(transitioned)
+		if self.__state_conf_vector_position < 2:
+			state = self.__state_vector[2]
 			if state == self.State.main_region_processes_orientation_orientation_turn_stop_and_turn:
 				transitioned = self.__main_region_processes_orientation_orientation_turn_stop_and_turn_react(transitioned)
 			elif state == self.State.main_region_processes_orientation_orientation_turn_turn_quick:
 				transitioned = self.__main_region_processes_orientation_orientation_turn_turn_quick_react(transitioned)
 			elif state == self.State.main_region_processes_orientation_orientation_turn_turn_medium:
 				transitioned = self.__main_region_processes_orientation_orientation_turn_turn_medium_react(transitioned)
-			elif state == self.State.main_region_processes_orientation_orientation_turn_turn_slow:
-				transitioned = self.__main_region_processes_orientation_orientation_turn_turn_slow_react(transitioned)
 			elif state == self.State.main_region_processes_orientation_orientation_turn_turn_ready:
 				transitioned = self.__main_region_processes_orientation_orientation_turn_turn_ready_react(transitioned)
 			elif state == self.State.main_region_processes_orientation_idle:
 				transitioned = self.__main_region_processes_orientation_idle_react(transitioned)
-		if self.__state_conf_vector_position < 2:
-			state = self.__state_vector[2]
-			if state == self.State.main_region_processes_orientation_orientation_re_align_align:
-				transitioned = self.__main_region_processes_orientation_orientation_re_align_align_react(transitioned)
-			elif state == self.State.main_region_processes_orientation_orientation_re_align_turn_medium:
-				transitioned = self.__main_region_processes_orientation_orientation_re_align_turn_medium_react(transitioned)
-			elif state == self.State.main_region_processes_orientation_orientation_re_align_turn_slow:
-				transitioned = self.__main_region_processes_orientation_orientation_re_align_turn_slow_react(transitioned)
-			elif state == self.State.main_region_processes_orientation_orientation_re_align_align_ready:
-				transitioned = self.__main_region_processes_orientation_orientation_re_align_align_ready_react(transitioned)
+			elif state == self.State.main_region_processes_orientation_re_align_r1align_ready:
+				transitioned = self.__main_region_processes_orientation_re_align_r1_align_ready_react(transitioned)
+			elif state == self.State.main_region_processes_orientation_re_align_r1align:
+				transitioned = self.__main_region_processes_orientation_re_align_r1_align_react(transitioned)
+			elif state == self.State.main_region_processes_orientation_re_align_r1turn_slow:
+				transitioned = self.__main_region_processes_orientation_re_align_r1_turn_slow_react(transitioned)
+			elif state == self.State.main_region_processes_orientation_re_align_r1turn_medium:
+				transitioned = self.__main_region_processes_orientation_re_align_r1_turn_medium_react(transitioned)
 		if self.__state_conf_vector_position < 3:
 			state = self.__state_vector[3]
 			if state == self.State.main_region_processes_engine_engine_modus_forward_restricted_forward_interrupted_stopped:
@@ -2582,20 +4398,66 @@ class Model:
 				transitioned = self.__main_region_processes_engine_engine_modus_reverse_restricted_backward_interrupted_forward_react(transitioned)
 			elif state == self.State.main_region_processes_engine_engine_modus_complete_restricted_all_interrupted_stopped:
 				transitioned = self.__main_region_processes_engine_engine_modus_complete_restricted_all_interrupted_stopped_react(transitioned)
+			elif state == self.State.main_region_processes_engine_manual:
+				transitioned = self.__main_region_processes_engine_manual_react(transitioned)
 		if self.__state_conf_vector_position < 4:
 			state = self.__state_vector[4]
 			if state == self.State.main_region_processes_locomotion_move1step_r1move:
-				self.__main_region_processes_locomotion_move1step_r1_move_react(transitioned)
-			elif state == self.State.main_region_processes_locomotion_move1step_r1move_xr1move_west:
-				self.__main_region_processes_locomotion_move1step_r1_move_x_r1_move_west_react(transitioned)
-			elif state == self.State.main_region_processes_locomotion_move1step_r1move_xr1move_east:
-				self.__main_region_processes_locomotion_move1step_r1_move_x_r1_move_east_react(transitioned)
-			elif state == self.State.main_region_processes_locomotion_move1step_r1move_yr1move_north:
-				self.__main_region_processes_locomotion_move1step_r1_move_y_r1_move_north_react(transitioned)
-			elif state == self.State.main_region_processes_locomotion_move1step_r1move_yr1move_south:
-				self.__main_region_processes_locomotion_move1step_r1_move_y_r1_move_south_react(transitioned)
+				transitioned = self.__main_region_processes_locomotion_move1step_r1_move_react(transitioned)
+			elif state == self.State.main_region_processes_locomotion_move1step_r1move_north:
+				transitioned = self.__main_region_processes_locomotion_move1step_r1_move_north_react(transitioned)
+			elif state == self.State.main_region_processes_locomotion_move1step_r1move_south:
+				transitioned = self.__main_region_processes_locomotion_move1step_r1_move_south_react(transitioned)
+			elif state == self.State.main_region_processes_locomotion_move1step_r1move_east:
+				transitioned = self.__main_region_processes_locomotion_move1step_r1_move_east_react(transitioned)
+			elif state == self.State.main_region_processes_locomotion_move1step_r1move_west:
+				transitioned = self.__main_region_processes_locomotion_move1step_r1_move_west_react(transitioned)
 			elif state == self.State.main_region_processes_locomotion_wait_step:
-				self.__main_region_processes_locomotion_wait_step_react(transitioned)
+				transitioned = self.__main_region_processes_locomotion_wait_step_react(transitioned)
+		if self.__state_conf_vector_position < 5:
+			state = self.__state_vector[5]
+			if state == self.State.main_region_processes_logging_idle:
+				transitioned = self.__main_region_processes_logging_idle_react(transitioned)
+			elif state == self.State.main_region_processes_logging_log_r1wall_check:
+				transitioned = self.__main_region_processes_logging_log_r1_wall_check_react(transitioned)
+			elif state == self.State.main_region_processes_logging_log_r1update:
+				transitioned = self.__main_region_processes_logging_log_r1_update_react(transitioned)
+			elif state == self.State.main_region_processes_logging_log_r1reset:
+				transitioned = self.__main_region_processes_logging_log_r1_reset_react(transitioned)
+		if self.__state_conf_vector_position < 6:
+			state = self.__state_vector[6]
+			if state == self.State.main_region_processes_initialize_init:
+				transitioned = self.__main_region_processes_initialize_init_react(transitioned)
+			elif state == self.State.main_region_processes_initialize_init_done:
+				transitioned = self.__main_region_processes_initialize_init_done_react(transitioned)
+			elif state == self.State.main_region_processes_initialize_pre_init:
+				transitioned = self.__main_region_processes_initialize_pre_init_react(transitioned)
+			elif state == self.State.main_region_processes_initialize_init_wait:
+				transitioned = self.__main_region_processes_initialize_init_wait_react(transitioned)
+		if self.__state_conf_vector_position < 7:
+			state = self.__state_vector[7]
+			if state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1prevent_side_collisions:
+				transitioned = self.__main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_prevent_side_collisions_react(transitioned)
+			elif state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1wait_for_move:
+				transitioned = self.__main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_wait_for_move_react(transitioned)
+			elif state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1wait_for_movement:
+				transitioned = self.__main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_wait_for_movement_react(transitioned)
+			elif state == self.State.main_region_processes_collision_prevention_collision_state_r1adjust_r1done:
+				transitioned = self.__main_region_processes_collision_prevention_collision_state_r1_adjust_r1_done_react(transitioned)
+			elif state == self.State.main_region_processes_collision_prevention_collision_state_r1adjust_r1adjust_to_the_right:
+				transitioned = self.__main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_right_react(transitioned)
+			elif state == self.State.main_region_processes_collision_prevention_collision_state_r1adjust_r1adjust_to_the_left:
+				transitioned = self.__main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_left_react(transitioned)
+			elif state == self.State.main_region_processes_collision_prevention_manual_mode:
+				transitioned = self.__main_region_processes_collision_prevention_manual_mode_react(transitioned)
+			elif state == self.State.main_region_processes_collision_prevention_no_collision_detection:
+				transitioned = self.__main_region_processes_collision_prevention_no_collision_detection_react(transitioned)
+		if self.__state_conf_vector_position < 8:
+			state = self.__state_vector[8]
+			if state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r2frontal_collision:
+				self.__main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_frontal_collision_react(transitioned)
+			elif state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r2wait_for_frontal:
+				self.__main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_wait_for_frontal_react(transitioned)
 	
 	
 	def run_cycle(self):
@@ -2603,6 +4465,9 @@ class Model:
 		"""
 		if self.timer_service is None:
 			raise ValueError('Timer service must be set.')
+		
+		if self.operation_callback is None:
+			raise ValueError("Operation callback must be set.")
 		
 		if self.__is_executing:
 			return
@@ -2626,7 +4491,7 @@ class Model:
 			next_event = self.__get_next_event()
 			if next_event is not None:
 				self.__execute_queued_event(next_event)
-			condition_0 = self.computer.m_press or self.computer.w_press or self.computer.a_press or self.computer.s_press or self.computer.d_press or self.computer.x_press or self.stop_move or self.end_move or self.go_step or self.turn_start or self.turn_stop or self.collision_frontal or self.orientation_ready or self.orientation_done or self.orientation_slowdown or self.orientation_turn or self.orientation_align or self.engine_start or self.engine_stop or self.engine_reverse or self.engine_unrestricted or self.engine_restrict_all or self.engine_restrict_f or self.engine_restrict_r or self.__time_events[0] or self.__time_events[1]
+			condition_0 = self.computer.m_press or self.computer.w_press or self.computer.a_press or self.computer.s_press or self.computer.d_press or self.computer.x_press or self.solve_move or self.solve_maze or self.turn_right or self.turn_left or self.turn_around or self.go_forward or self.start_init or self.end_init or self.stop_move or self.end_move or self.go_step or self.mode_manual or self.mode_automatic or self.turn_start or self.turn_stop or self.collision_frontal or self.orientation_ready or self.orientation_done or self.orientation_slowdown or self.orientation_turn or self.orientation_align or self.engine_start or self.engine_stop or self.engine_slow_down or self.engine_reverse or self.engine_unrestricted or self.engine_restrict_all or self.engine_restrict_f or self.engine_restrict_r or self.logging_start or self.logging_done or self.__time_events[0] or self.__time_events[1] or self.__time_events[2] or self.__time_events[3] or self.__time_events[4] or self.__time_events[5] or self.__time_events[6] or self.__time_events[7] or self.__time_events[8]
 		self.__is_executing = False
 	
 	
@@ -2635,6 +4500,9 @@ class Model:
 		"""
 		if self.timer_service is None:
 			raise ValueError('Timer service must be set.')
+		
+		if self.operation_callback is None:
+			raise ValueError("Operation callback must be set.")
 		
 		if self.__is_executing:
 			return
