@@ -503,7 +503,7 @@ class Model:
 		self.engine.slow_mode = False
 		self.user_var.limit_degree_high = 0.0
 		self.user_var.limit_degree_low = 0.0
-		self.user_var.base_speed = 0.15
+		self.user_var.base_speed = 0.1
 		self.user_var.base_rotation = 0.2
 		self.user_var.turn_type = 0
 		self.user_var.limit_type = 0
@@ -3440,7 +3440,6 @@ class Model:
 				elif self.laser_distance.dleft_mean > self.grid.grid_size:
 					self.__exit_sequence_main_region_processes_brains_brains_r1_logging_brains_r1_decision()
 					self.raise_turn_left()
-					self.operation_callback.debug_real(1.23)
 					self.__enter_sequence_main_region_processes_brains_brains_r1_logging_brains_r1_wait_default()
 					transitioned_after = 1
 				elif self.laser_distance.dfront_mean < self.grid.grid_size:
@@ -3913,7 +3912,7 @@ class Model:
 			#If no transition was taken then execute local reactions
 			if transitioned_after == transitioned_before:
 				if self.engine_slow_down:
-					self.output.speed = (self.user_var.base_speed / 2)
+					self.output.speed = 0.02
 					self.engine.slow_mode = True
 		return transitioned_after
 	
