@@ -82,16 +82,17 @@ class Model:
 			main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1prevent_side_collisions,
 			main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1wait_for_move,
 			main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1wait_for_movement,
+			main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1adjust,
+			main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1adjust_r1done,
+			main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1adjust_r1adjust_to_the_right,
+			main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1adjust_r1adjust_to_the_left,
 			main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r2frontal_collision,
 			main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r2wait_for_frontal,
-			main_region_processes_collision_prevention_collision_state_r1adjust,
-			main_region_processes_collision_prevention_collision_state_r1adjust_r1done,
-			main_region_processes_collision_prevention_collision_state_r1adjust_r1adjust_to_the_right,
-			main_region_processes_collision_prevention_collision_state_r1adjust_r1adjust_to_the_left,
 			main_region_processes_collision_prevention_manual_mode,
 			main_region_processes_collision_prevention_no_collision_detection,
+			main_region_final_,
 			null_state
-		) = range(77)
+		) = range(78)
 	
 	
 	class Solve:
@@ -153,6 +154,7 @@ class Model:
 			self.ave_off = None
 			self.off_back = None
 			self.straighten = None
+			self.temp = None
 			
 			self.statemachine = statemachine
 		
@@ -516,6 +518,7 @@ class Model:
 		self.user_var.ave_off = 0
 		self.user_var.off_back = 0
 		self.user_var.straighten = False
+		self.user_var.temp = 0.0
 		self.movement.target_turn = 0
 		self.movement.range_variable = 1
 		self.movement.start_negative = 1
@@ -617,10 +620,9 @@ class Model:
 	
 	def is_final(self):
 		"""Checks if the statemachine is final.
-		Always returns 'false' since this state machine can never become final.
 		"""
-		return False
-			
+		return (self.__state_vector[0] == self.__State.main_region_final_) and (self.__state_vector[1] == self.__State.null_state) and (self.__state_vector[2] == self.__State.null_state) and (self.__state_vector[3] == self.__State.null_state) and (self.__state_vector[4] == self.__State.null_state) and (self.__state_vector[5] == self.__State.null_state) and (self.__state_vector[6] == self.__State.null_state) and (self.__state_vector[7] == self.__State.null_state) and (self.__state_vector[8] == self.__State.null_state)
+								
 	def is_state_active(self, state):
 		"""Checks if the state is currently active.
 		"""
@@ -768,7 +770,7 @@ class Model:
 			return self.__state_vector[6] == self.__State.main_region_processes_initialize_init_wait
 		if s == self.__State.main_region_processes_collision_prevention_collision_state:
 			return (self.__state_vector[7] >= self.__State.main_region_processes_collision_prevention_collision_state)\
-				and (self.__state_vector[7] <= self.__State.main_region_processes_collision_prevention_collision_state_r1adjust_r1adjust_to_the_left)
+				and (self.__state_vector[7] <= self.__State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r2wait_for_frontal)
 		if s == self.__State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions:
 			return (self.__state_vector[7] >= self.__State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions)\
 				and (self.__state_vector[7] <= self.__State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r2wait_for_frontal)
@@ -778,23 +780,25 @@ class Model:
 			return self.__state_vector[7] == self.__State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1wait_for_move
 		if s == self.__State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1wait_for_movement:
 			return self.__state_vector[7] == self.__State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1wait_for_movement
+		if s == self.__State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1adjust:
+			return (self.__state_vector[7] >= self.__State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1adjust)\
+				and (self.__state_vector[7] <= self.__State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1adjust_r1adjust_to_the_left)
+		if s == self.__State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1adjust_r1done:
+			return self.__state_vector[7] == self.__State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1adjust_r1done
+		if s == self.__State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1adjust_r1adjust_to_the_right:
+			return self.__state_vector[7] == self.__State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1adjust_r1adjust_to_the_right
+		if s == self.__State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1adjust_r1adjust_to_the_left:
+			return self.__state_vector[7] == self.__State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1adjust_r1adjust_to_the_left
 		if s == self.__State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r2frontal_collision:
 			return self.__state_vector[8] == self.__State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r2frontal_collision
 		if s == self.__State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r2wait_for_frontal:
 			return self.__state_vector[8] == self.__State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r2wait_for_frontal
-		if s == self.__State.main_region_processes_collision_prevention_collision_state_r1adjust:
-			return (self.__state_vector[7] >= self.__State.main_region_processes_collision_prevention_collision_state_r1adjust)\
-				and (self.__state_vector[7] <= self.__State.main_region_processes_collision_prevention_collision_state_r1adjust_r1adjust_to_the_left)
-		if s == self.__State.main_region_processes_collision_prevention_collision_state_r1adjust_r1done:
-			return self.__state_vector[7] == self.__State.main_region_processes_collision_prevention_collision_state_r1adjust_r1done
-		if s == self.__State.main_region_processes_collision_prevention_collision_state_r1adjust_r1adjust_to_the_right:
-			return self.__state_vector[7] == self.__State.main_region_processes_collision_prevention_collision_state_r1adjust_r1adjust_to_the_right
-		if s == self.__State.main_region_processes_collision_prevention_collision_state_r1adjust_r1adjust_to_the_left:
-			return self.__state_vector[7] == self.__State.main_region_processes_collision_prevention_collision_state_r1adjust_r1adjust_to_the_left
 		if s == self.__State.main_region_processes_collision_prevention_manual_mode:
 			return self.__state_vector[7] == self.__State.main_region_processes_collision_prevention_manual_mode
 		if s == self.__State.main_region_processes_collision_prevention_no_collision_detection:
 			return self.__state_vector[7] == self.__State.main_region_processes_collision_prevention_no_collision_detection
+		if s == self.__State.main_region_final_:
+			return self.__state_vector[0] == self.__State.main_region_final_
 		return False
 		
 	def time_elapsed(self, event_id):
@@ -1217,21 +1221,15 @@ class Model:
 		self.orientation.turning_direction = 1
 		self.__completed = True
 		
-	def __entry_action_main_region_processes_orientation_orientation_turn_turn_quick(self):
-		"""Entry action for state 'Turn Quick'..
-		"""
-		self.output.rotation = (self.user_var.base_rotation * self.orientation.turning_direction)
-		
 	def __entry_action_main_region_processes_orientation_orientation_turn_turn_medium(self):
 		"""Entry action for state 'Turn Medium'..
 		"""
-		self.output.rotation = (0.5 * self.output.rotation)
+		self.user_var.temp = (0.5 * self.output.rotation)
 		
 	def __entry_action_main_region_processes_orientation_orientation_turn_turn_ready(self):
 		"""Entry action for state 'Turn Ready'..
 		"""
 		self.timer_service.set_timer(self, 2, (1 * 1000), False)
-		self.output.rotation = 0.0
 		self.grid.orientation = self.orientation.direction
 		
 	def __entry_action_main_region_processes_orientation_re_align_r1_align_ready(self):
@@ -1383,29 +1381,29 @@ class Model:
 			self.orientation.direction = 0
 		self.raise_orientation_turn()
 		
-	def __entry_action_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_frontal_collision(self):
-		"""Entry action for state 'frontalCollision'..
-		"""
-		self.computer.raise_m_press()
-		
-	def __entry_action_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_done(self):
+	def __entry_action_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_done(self):
 		"""Entry action for state 'Done'..
 		"""
 		self.raise_orientation_align()
 		
-	def __entry_action_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_right(self):
+	def __entry_action_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_adjust_to_the_right(self):
 		"""Entry action for state 'adjustToTheRight'..
 		"""
 		self.timer_service.set_timer(self, 7, (2 * 1000), False)
 		self.output.rotation = -0.1
 		self.orientation.turning_direction = 1
 		
-	def __entry_action_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_left(self):
+	def __entry_action_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_adjust_to_the_left(self):
 		"""Entry action for state 'adjustToTheLeft'..
 		"""
 		self.timer_service.set_timer(self, 8, (2 * 1000), False)
 		self.output.rotation = 0.1
 		self.orientation.turning_direction = -1
+		
+	def __entry_action_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_frontal_collision(self):
+		"""Entry action for state 'frontalCollision'..
+		"""
+		self.computer.raise_m_press()
 		
 	def __exit_action_main_region_processes_brains_brains_r1_solve_brains_r1_decision(self):
 		"""Exit action for state 'decision'..
@@ -1493,13 +1491,13 @@ class Model:
 		self.timer_service.unset_timer(self, 6)
 		self.start_pos.set_zero = False
 		
-	def __exit_action_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_right(self):
+	def __exit_action_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_adjust_to_the_right(self):
 		"""Exit action for state 'adjustToTheRight'..
 		"""
 		self.timer_service.unset_timer(self, 7)
 		self.output.rotation = 0.0
 		
-	def __exit_action_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_left(self):
+	def __exit_action_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_adjust_to_the_left(self):
 		"""Exit action for state 'adjustToTheLeft'..
 		"""
 		self.timer_service.unset_timer(self, 8)
@@ -1954,6 +1952,30 @@ class Model:
 		self.__state_conf_vector_position = 7
 		self.__state_conf_vector_changed = True
 		
+	def __enter_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_done_default(self):
+		"""'default' enter sequence for state Done.
+		"""
+		self.__entry_action_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_done()
+		self.__state_vector[7] = self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1adjust_r1done
+		self.__state_conf_vector_position = 7
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_adjust_to_the_right_default(self):
+		"""'default' enter sequence for state adjustToTheRight.
+		"""
+		self.__entry_action_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_adjust_to_the_right()
+		self.__state_vector[7] = self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1adjust_r1adjust_to_the_right
+		self.__state_conf_vector_position = 7
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_adjust_to_the_left_default(self):
+		"""'default' enter sequence for state adjustToTheLeft.
+		"""
+		self.__entry_action_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_adjust_to_the_left()
+		self.__state_vector[7] = self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1adjust_r1adjust_to_the_left
+		self.__state_conf_vector_position = 7
+		self.__state_conf_vector_changed = True
+		
 	def __enter_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_frontal_collision_default(self):
 		"""'default' enter sequence for state frontalCollision.
 		"""
@@ -1969,30 +1991,6 @@ class Model:
 		self.__state_conf_vector_position = 8
 		self.__state_conf_vector_changed = True
 		
-	def __enter_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_done_default(self):
-		"""'default' enter sequence for state Done.
-		"""
-		self.__entry_action_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_done()
-		self.__state_vector[7] = self.State.main_region_processes_collision_prevention_collision_state_r1adjust_r1done
-		self.__state_conf_vector_position = 7
-		self.__state_conf_vector_changed = True
-		
-	def __enter_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_right_default(self):
-		"""'default' enter sequence for state adjustToTheRight.
-		"""
-		self.__entry_action_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_right()
-		self.__state_vector[7] = self.State.main_region_processes_collision_prevention_collision_state_r1adjust_r1adjust_to_the_right
-		self.__state_conf_vector_position = 7
-		self.__state_conf_vector_changed = True
-		
-	def __enter_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_left_default(self):
-		"""'default' enter sequence for state adjustToTheLeft.
-		"""
-		self.__entry_action_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_left()
-		self.__state_vector[7] = self.State.main_region_processes_collision_prevention_collision_state_r1adjust_r1adjust_to_the_left
-		self.__state_conf_vector_position = 7
-		self.__state_conf_vector_changed = True
-		
 	def __enter_sequence_main_region_processes_collision_prevention_manual_mode_default(self):
 		"""'default' enter sequence for state Manual mode.
 		"""
@@ -2005,6 +2003,13 @@ class Model:
 		"""
 		self.__state_vector[7] = self.State.main_region_processes_collision_prevention_no_collision_detection
 		self.__state_conf_vector_position = 7
+		self.__state_conf_vector_changed = True
+		
+	def __enter_sequence_main_region__final__default(self):
+		"""Default enter sequence for final state.
+		"""
+		self.__state_vector[0] = self.State.main_region_final_
+		self.__state_conf_vector_position = 0
 		self.__state_conf_vector_changed = True
 		
 	def __enter_sequence_main_region_default(self):
@@ -2142,6 +2147,18 @@ class Model:
 		"""'default' enter sequence for region r2.
 		"""
 		self.__react_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2__entry_default()
+		
+	def __exit_sequence_main_region_processes(self):
+		"""Default exit sequence for state Processes.
+		"""
+		self.__exit_sequence_main_region_processes_auto_bot()
+		self.__exit_sequence_main_region_processes_brains()
+		self.__exit_sequence_main_region_processes_orientation()
+		self.__exit_sequence_main_region_processes_engine()
+		self.__exit_sequence_main_region_processes_locomotion()
+		self.__exit_sequence_main_region_processes_logging()
+		self.__exit_sequence_main_region_processes_initialize()
+		self.__exit_sequence_main_region_processes_collision_prevention()
 		
 	def __exit_sequence_main_region_processes_auto_bot_square_bot(self):
 		"""Default exit sequence for state SquareBot.
@@ -2515,12 +2532,6 @@ class Model:
 		"""
 		self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1()
 		
-	def __exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions(self):
-		"""Default exit sequence for state preventAllCollisions.
-		"""
-		self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1()
-		self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2()
-		
 	def __exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_prevent_side_collisions(self):
 		"""Default exit sequence for state preventSideCollisions.
 		"""
@@ -2539,6 +2550,31 @@ class Model:
 		self.__state_vector[7] = self.State.null_state
 		self.__state_conf_vector_position = 7
 		
+	def __exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust(self):
+		"""Default exit sequence for state Adjust.
+		"""
+		self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1()
+		
+	def __exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_done(self):
+		"""Default exit sequence for state Done.
+		"""
+		self.__state_vector[7] = self.State.null_state
+		self.__state_conf_vector_position = 7
+		
+	def __exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_adjust_to_the_right(self):
+		"""Default exit sequence for state adjustToTheRight.
+		"""
+		self.__state_vector[7] = self.State.null_state
+		self.__state_conf_vector_position = 7
+		self.__exit_action_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_adjust_to_the_right()
+		
+	def __exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_adjust_to_the_left(self):
+		"""Default exit sequence for state adjustToTheLeft.
+		"""
+		self.__state_vector[7] = self.State.null_state
+		self.__state_conf_vector_position = 7
+		self.__exit_action_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_adjust_to_the_left()
+		
 	def __exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_frontal_collision(self):
 		"""Default exit sequence for state frontalCollision.
 		"""
@@ -2551,31 +2587,6 @@ class Model:
 		self.__state_vector[8] = self.State.null_state
 		self.__state_conf_vector_position = 8
 		
-	def __exit_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust(self):
-		"""Default exit sequence for state Adjust.
-		"""
-		self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1()
-		
-	def __exit_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_done(self):
-		"""Default exit sequence for state Done.
-		"""
-		self.__state_vector[7] = self.State.null_state
-		self.__state_conf_vector_position = 7
-		
-	def __exit_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_right(self):
-		"""Default exit sequence for state adjustToTheRight.
-		"""
-		self.__state_vector[7] = self.State.null_state
-		self.__state_conf_vector_position = 7
-		self.__exit_action_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_right()
-		
-	def __exit_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_left(self):
-		"""Default exit sequence for state adjustToTheLeft.
-		"""
-		self.__state_vector[7] = self.State.null_state
-		self.__state_conf_vector_position = 7
-		self.__exit_action_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_left()
-		
 	def __exit_sequence_main_region_processes_collision_prevention_manual_mode(self):
 		"""Default exit sequence for state Manual mode.
 		"""
@@ -2587,6 +2598,12 @@ class Model:
 		"""
 		self.__state_vector[7] = self.State.null_state
 		self.__state_conf_vector_position = 7
+		
+	def __exit_sequence_main_region__final_(self):
+		"""Default exit sequence for final state..
+		"""
+		self.__state_vector[0] = self.State.null_state
+		self.__state_conf_vector_position = 0
 		
 	def __exit_sequence_main_region(self):
 		"""Default exit sequence for region main region.
@@ -2604,6 +2621,8 @@ class Model:
 			self.__exit_sequence_main_region_processes_auto_bot_square_bot_r1_turn_around()
 		elif state == self.State.main_region_processes_auto_bot_manual_movement_movement:
 			self.__exit_sequence_main_region_processes_auto_bot_manual_movement_movement()
+		elif state == self.State.main_region_final_:
+			self.__exit_sequence_main_region__final_()
 		state = self.__state_vector[1]
 		if state == self.State.main_region_processes_brains_wait_for_start:
 			self.__exit_sequence_main_region_processes_brains_wait_for_start()
@@ -2701,12 +2720,12 @@ class Model:
 			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_wait_for_move()
 		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1wait_for_movement:
 			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_wait_for_movement()
-		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1adjust_r1done:
-			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_done()
-		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1adjust_r1adjust_to_the_right:
-			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_right()
-		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1adjust_r1adjust_to_the_left:
-			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_left()
+		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1adjust_r1done:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_done()
+		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1adjust_r1adjust_to_the_right:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_adjust_to_the_right()
+		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1adjust_r1adjust_to_the_left:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_adjust_to_the_left()
 		elif state == self.State.main_region_processes_collision_prevention_manual_mode:
 			self.__exit_sequence_main_region_processes_collision_prevention_manual_mode()
 		elif state == self.State.main_region_processes_collision_prevention_no_collision_detection:
@@ -2716,6 +2735,23 @@ class Model:
 			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_frontal_collision()
 		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r2wait_for_frontal:
 			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_wait_for_frontal()
+		
+	def __exit_sequence_main_region_processes_auto_bot(self):
+		"""Default exit sequence for region AutoBot.
+		"""
+		state = self.__state_vector[0]
+		if state == self.State.main_region_processes_auto_bot_square_bot_r1forward:
+			self.__exit_sequence_main_region_processes_auto_bot_square_bot_r1_forward()
+		elif state == self.State.main_region_processes_auto_bot_square_bot_r1turn_left:
+			self.__exit_sequence_main_region_processes_auto_bot_square_bot_r1_turn_left()
+		elif state == self.State.main_region_processes_auto_bot_square_bot_r1decision:
+			self.__exit_sequence_main_region_processes_auto_bot_square_bot_r1_decision()
+		elif state == self.State.main_region_processes_auto_bot_square_bot_r1turn_right:
+			self.__exit_sequence_main_region_processes_auto_bot_square_bot_r1_turn_right()
+		elif state == self.State.main_region_processes_auto_bot_square_bot_r1turn_around:
+			self.__exit_sequence_main_region_processes_auto_bot_square_bot_r1_turn_around()
+		elif state == self.State.main_region_processes_auto_bot_manual_movement_movement:
+			self.__exit_sequence_main_region_processes_auto_bot_manual_movement_movement()
 		
 	def __exit_sequence_main_region_processes_auto_bot_square_bot_r1(self):
 		"""Default exit sequence for region r1.
@@ -2738,6 +2774,29 @@ class Model:
 		state = self.__state_vector[0]
 		if state == self.State.main_region_processes_auto_bot_manual_movement_movement:
 			self.__exit_sequence_main_region_processes_auto_bot_manual_movement_movement()
+		
+	def __exit_sequence_main_region_processes_brains(self):
+		"""Default exit sequence for region Brains.
+		"""
+		state = self.__state_vector[1]
+		if state == self.State.main_region_processes_brains_wait_for_start:
+			self.__exit_sequence_main_region_processes_brains_wait_for_start()
+		elif state == self.State.main_region_processes_brains_brains_r1logging_brains_r1decision:
+			self.__exit_sequence_main_region_processes_brains_brains_r1_logging_brains_r1_decision()
+		elif state == self.State.main_region_processes_brains_brains_r1logging_brains_r1wait:
+			self.__exit_sequence_main_region_processes_brains_brains_r1_logging_brains_r1_wait()
+		elif state == self.State.main_region_processes_brains_brains_r1logging_brains_r1initialize:
+			self.__exit_sequence_main_region_processes_brains_brains_r1_logging_brains_r1_initialize()
+		elif state == self.State.main_region_processes_brains_brains_r1solve_brains_r1decision:
+			self.__exit_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_decision()
+		elif state == self.State.main_region_processes_brains_brains_r1solve_brains_r1initialize:
+			self.__exit_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_initialize()
+		elif state == self.State.main_region_processes_brains_brains_r1solve_brains_r1turn_and_move:
+			self.__exit_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_turn_and_move()
+		elif state == self.State.main_region_processes_brains_brains_r1solve_brains_r1wait_:
+			self.__exit_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_wait_()
+		elif state == self.State.main_region_processes_brains_brains_r1solve_brains_r1finished:
+			self.__exit_sequence_main_region_processes_brains_brains_r1_solve_brains_r1_finished()
 		
 	def __exit_sequence_main_region_processes_brains_brains_r1(self):
 		"""Default exit sequence for region r1.
@@ -2771,6 +2830,29 @@ class Model:
 		elif state == self.State.main_region_processes_brains_brains_r1logging_brains_r1initialize:
 			self.__exit_sequence_main_region_processes_brains_brains_r1_logging_brains_r1_initialize()
 		
+	def __exit_sequence_main_region_processes_orientation(self):
+		"""Default exit sequence for region Orientation.
+		"""
+		state = self.__state_vector[2]
+		if state == self.State.main_region_processes_orientation_orientation_turn_stop_and_turn:
+			self.__exit_sequence_main_region_processes_orientation_orientation_turn_stop_and_turn()
+		elif state == self.State.main_region_processes_orientation_orientation_turn_turn_quick:
+			self.__exit_sequence_main_region_processes_orientation_orientation_turn_turn_quick()
+		elif state == self.State.main_region_processes_orientation_orientation_turn_turn_medium:
+			self.__exit_sequence_main_region_processes_orientation_orientation_turn_turn_medium()
+		elif state == self.State.main_region_processes_orientation_orientation_turn_turn_ready:
+			self.__exit_sequence_main_region_processes_orientation_orientation_turn_turn_ready()
+		elif state == self.State.main_region_processes_orientation_idle:
+			self.__exit_sequence_main_region_processes_orientation_idle()
+		elif state == self.State.main_region_processes_orientation_re_align_r1align_ready:
+			self.__exit_sequence_main_region_processes_orientation_re_align_r1_align_ready()
+		elif state == self.State.main_region_processes_orientation_re_align_r1align:
+			self.__exit_sequence_main_region_processes_orientation_re_align_r1_align()
+		elif state == self.State.main_region_processes_orientation_re_align_r1turn_slow:
+			self.__exit_sequence_main_region_processes_orientation_re_align_r1_turn_slow()
+		elif state == self.State.main_region_processes_orientation_re_align_r1turn_medium:
+			self.__exit_sequence_main_region_processes_orientation_re_align_r1_turn_medium()
+		
 	def __exit_sequence_main_region_processes_orientation_orientation_turn(self):
 		"""Default exit sequence for region Turn.
 		"""
@@ -2796,6 +2878,31 @@ class Model:
 			self.__exit_sequence_main_region_processes_orientation_re_align_r1_turn_slow()
 		elif state == self.State.main_region_processes_orientation_re_align_r1turn_medium:
 			self.__exit_sequence_main_region_processes_orientation_re_align_r1_turn_medium()
+		
+	def __exit_sequence_main_region_processes_engine(self):
+		"""Default exit sequence for region Engine.
+		"""
+		state = self.__state_vector[3]
+		if state == self.State.main_region_processes_engine_engine_modus_forward_restricted_forward_interrupted_stopped:
+			self.__exit_sequence_main_region_processes_engine_engine_modus_forward_restricted_forward_interrupted_stopped()
+		elif state == self.State.main_region_processes_engine_engine_modus_forward_restricted_forward_interrupted_back_up:
+			self.__exit_sequence_main_region_processes_engine_engine_modus_forward_restricted_forward_interrupted_back_up()
+		elif state == self.State.main_region_processes_engine_engine_modus_unrestricted_r1idle:
+			self.__exit_sequence_main_region_processes_engine_engine_modus_unrestricted_r1_idle()
+		elif state == self.State.main_region_processes_engine_engine_modus_unrestricted_r1stop:
+			self.__exit_sequence_main_region_processes_engine_engine_modus_unrestricted_r1_stop()
+		elif state == self.State.main_region_processes_engine_engine_modus_unrestricted_r1forward:
+			self.__exit_sequence_main_region_processes_engine_engine_modus_unrestricted_r1_forward()
+		elif state == self.State.main_region_processes_engine_engine_modus_unrestricted_r1back_up:
+			self.__exit_sequence_main_region_processes_engine_engine_modus_unrestricted_r1_back_up()
+		elif state == self.State.main_region_processes_engine_engine_modus_reverse_restricted_backward_interrupted_stopped:
+			self.__exit_sequence_main_region_processes_engine_engine_modus_reverse_restricted_backward_interrupted_stopped()
+		elif state == self.State.main_region_processes_engine_engine_modus_reverse_restricted_backward_interrupted_forward:
+			self.__exit_sequence_main_region_processes_engine_engine_modus_reverse_restricted_backward_interrupted_forward()
+		elif state == self.State.main_region_processes_engine_engine_modus_complete_restricted_all_interrupted_stopped:
+			self.__exit_sequence_main_region_processes_engine_engine_modus_complete_restricted_all_interrupted_stopped()
+		elif state == self.State.main_region_processes_engine_manual:
+			self.__exit_sequence_main_region_processes_engine_manual()
 		
 	def __exit_sequence_main_region_processes_engine_engine_modus(self):
 		"""Default exit sequence for region Modus.
@@ -2858,6 +2965,23 @@ class Model:
 		if state == self.State.main_region_processes_engine_engine_modus_complete_restricted_all_interrupted_stopped:
 			self.__exit_sequence_main_region_processes_engine_engine_modus_complete_restricted_all_interrupted_stopped()
 		
+	def __exit_sequence_main_region_processes_locomotion(self):
+		"""Default exit sequence for region Locomotion.
+		"""
+		state = self.__state_vector[4]
+		if state == self.State.main_region_processes_locomotion_move1step_r1move:
+			self.__exit_sequence_main_region_processes_locomotion_move1step_r1_move()
+		elif state == self.State.main_region_processes_locomotion_move1step_r1move_north:
+			self.__exit_sequence_main_region_processes_locomotion_move1step_r1_move_north()
+		elif state == self.State.main_region_processes_locomotion_move1step_r1move_south:
+			self.__exit_sequence_main_region_processes_locomotion_move1step_r1_move_south()
+		elif state == self.State.main_region_processes_locomotion_move1step_r1move_east:
+			self.__exit_sequence_main_region_processes_locomotion_move1step_r1_move_east()
+		elif state == self.State.main_region_processes_locomotion_move1step_r1move_west:
+			self.__exit_sequence_main_region_processes_locomotion_move1step_r1_move_west()
+		elif state == self.State.main_region_processes_locomotion_wait_step:
+			self.__exit_sequence_main_region_processes_locomotion_wait_step()
+		
 	def __exit_sequence_main_region_processes_locomotion_move1step_r1(self):
 		"""Default exit sequence for region r1.
 		"""
@@ -2873,6 +2997,19 @@ class Model:
 		elif state == self.State.main_region_processes_locomotion_move1step_r1move_west:
 			self.__exit_sequence_main_region_processes_locomotion_move1step_r1_move_west()
 		
+	def __exit_sequence_main_region_processes_logging(self):
+		"""Default exit sequence for region Logging.
+		"""
+		state = self.__state_vector[5]
+		if state == self.State.main_region_processes_logging_idle:
+			self.__exit_sequence_main_region_processes_logging_idle()
+		elif state == self.State.main_region_processes_logging_log_r1wall_check:
+			self.__exit_sequence_main_region_processes_logging_log_r1_wall_check()
+		elif state == self.State.main_region_processes_logging_log_r1update:
+			self.__exit_sequence_main_region_processes_logging_log_r1_update()
+		elif state == self.State.main_region_processes_logging_log_r1reset:
+			self.__exit_sequence_main_region_processes_logging_log_r1_reset()
+		
 	def __exit_sequence_main_region_processes_logging_log_r1(self):
 		"""Default exit sequence for region r1.
 		"""
@@ -2884,6 +3021,45 @@ class Model:
 		elif state == self.State.main_region_processes_logging_log_r1reset:
 			self.__exit_sequence_main_region_processes_logging_log_r1_reset()
 		
+	def __exit_sequence_main_region_processes_initialize(self):
+		"""Default exit sequence for region Initialize.
+		"""
+		state = self.__state_vector[6]
+		if state == self.State.main_region_processes_initialize_init:
+			self.__exit_sequence_main_region_processes_initialize_init()
+		elif state == self.State.main_region_processes_initialize_init_done:
+			self.__exit_sequence_main_region_processes_initialize_init_done()
+		elif state == self.State.main_region_processes_initialize_pre_init:
+			self.__exit_sequence_main_region_processes_initialize_pre_init()
+		elif state == self.State.main_region_processes_initialize_init_wait:
+			self.__exit_sequence_main_region_processes_initialize_init_wait()
+		
+	def __exit_sequence_main_region_processes_collision_prevention(self):
+		"""Default exit sequence for region Collision Prevention.
+		"""
+		state = self.__state_vector[7]
+		if state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1prevent_side_collisions:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_prevent_side_collisions()
+		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1wait_for_move:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_wait_for_move()
+		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1wait_for_movement:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_wait_for_movement()
+		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1adjust_r1done:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_done()
+		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1adjust_r1adjust_to_the_right:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_adjust_to_the_right()
+		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1adjust_r1adjust_to_the_left:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_adjust_to_the_left()
+		elif state == self.State.main_region_processes_collision_prevention_manual_mode:
+			self.__exit_sequence_main_region_processes_collision_prevention_manual_mode()
+		elif state == self.State.main_region_processes_collision_prevention_no_collision_detection:
+			self.__exit_sequence_main_region_processes_collision_prevention_no_collision_detection()
+		state = self.__state_vector[8]
+		if state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r2frontal_collision:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_frontal_collision()
+		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r2wait_for_frontal:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_wait_for_frontal()
+		
 	def __exit_sequence_main_region_processes_collision_prevention_collision_state_r1(self):
 		"""Default exit sequence for region r1.
 		"""
@@ -2894,48 +3070,28 @@ class Model:
 			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_wait_for_move()
 		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1wait_for_movement:
 			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_wait_for_movement()
-		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1adjust_r1done:
-			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_done()
-		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1adjust_r1adjust_to_the_right:
-			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_right()
-		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1adjust_r1adjust_to_the_left:
-			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_left()
+		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1adjust_r1done:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_done()
+		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1adjust_r1adjust_to_the_right:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_adjust_to_the_right()
+		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1adjust_r1adjust_to_the_left:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_adjust_to_the_left()
 		state = self.__state_vector[8]
 		if state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r2frontal_collision:
 			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_frontal_collision()
 		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r2wait_for_frontal:
 			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_wait_for_frontal()
 		
-	def __exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1(self):
+	def __exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1(self):
 		"""Default exit sequence for region r1.
 		"""
 		state = self.__state_vector[7]
-		if state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1prevent_side_collisions:
-			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_prevent_side_collisions()
-		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1wait_for_move:
-			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_wait_for_move()
-		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1wait_for_movement:
-			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_wait_for_movement()
-		
-	def __exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2(self):
-		"""Default exit sequence for region r2.
-		"""
-		state = self.__state_vector[8]
-		if state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r2frontal_collision:
-			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_frontal_collision()
-		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r2wait_for_frontal:
-			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_wait_for_frontal()
-		
-	def __exit_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1(self):
-		"""Default exit sequence for region r1.
-		"""
-		state = self.__state_vector[7]
-		if state == self.State.main_region_processes_collision_prevention_collision_state_r1adjust_r1done:
-			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_done()
-		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1adjust_r1adjust_to_the_right:
-			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_right()
-		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1adjust_r1adjust_to_the_left:
-			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_left()
+		if state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1adjust_r1done:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_done()
+		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1adjust_r1adjust_to_the_right:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_adjust_to_the_right()
+		elif state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1adjust_r1adjust_to_the_left:
+			self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_adjust_to_the_left()
 		
 	def __react_main_region_processes_auto_bot_square_bot_r1__choice_0(self):
 		"""The reactions of state null..
@@ -3092,6 +3248,12 @@ class Model:
 		"""
 		transitioned_after = transitioned_before
 		transitioned_after = self.__react(transitioned_before)
+		if not self.__do_completion:
+			if transitioned_after < 0:
+				if self.output.finish == 1:
+					self.__exit_sequence_main_region_processes()
+					self.__enter_sequence_main_region__final__default()
+					transitioned_after = 8
 		return transitioned_after
 	
 	
@@ -3468,7 +3630,6 @@ class Model:
 			self.__state_vector[2] = self.State.null_state
 			self.__state_conf_vector_position = 2
 			self.__exit_action_main_region_processes_orientation_orientation_turn_stop_and_turn()
-			self.__entry_action_main_region_processes_orientation_orientation_turn_turn_quick()
 			self.__state_vector[2] = self.State.main_region_processes_orientation_orientation_turn_turn_quick
 			self.__state_conf_vector_position = 2
 			self.__state_conf_vector_changed = True
@@ -3488,6 +3649,7 @@ class Model:
 					transitioned_after = 2
 			#If no transition was taken then execute local reactions
 			if transitioned_after == transitioned_before:
+				self.output.rotation = (self.user_var.base_rotation * self.orientation.turning_direction)
 				if (self.orientation.target - self.imu.yaw) > -15 and (self.orientation.target - self.imu.yaw) < 15:
 					self.raise_orientation_slowdown()
 		return transitioned_after
@@ -3506,6 +3668,7 @@ class Model:
 					transitioned_after = 2
 			#If no transition was taken then execute local reactions
 			if transitioned_after == transitioned_before:
+				self.output.rotation = self.user_var.temp
 				if (self.orientation.target - self.imu.yaw) > -5 and (self.orientation.target - self.imu.yaw) < 5:
 					self.raise_orientation_ready()
 		return transitioned_after
@@ -3524,6 +3687,9 @@ class Model:
 					self.__time_events[2] = False
 					self.__react_main_region_processes_orientation_orientation_turn_turn_done()
 					transitioned_after = 2
+			#If no transition was taken then execute local reactions
+			if transitioned_after == transitioned_before:
+				self.output.rotation = 0.0
 		return transitioned_after
 	
 	
@@ -4155,12 +4321,68 @@ class Model:
 		if not self.__do_completion:
 			if transitioned_after < 7:
 				if self.laser_distance.dright_min <= 0.2:
-					self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions()
-					self.__enter_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_left_default()
+					self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_wait_for_movement()
+					self.__enter_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_adjust_to_the_left_default()
 					transitioned_after = 7
 				elif self.laser_distance.dleft_min <= 0.2:
-					self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions()
-					self.__enter_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_right_default()
+					self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_wait_for_movement()
+					self.__enter_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_adjust_to_the_right_default()
+					transitioned_after = 7
+				elif self.engine_stop or self.orientation_done:
+					self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_wait_for_movement()
+					self.__enter_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_prevent_side_collisions_default()
+					transitioned_after = 7
+		return transitioned_after
+	
+	
+	def __main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_react function.
+		"""
+		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_react(transitioned_before)
+		if not self.__do_completion:
+			if transitioned_after < 7:
+				if self.engine_stop or self.orientation_done:
+					self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust()
+					self.__enter_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_prevent_side_collisions_default()
+					transitioned_after = 7
+		return transitioned_after
+	
+	
+	def __main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_done_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_done_react function.
+		"""
+		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_react(transitioned_before)
+		return transitioned_after
+	
+	
+	def __main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_adjust_to_the_right_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_adjust_to_the_right_react function.
+		"""
+		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_react(transitioned_before)
+		if not self.__do_completion:
+			if transitioned_after < 7:
+				if self.__time_events[7]:
+					self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_adjust_to_the_right()
+					self.__time_events[7] = False
+					self.__enter_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_done_default()
+					transitioned_after = 7
+		return transitioned_after
+	
+	
+	def __main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_adjust_to_the_left_react(self, transitioned_before):
+		"""Implementation of __main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_adjust_to_the_left_react function.
+		"""
+		transitioned_after = transitioned_before
+		transitioned_after = self.__main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_react(transitioned_before)
+		if not self.__do_completion:
+			if transitioned_after < 7:
+				if self.__time_events[8]:
+					self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_adjust_to_the_left()
+					self.__time_events[8] = False
+					self.__enter_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_done_default()
 					transitioned_after = 7
 		return transitioned_after
 	
@@ -4191,59 +4413,6 @@ class Model:
 		return transitioned_after
 	
 	
-	def __main_region_processes_collision_prevention_collision_state_r1_adjust_react(self, transitioned_before):
-		"""Implementation of __main_region_processes_collision_prevention_collision_state_r1_adjust_react function.
-		"""
-		transitioned_after = transitioned_before
-		transitioned_after = self.__main_region_processes_collision_prevention_collision_state_react(transitioned_before)
-		if not self.__do_completion:
-			if transitioned_after < 7:
-				if self.engine_stop or self.orientation_done:
-					self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust()
-					self.__enter_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_prevent_side_collisions_default()
-					self.__enter_sequence_main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r2_default()
-					transitioned_after = 7
-		return transitioned_after
-	
-	
-	def __main_region_processes_collision_prevention_collision_state_r1_adjust_r1_done_react(self, transitioned_before):
-		"""Implementation of __main_region_processes_collision_prevention_collision_state_r1_adjust_r1_done_react function.
-		"""
-		transitioned_after = transitioned_before
-		transitioned_after = self.__main_region_processes_collision_prevention_collision_state_r1_adjust_react(transitioned_before)
-		return transitioned_after
-	
-	
-	def __main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_right_react(self, transitioned_before):
-		"""Implementation of __main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_right_react function.
-		"""
-		transitioned_after = transitioned_before
-		transitioned_after = self.__main_region_processes_collision_prevention_collision_state_r1_adjust_react(transitioned_before)
-		if not self.__do_completion:
-			if transitioned_after < 7:
-				if self.__time_events[7]:
-					self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_right()
-					self.__time_events[7] = False
-					self.__enter_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_done_default()
-					transitioned_after = 7
-		return transitioned_after
-	
-	
-	def __main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_left_react(self, transitioned_before):
-		"""Implementation of __main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_left_react function.
-		"""
-		transitioned_after = transitioned_before
-		transitioned_after = self.__main_region_processes_collision_prevention_collision_state_r1_adjust_react(transitioned_before)
-		if not self.__do_completion:
-			if transitioned_after < 7:
-				if self.__time_events[8]:
-					self.__exit_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_left()
-					self.__time_events[8] = False
-					self.__enter_sequence_main_region_processes_collision_prevention_collision_state_r1_adjust_r1_done_default()
-					transitioned_after = 7
-		return transitioned_after
-	
-	
 	def __main_region_processes_collision_prevention_manual_mode_react(self, transitioned_before):
 		"""Implementation of __main_region_processes_collision_prevention_manual_mode_react function.
 		"""
@@ -4261,6 +4430,14 @@ class Model:
 		"""Implementation of __main_region_processes_collision_prevention_no_collision_detection_react function.
 		"""
 		transitioned_after = transitioned_before
+		return transitioned_after
+	
+	
+	def __main_region__final__react(self, transitioned_before):
+		"""Implementation of __main_region__final__react function.
+		"""
+		transitioned_after = transitioned_before
+		transitioned_after = self.__react(transitioned_before)
 		return transitioned_after
 	
 	
@@ -4338,6 +4515,8 @@ class Model:
 			transitioned = self.__main_region_processes_auto_bot_square_bot_r1_turn_around_react(transitioned)
 		elif state == self.State.main_region_processes_auto_bot_manual_movement_movement:
 			transitioned = self.__main_region_processes_auto_bot_manual_movement_movement_react(transitioned)
+		elif state == self.State.main_region_final_:
+			transitioned = self.__main_region__final__react(transitioned)
 		if self.__state_conf_vector_position < 1:
 			state = self.__state_vector[1]
 			if state == self.State.main_region_processes_brains_wait_for_start:
@@ -4442,12 +4621,12 @@ class Model:
 				transitioned = self.__main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_wait_for_move_react(transitioned)
 			elif state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1wait_for_movement:
 				transitioned = self.__main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_wait_for_movement_react(transitioned)
-			elif state == self.State.main_region_processes_collision_prevention_collision_state_r1adjust_r1done:
-				transitioned = self.__main_region_processes_collision_prevention_collision_state_r1_adjust_r1_done_react(transitioned)
-			elif state == self.State.main_region_processes_collision_prevention_collision_state_r1adjust_r1adjust_to_the_right:
-				transitioned = self.__main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_right_react(transitioned)
-			elif state == self.State.main_region_processes_collision_prevention_collision_state_r1adjust_r1adjust_to_the_left:
-				transitioned = self.__main_region_processes_collision_prevention_collision_state_r1_adjust_r1_adjust_to_the_left_react(transitioned)
+			elif state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1adjust_r1done:
+				transitioned = self.__main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_done_react(transitioned)
+			elif state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1adjust_r1adjust_to_the_right:
+				transitioned = self.__main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_adjust_to_the_right_react(transitioned)
+			elif state == self.State.main_region_processes_collision_prevention_collision_state_r1prevent_all_collisions_r1adjust_r1adjust_to_the_left:
+				transitioned = self.__main_region_processes_collision_prevention_collision_state_r1_prevent_all_collisions_r1_adjust_r1_adjust_to_the_left_react(transitioned)
 			elif state == self.State.main_region_processes_collision_prevention_manual_mode:
 				transitioned = self.__main_region_processes_collision_prevention_manual_mode_react(transitioned)
 			elif state == self.State.main_region_processes_collision_prevention_no_collision_detection:
