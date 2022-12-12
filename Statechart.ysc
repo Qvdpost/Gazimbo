@@ -44,7 +44,7 @@
           <vertices xsi:type="sgraph:State" xmi:id="_T80nMGDcEe2_FbxQ0EukJw" specification="//movement of bot" name="Manual" incomingTransitions="_TCGHgGDgEe2b5asLrqJC-Q _sqe_gGD3Ee2XJ_F1TKA8OA">
             <outgoingTransitions xmi:id="_negp4GD3Ee2XJ_F1TKA8OA" specification="computer.m_press / raise modeAutomatic" target="_kxpZ0GDdEe2_FbxQ0EukJw"/>
             <regions xmi:id="_T81ORGDcEe2_FbxQ0EukJw" name="movement">
-              <vertices xsi:type="sgraph:State" xmi:id="_T81ORWDcEe2_FbxQ0EukJw" specification="//entry / output.speed += userVar.baseSpeed&#xA;computer.w_press / output.speed += userVar.baseSpeed&#xA;computer.s_press / output.speed = 0.0&#xA;computer.a_press / output.rotation += userVar.baseRotation&#xA;computer.d_press / output.rotation -= userVar.baseRotation&#xA;computer.x_press / raise orientationAlign " name="movement" incomingTransitions="_T82cYWDcEe2_FbxQ0EukJw"/>
+              <vertices xsi:type="sgraph:State" xmi:id="_T81ORWDcEe2_FbxQ0EukJw" specification="//entry / output.speed += userVar.baseSpeed&#xA;computer.w_press / output.speed += userVar.baseSpeed&#xA;computer.s_press / output.speed = 0.0&#xA;computer.a_press / output.rotation += userVar.baseRotation&#xA;computer.d_press / output.rotation -= userVar.baseRotation&#xA;computer.x_press / output.speed -= userVar.baseSpeed " name="movement" incomingTransitions="_T82cYWDcEe2_FbxQ0EukJw"/>
               <vertices xsi:type="sgraph:Entry" xmi:id="_T82cYGDcEe2_FbxQ0EukJw">
                 <outgoingTransitions xmi:id="_T82cYWDcEe2_FbxQ0EukJw" specification="" target="_T81ORWDcEe2_FbxQ0EukJw"/>
               </vertices>
